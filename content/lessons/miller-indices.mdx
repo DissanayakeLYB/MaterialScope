@@ -1,0 +1,40 @@
+---
+slug: miller-indices
+title: Miller Indices for Planes
+course: crystal-structures
+order: 3
+---
+
+Crystallographers describe the orientation of planes through a crystal using **Miller indices**, written as three numbers in parentheses: `(hkl)`.
+
+The recipe:
+
+1. Find where the plane intercepts the `a`, `b`, and `c` axes.
+2. Take the reciprocals of those intercepts.
+3. Clear fractions and reduce to the smallest integers.
+
+<Callout type="info" title="Example">
+  A plane that intercepts the axes at `2a`, `3b`, and `6c` has reciprocals
+  `1/2`, `1/3`, `1/6` — clearing fractions gives the Miller index `(321)`.
+</Callout>
+
+<CrystalViewer />
+
+Rotate the placeholder cube above to build intuition for how planes slice through a unit cell. In the real viewer (coming soon) you will be able to overlay a plane and watch its intercepts update live.
+
+## Reading an index
+
+- **`(100)`** — plane intercepts only the `a` axis: a cube face.
+- **`(110)`** — plane intercepts `a` and `b` equally: a face diagonal plane.
+- **`(111)`** — plane intercepts all three axes equally: the close-packed plane in FCC metals.
+
+<Quiz
+  questions={[
+    {
+      question:
+        "A plane intercepts the axes at a, b, and c. What are its Miller indices?",
+      options: ["(111)", "(100)", "(321)", "(abc)"],
+      answer: 0,
+    },
+  ]}
+/>
