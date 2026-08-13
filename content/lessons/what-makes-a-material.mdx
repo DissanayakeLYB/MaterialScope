@@ -1,0 +1,94 @@
+---
+slug: what-makes-a-material
+title: What Makes a Material a Material
+course: crystal-structures-and-bonding
+order: 1
+---
+
+Every material is a collection of atoms, and nearly every property you can name — how hard it is, whether it conducts electricity, how it melts — is decided by *how those atoms are bonded*. There are four primary bonding types: **metallic**, **ionic**, **covalent**, and **van der Waals**. Real materials usually show a mixture, but identifying the dominant bond tells you a remarkable amount about how a material will behave.
+
+## Metallic bonding
+
+In a metal, each atom contributes its valence electrons to a shared "sea" of delocalized electrons that flows freely through the whole solid. What remains — positively charged ion cores — sits in a close-packed arrangement, glued together by its attraction to the electron sea.
+
+Because the electrons are free to move, metals conduct electricity and heat well. Because the bonds are nondirectional and reform easily as atoms slide past one another, metals are **ductile and malleable** — you can hammer copper into wire without it shattering. The electron sea also absorbs and re-emits light, which is why metals have their characteristic luster and are opaque. Iron, copper, and aluminum are metallic.
+
+## Ionic bonding
+
+Ionic bonding *transfers* electrons: a metal atom gives up one or more valence electrons to a nonmetal, producing positive **cations** and negative **anions**. These ions pack into a regular lattice, held together by strong Coulombic attraction between opposite charges. Like metallic bonding, the attraction is nondirectional — but it is much stronger per bond.
+
+The consequences follow directly. High melting points (sodium chloride melts at 801 °C) because pulling ions apart costs a lot of energy. Hard but **brittle**: sliding one layer of ions past another brings like charges together, and the crystal cleaves instead of deforming. As solids, ions are locked in place, so ionic materials are electrical insulators; when molten or dissolved, the ions become mobile and the material conducts. Because the electrons are tightly bound, there are no free electrons to absorb light, so many ionic crystals are transparent — table salt is clear. Examples: NaCl, MgO.
+
+## Covalent bonding
+
+Covalent bonding *shares* electrons between two specific neighboring atoms. Each bond is local and **directional**, with a fixed length and angle. That directionality makes covalent solids stiff and strong: diamond, the hardest natural material, is a pure carbon covalent network. But it also makes them brittle — break one set of bonds and the structure cleaves along that plane.
+
+With no free electrons, covalent solids are poor conductors. Some, like silicon and germanium, are **semiconductors** whose conductivity can be tuned with small amounts of impurity — the basis of the entire electronics industry. Diamond, graphite, silicon, and most polymers are primarily covalent.
+
+<CrystalViewer structure="diamond" />
+
+## van der Waals bonding
+
+van der Waals (secondary) bonds are weak attractions between molecules or atoms, arising from charge imbalances. Permanent dipoles attract each other; even completely nonpolar atoms develop *instantaneous* dipoles whose fluctuations induce dipoles in their neighbors — the London dispersion forces present in all matter.
+
+These weak forces are what hold molecular solids together: solid argon (melting point −189 °C) is held together entirely by van der Waals bonds. They also act between the layers of graphite and between polymer chains. That is why graphite is a soft, slippery solid — its covalent sheets are enormously strong, but the sheets themselves slide easily past one another.
+
+## Real bonds are mixed
+
+Few bonds are purely one type. The degree of ionic character can be estimated from the electronegativity difference Δχ between the bonded atoms using Pauling's formula:
+
+```
+%IC = (1 − exp(−(Δχ/2)²)) × 100
+```
+
+A zero difference means a purely covalent bond; large differences push toward ionic. Magnesium oxide (Δχ = 2.3) is about 73% ionic, while silicon carbide (Δχ = 0.65) is only about 10% ionic — mostly covalent, even though it is a ceramic. Most engineering materials sit somewhere in between.
+
+| Bond type       | Mechanism                          | Typical properties                        | Examples             |
+| --------------- | ---------------------------------- | ----------------------------------------- | -------------------- |
+| Metallic        | Delocalized electron sea           | Conductive, ductile, lustrous, opaque     | Fe, Cu, Al           |
+| Ionic           | Electron transfer, Coulomb force   | High melting point, hard, brittle, insulating | NaCl, MgO        |
+| Covalent        | Shared, directional electron pairs | Strong, stiff, brittle, poor conductors   | Diamond, Si, polymers|
+| van der Waals   | Weak dipole attractions            | Low melting point, soft, compressible     | Solid argon, graphite layers |
+
+## Worked example: How ionic is MgO?
+
+Magnesium has electronegativity χ = 1.2 and oxygen χ = 3.5. Compute the percent ionic character of the Mg–O bond and interpret the result.
+
+<details>
+  <summary>Solution</summary>
+
+  The electronegativity difference is Δχ = 3.5 − 1.2 = **2.3**. Plugging into Pauling's formula:
+
+  ```
+  %IC = (1 − exp(−(2.3/2)²)) × 100
+      = (1 − exp(−1.3225)) × 100
+      = (1 − 0.266) × 100
+      ≈ 73%
+  ```
+
+  MgO is about **73% ionic and 27% covalent**. The large ionic share explains its extremely high melting point (~2,852 °C) and ceramic hardness; the covalent share is why it is not a perfect ionic crystal.
+
+  **Practice:** classify copper, diamond, sodium chloride, and solid argon by their dominant bond type.
+
+  <details>
+    <summary>Answers</summary>
+
+    Copper — metallic. Diamond — covalent. Sodium chloride — ionic. Solid argon — van der Waals.
+  </details>
+</details>
+
+<Quiz
+  questions={[
+    {
+      question:
+        "Which property follows directly from the 'sea' of delocalized electrons in a metal?",
+      options: ["Electrical conductivity", "Brittleness", "Transparency", "Very low melting point"],
+      answer: 0,
+    },
+    {
+      question: "In a purely covalent bond (Δχ = 0), the percent ionic character is:",
+      options: ["100%", "50%", "0%", "25%"],
+      answer: 2,
+    },
+  ]}
+/>

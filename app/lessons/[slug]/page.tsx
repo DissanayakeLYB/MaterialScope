@@ -101,18 +101,35 @@ export default async function LessonPage({ params }: LessonPageProps) {
         {/* Center: article. */}
         <div className="mx-auto w-full min-w-0 max-w-2xl">
           <article>
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
+            <nav
+              aria-label="Breadcrumb"
+              className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground"
+            >
+              <Link
+                href="/"
+                className="underline-offset-4 transition-colors hover:text-foreground hover:underline"
+              >
+                Home
+              </Link>
+              <span aria-hidden="true">/</span>
+              <Link
+                href="/courses"
+                className="underline-offset-4 transition-colors hover:text-foreground hover:underline"
+              >
+                Courses
+              </Link>
+              <span aria-hidden="true">/</span>
               <Link
                 href={`/courses/${course?.slug ?? lesson.course}`}
                 className="font-medium text-primary underline-offset-4 hover:underline"
               >
                 {course?.title ?? lesson.course}
               </Link>
-              <span aria-hidden="true" className="text-muted-foreground/50">
-                /
+              <span aria-hidden="true">/</span>
+              <span aria-current="page" className="font-medium text-foreground">
+                Lesson {lesson.order}
               </span>
-              <span>Lesson {lesson.order}</span>
-            </p>
+            </nav>
 
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               {lesson.title}

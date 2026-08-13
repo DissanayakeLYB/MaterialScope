@@ -15,12 +15,25 @@ const faces = [
   { transform: "rotateX(-90deg) translateZ(80px)", className: "bg-sky-600/50" },
 ];
 
+interface CrystalViewerProps {
+  /**
+   * Crystal structure the viewer should display, e.g. "fcc", "bcc",
+   * "hcp", "diamond", or "nacl". Lesson MDX passes this to the real
+   * renderer later; the placeholder ignores it except for the caption.
+   */
+  structure?: string;
+  /** Defect to highlight, e.g. "vacancy", "interstitial", "dislocation". */
+  defect?: string;
+  /** Crystallographic plane to highlight, e.g. "(111)". */
+  plane?: string;
+}
+
 /**
  * Placeholder interactive crystal viewer built with CSS 3D transforms.
  * Swap the cube for a real WebGL (three.js) unit-cell renderer later —
  * the interface (rotation control, canvas slot) should stay the same.
  */
-export function CrystalViewer() {
+export function CrystalViewer({ structure, defect, plane }: CrystalViewerProps) {
   const [rotation, setRotation] = useState(15);
 
   return (
@@ -60,8 +73,11 @@ export function CrystalViewer() {
         />
       </label>
       <figcaption className="text-center text-xs text-muted-foreground">
-        Placeholder interactive crystal viewer — swap in a WebGL (three.js)
-        unit-cell scene here.
+        {structure
+          ? `Placeholder ${structure}${
+              plane ? ` · plane ${plane}` : ""
+            }${defect ? ` · ${defect}` : ""} crystal viewer — swap in a WebGL (three.js) scene here.`
+          : "Placeholder interactive crystal viewer — swap in a WebGL (three.js) unit-cell scene here."}
       </figcaption>
     </figure>
   );

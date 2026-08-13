@@ -1,0 +1,94 @@
+---
+slug: crystal-lattices-unit-cells
+title: Crystal Lattices and Unit Cells
+course: crystal-structures-and-bonding
+order: 2
+---
+
+Solids are either **crystalline** — atoms arranged in a repeating three-dimensional pattern — or **amorphous**, with no long-range order. Most metals and ceramics are crystalline; glass is the classic amorphous material. To describe a crystal we need two ideas: the **lattice**, a repeating array of points in space, and the **basis**, the atom (or atoms) attached to each point. The smallest repeat unit that captures the whole pattern is the **unit cell**.
+
+## Unit cells and packing
+
+A unit cell is described by edge lengths `a`, `b`, `c` and the angles between them. There are seven crystal systems — cubic, tetragonal, orthorhombic, hexagonal, rhombohedral, monoclinic, and triclinic — but three structures account for the vast majority of metals: **body-centered cubic (BCC)**, **face-centered cubic (FCC)**, and **hexagonal close-packed (HCP)**. Two numbers summarize how tightly atoms pack: the **coordination number** (how many nearest neighbors each atom touches) and the **atomic packing factor** (APF = volume of atoms in a unit cell ÷ volume of the cell). The highest possible APF for equal-sized spheres is 0.74.
+
+## Body-centered cubic (BCC)
+
+Atoms sit at every cube corner plus one at the center: 8 corners × 1/8 + 1 center = **2 atoms per unit cell**. Each atom touches its 8 nearest neighbors along the body diagonal, so the coordination number is 8 and the APF is 0.68 — a fairly loose packing. The edge length relates to the atomic radius by `a = 4R/√3`. Examples: α-Fe (ferrite), W, Cr, Mo, V, Na.
+
+<CrystalViewer structure="bcc" />
+
+## Face-centered cubic (FCC)
+
+Atoms sit at every cube corner and at the center of every face: 8 × 1/8 + 6 × 1/2 = **4 atoms per unit cell**. Each atom touches 12 neighbors (coordination number 12), giving the maximum APF of 0.74 and the relation `a = 4R/√2 = 2√2R`. Examples: Cu, Al, Ni, Pb, Ag, Au, γ-Fe (austenite).
+
+<CrystalViewer structure="fcc" />
+
+## Hexagonal close-packed (HCP)
+
+The hexagonal unit cell holds atoms at its 12 corners, on its two hexagonal faces, and three inside: 12 × 1/6 + 2 × 1/2 + 3 = **6 atoms per unit cell**. Like FCC, it has coordination number 12 and APF 0.74; the two structures differ only in how the close-packed layers stack (ABAB for HCP, ABCABC for FCC). The ideal ratio of cell height to hexagon edge is `c/a = √(8/3) ≈ 1.633`. Examples: Mg, Zn, Ti, Co, Cd.
+
+<CrystalViewer structure="hcp" />
+
+| Structure | Atoms/cell | Coordination | APF   | Edge vs. radius | Examples            |
+| --------- | ---------- | ------------ | ----- | --------------- | ------------------- |
+| BCC       | 2          | 8            | 0.68  | a = 4R/√3       | α-Fe, W, Cr, Mo, Na |
+| FCC       | 4          | 12           | 0.74  | a = 2√2R        | Cu, Al, Ni, γ-Fe, Au|
+| HCP       | 6          | 12           | 0.74  | c/a ≈ 1.633     | Mg, Zn, Ti, Co, Cd  |
+
+## Allotropy: one element, several structures
+
+Some elements change crystal structure with temperature — a phenomenon called allotropy (or polymorphism). Iron is the classic example: **α-Fe (BCC)** below 912 °C, **γ-Fe (FCC)** from 912 to 1394 °C, and **δ-Fe (BCC)** from 1394 °C up to its melting point of 1538 °C. This is far from an academic curiosity: FCC iron (austenite) dissolves much more carbon than BCC iron, which is the entire foundation of steel heat treatment.
+
+<PhaseDiagram
+  data={{
+    system: "Pure iron — allotropic phases vs. temperature",
+    xLabel: "Temperature (°C)",
+    yLabel: "Stable phase",
+    phases: [
+      { label: "α-Fe (BCC) below 912 °C" },
+      { label: "γ-Fe (FCC) 912–1394 °C" },
+      { label: "δ-Fe (BCC) 1394–1538 °C" },
+      { label: "Liquid above 1538 °C" },
+    ],
+  }}
+/>
+
+## Worked example: theoretical density of copper
+
+Copper is FCC with an atomic radius R = 0.128 nm and atomic weight A = 63.55 g/mol. Compute its theoretical density.
+
+<details>
+  <summary>Solution</summary>
+
+  The density of a crystal is `ρ = nA / (V_C × N_A)`, where n is the number of atoms per unit cell, V_C the cell volume, and N_A Avogadro's number.
+
+  - n = **4** atoms/cell (FCC).
+  - a = 2√2R = 2√2 × 0.128 nm = **0.362 nm**.
+  - V_C = a³ = (0.362 nm)³ = 4.74 × 10⁻²³ cm³.
+  - ρ = (4 × 63.55 g/mol) ÷ (4.74 × 10⁻²³ cm³ × 6.022 × 10²³ /mol) = 254.2 ÷ 28.6 = **8.90 g/cm³**.
+
+  The measured density of copper is 8.94 g/cm³. The 0.4% difference is rounding: R is quoted to three significant figures, whereas X-ray measurements give a slightly smaller lattice parameter (a = 0.3615 nm).
+
+  **Practice:** how many atoms are in one BCC unit cell, and what fraction of the cell's volume do they occupy?
+</details>
+
+<details>
+  <summary>Answers</summary>
+
+  Two atoms (8 corners × 1/8 + 1 center). They occupy 68% of the cell volume — the APF of BCC is 0.68.
+</details>
+
+<Quiz
+  questions={[
+    {
+      question: "How many atoms does an FCC unit cell contain?",
+      options: ["2", "4", "6", "8"],
+      answer: 1,
+    },
+    {
+      question: "Which pair of structures both achieve the maximum APF of 0.74?",
+      options: ["BCC and FCC", "FCC and HCP", "BCC and HCP", "BCC and SC"],
+      answer: 1,
+    },
+  ]}
+/>

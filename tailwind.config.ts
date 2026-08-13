@@ -175,6 +175,27 @@ const config: Config = {
         blockquote: {
           fontWeight: "400",
         },
+        // Worked-example solutions hidden behind a disclosure.
+        details: {
+          marginTop: "1.5em",
+          marginBottom: "1.5em",
+          borderRadius: "0.5rem",
+          border: "1px solid hsl(var(--border))",
+          backgroundColor: "hsl(var(--muted))",
+          padding: "0.75rem 1rem",
+        },
+        "details summary": {
+          cursor: "pointer",
+          fontWeight: "500",
+          color: "hsl(222 47% 11%)",
+        },
+        "details[open] summary": {
+          marginBottom: "0.75rem",
+        },
+        "details p": {
+          marginTop: "0.5em",
+          marginBottom: "0.5em",
+        },
       }),
     }),
   ],

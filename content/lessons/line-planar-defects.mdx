@@ -1,0 +1,97 @@
+---
+slug: line-planar-defects
+title: Line and Planar Defects
+course: crystal-structures-and-bonding
+order: 5
+---
+
+Point defects are zero-dimensional. This lesson covers the defects that dominate *mechanical* behavior: **dislocations** (one-dimensional line defects) and **grain boundaries** (two-dimensional planar defects). Between them, they explain why metals bend instead of shattering, and why smaller grains make steel stronger.
+
+## Why dislocations exist
+
+A perfect crystal should be enormously strong: theory predicts a shear strength on the order of G/10, where G is the shear modulus — around 20 GPa for a typical metal. Real metal crystals shear at stresses 1,000 to 10,000 times smaller. The resolution is that crystals do not shear entire atomic planes at once. Instead, a line defect — a **dislocation** — moves through the crystal, breaking and remaking bonds a few atoms at a time. Sliding one plane past another with the help of a dislocation is like moving a heavy rug by pushing a fold across it, rather than dragging the whole rug at once.
+
+## Edge and screw dislocations
+
+An **edge dislocation** is an extra half-plane of atoms inserted into the lattice (symbol ⊥). Above the inserted plane the lattice is compressed; below it, stretched. An edge dislocation is characterized by its **Burgers vector** b — the displacement needed to close a loop around the defect — which for an edge dislocation is perpendicular to the dislocation line.
+
+A **screw dislocation** has its Burgers vector parallel to the dislocation line: walk around the defect and you climb a spiral ramp of atoms, like the thread of a screw. Real dislocations are usually **mixed** — edge character at one end, screw character at the other.
+
+<CrystalViewer structure="fcc" defect="edge-dislocation" />
+
+## Slip and slip systems
+
+Dislocations move by **slip**: the extra half-plane glides across a slip plane along a slip direction. The combination of slip plane and slip direction is a **slip system**, and the number of available systems controls ductility:
+
+- FCC metals have 12 systems on the `{111}` close-packed planes — highly ductile (Cu, Al, Au).
+- HCP metals have only 3 basal systems — less ductile (Mg, Zn, Ti).
+- BCC metals have up to 48 systems across `{110}`, `{112}`, and `{123}` planes (α-Fe, W, Cr).
+
+Whether slip occurs depends on the resolved shear stress on the slip system — **Schmid's law**:
+
+```
+τ_R = σ cos φ cos λ
+```
+
+where σ is the applied tensile stress, φ the angle between the tensile axis and the slip-plane normal, and λ the angle between the tensile axis and the slip direction. Slip begins when τ_R reaches the material's critical resolved shear stress.
+
+## Worked example: does slip occur?
+
+A single crystal is pulled with a tensile stress of 12 MPa. The tensile axis makes an angle φ = 45° with the slip-plane normal and λ = 60° with the slip direction. The critical resolved shear stress is 3.5 MPa. Does the crystal slip?
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  τ_R = σ cos φ cos λ
+      = (12 MPa)(cos 45°)(cos 60°)
+      = (12)(0.707)(0.5)
+      = 4.24 MPa
+  ```
+
+  Since 4.24 MPa exceeds the critical resolved shear stress of 3.5 MPa, **slip occurs**. If the crystal were reoriented so that φ = 70° and λ = 20°, then τ_R = 12 × 0.342 × 0.940 = 3.86 MPa — still above 3.5 MPa, but only just. Orientation, not just load, decides when a crystal yields.
+</details>
+
+## Planar defects: grain boundaries
+
+Most engineering metals are **polycrystalline**: many small crystals, each with a slightly different orientation, joined at **grain boundaries**. Low-angle boundaries (misorientation of a few degrees) are actually orderly arrays of edge dislocations; high-angle boundaries are disordered regions a few atoms thick.
+
+Grain boundaries matter for two reasons. First, atoms there are less tightly bound and more mobile, so diffusion along boundaries is fast. Second — and more important mechanically — grain boundaries *block dislocation motion*. Slip in one grain cannot easily continue into the next, so fine-grained metals are stronger than coarse-grained ones. This is the **Hall–Petch** relation:
+
+```
+σ_y = σ_0 + k_y d^(−1/2)
+```
+
+with d the average grain diameter: halve the grain size and the yield strength rises. Other planar defects include **stacking faults** (an error in the ABCABC stacking of close-packed planes) and **twin boundaries**.
+
+| Dimension | Defect              | Examples                                      |
+| --------- | ------------------- | --------------------------------------------- |
+| 0-D       | Point defects       | Vacancies, interstitials, impurities          |
+| 1-D       | Line defects        | Edge and screw dislocations                   |
+| 2-D       | Planar defects      | Grain boundaries, stacking faults, twin boundaries |
+| 3-D       | Volume defects      | Pores, cracks, precipitates                   |
+
+<Quiz
+  questions={[
+    {
+      question: "An edge dislocation is best described as:",
+      options: [
+        "An extra half-plane of atoms",
+        "A missing atom at a lattice site",
+        "A line of vacancies",
+        "A cluster of impurity atoms",
+      ],
+      answer: 0,
+    },
+    {
+      question: "Why do smaller grains make metals stronger?",
+      options: [
+        "They contain fewer atoms per grain",
+        "Grain boundaries block dislocation motion",
+        "They have more slip systems",
+        "They eliminate vacancies",
+      ],
+      answer: 1,
+    },
+  ]}
+/>

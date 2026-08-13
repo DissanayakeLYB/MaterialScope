@@ -1,0 +1,120 @@
+---
+slug: point-defects
+title: Point Defects
+course: crystal-structures-and-bonding
+order: 4
+---
+
+The perfect crystal — every lattice site occupied by exactly the right atom — is an idealization. Real crystals are full of imperfections, and far from being merely "defective", these imperfections control diffusion, electrical properties, and the color of gemstones. This lesson covers **point defects**: irregularities that occupy a single lattice site or a small cluster of sites (zero-dimensional defects).
+
+## Vacancies
+
+A **vacancy** is simply a missing atom — a lattice site that should be occupied but is empty. Vacancies form spontaneously because removing an atom increases the entropy of the crystal, and that entropy gain offsets the energy cost of breaking bonds. The equilibrium fraction of vacant sites follows an Arrhenius-type law:
+
+```
+N_v / N = exp(−Q_v / kT)
+```
+
+where N is the total number of lattice sites, Q_v is the vacancy formation energy (about 1 eV for most metals), k = 8.62 × 10⁻⁵ eV/(atom·K) is Boltzmann's constant, and T is temperature in kelvin. The exponential makes vacancies vanishingly rare at room temperature but plentiful near the melting point — typically on the order of one vacancy per ten thousand sites. Vacancies are essential: diffusion of atoms in a solid proceeds largely by atoms jumping into neighboring vacant sites.
+
+## Self-interstitials
+
+A **self-interstitial** is a host atom squeezed into the tiny space *between* regular lattice sites. Because the surrounding atoms must be pushed aside, creating one costs roughly three to four times the energy of a vacancy, so self-interstitials are far rarer. In metals their concentration is almost always negligible compared with vacancies.
+
+<CrystalViewer structure="fcc" defect="vacancy" />
+
+## Impurity atoms
+
+Alloys and doped semiconductors work because foreign atoms occupy lattice sites. A **substitutional impurity** replaces a host atom on a regular site; an **interstitial impurity** sits in the gaps between host atoms.
+
+The most important interstitial impurity in all of engineering is carbon in iron. Carbon atoms (radius 0.077 nm) are small enough to squeeze into the octahedral interstices of the iron lattice, forming an interstitial solid solution — and this is what turns iron into steel. The amount that dissolves depends strongly on structure: FCC γ-Fe (austenite) dissolves up to about 2 wt% carbon, while BCC α-Fe (ferrite) dissolves only about 0.02 wt%, which is why the iron–carbon phase diagram is the backbone of steelmaking.
+
+<CrystalViewer structure="fcc" defect="interstitial" />
+
+## Substitutional solid solutions
+
+A substitutional impurity dissolves completely in a host only under the right conditions. The empirical **Hume–Rothery rules** say a substitutional solid solution forms readily when the two atoms:
+
+- differ in radius by less than about 15%,
+- have similar electronegativities,
+- share the same crystal structure, and
+- have the same valence.
+
+Brass (copper–zinc), bronze (copper–tin), and the nickel in stainless steel all satisfy these conditions. When they are violated, the alloy instead forms a separate phase or an intermetallic compound — and predicting which happens is exactly what phase diagrams are for.
+
+<PhaseDiagram
+  data={{
+    system: "Cu–Zn (brass)",
+    xLabel: "Composition (wt% Zn)",
+    yLabel: "Temperature (°C)",
+    phases: [
+      { label: "α (FCC solid solution)" },
+      { label: "β (BCC solid solution)" },
+      { label: "Liquid" },
+      { label: "α + β two-phase region" },
+    ],
+  }}
+/>
+
+In ionic crystals, point defects come in charge-neutral pairs: a **Schottky defect** is a missing cation plus a missing anion; a **Frenkel defect** is an ion displaced into an interstitial site, leaving a vacancy behind.
+
+## Worked example: how many vacancies?
+
+The vacancy formation energy for copper is Q_v = 0.9 eV/atom. How many vacancies per cubic centimeter exist in copper at 1000 °C?
+
+<details>
+  <summary>Solution</summary>
+
+  First find N, the number of lattice sites per cubic centimeter. For copper (ρ = 8.94 g/cm³, A = 63.55 g/mol):
+
+  ```
+  N = ρN_A / A = (8.94)(6.022 × 10²³) / 63.55 = 8.47 × 10²² sites/cm³
+  ```
+
+  Then, with T = 1000 + 273 = 1273 K:
+
+  ```
+  N_v = N exp(−Q_v/kT)
+      = (8.47 × 10²²) exp(−0.9 / (8.62 × 10⁻⁵ × 1273))
+      = (8.47 × 10²²) exp(−8.20)
+      = (8.47 × 10²²)(2.7 × 10⁻⁴)
+      ≈ 2.3 × 10¹⁹ vacancies/cm³
+  ```
+
+  That is about one site in 3,700 — a small fraction, but 2.3 × 10¹⁹ vacancies per cubic centimeter is more than enough to drive measurable diffusion, which is why copper parts creep and self-diffuse at high temperature.
+
+  **Practice:** repeat the calculation at 25 °C (298 K). How does the answer change?
+</details>
+
+<details>
+  <summary>Answer</summary>
+
+  ```
+  N_v = (8.47 × 10²²) exp(−0.9 / (8.62 × 10⁻⁵ × 298))
+      = (8.47 × 10²²) exp(−35.0)
+      ≈ 5 × 10⁷ vacancies/cm³
+  ```
+
+  About **4.5 × 10¹¹ times fewer** than at 1000 °C — effectively immobile at room temperature. This is why "vacancy-driven" processes like diffusion and creep are strongly temperature-dependent.
+</details>
+
+<Quiz
+  questions={[
+    {
+      question: "Which point defect is a missing atom at a regular lattice site?",
+      options: ["Self-interstitial", "Vacancy", "Substitutional impurity", "Grain boundary"],
+      answer: 1,
+    },
+    {
+      question:
+        "Carbon dissolved in iron sits in the gaps between iron atoms. This makes it:",
+      options: [
+        "A substitutional impurity",
+        "A Schottky defect",
+        "An interstitial impurity",
+        "A Frenkel defect",
+      ],
+      answer: 2,
+    },
+  ]}
+/>

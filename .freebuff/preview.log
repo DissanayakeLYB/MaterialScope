@@ -6,22 +6,18 @@
   - Local:        http://localhost:3000
 
  ✓ Starting...
- ✓ Ready in 1597ms
+ ✓ Ready in 2.6s
  ○ Compiling / ...
- ✓ Compiled / in 3.1s (676 modules)
- GET / 200 in 3211ms
- GET / 200 in 34ms
- GET / 200 in 76ms
- GET / 200 in 51ms
+ ✓ Compiled / in 3.2s (676 modules)
+ GET / 200 in 3258ms
+ GET / 200 in 68ms
+ GET / 200 in 47ms
+ GET / 200 in 64ms
+ ✓ Compiled /courses/[slug] in 464ms (701 modules)
+ GET /courses/crystal-structures-and-bonding 200 in 1350ms
  ○ Compiling /lessons/[slug] ...
- ✓ Compiled /lessons/[slug] in 1379ms (856 modules)
- GET /lessons/unit-cells 200 in 2434ms
- ✓ Compiled /courses/[slug] in 304ms (847 modules)
- GET /courses/crystal-structures 200 in 910ms
- GET / 200 in 85ms
- ✓ Compiled /playground in 333ms (851 modules)
- ✓ Compiled /courses in 200ms (855 modules)
- ✓ Compiled /api/courses in 174ms (581 modules)
- GET /api/courses 200 in 8ms
- GET /courses 200 in 111ms
- ✓ Compiled /about in 223ms (863 modules)
+ ✓ Compiled /lessons/[slug] in 1073ms (850 modules)
+ GET /lessons/what-makes-a-material 200 in 1849ms
+ GET /lessons/point-defects 200 in 104ms
+ ✓ Compiled in 141ms (290 modules)
+ GET /lessons/miller-indices-planes 200 in 109ms

@@ -1,0 +1,86 @@
+---
+slug: miller-indices-planes
+title: Miller Indices and Crystal Planes
+course: crystal-structures-and-bonding
+order: 3
+---
+
+A crystal is a repeating pattern of points, and materials scientists constantly need to name specific **planes** and **directions** inside it — the plane a crystal cleaves along, the direction a dislocation slides, the planes that scatter X-rays. Miller indices are that naming system: three integers that identify an entire family of parallel planes (or directions) by their orientation.
+
+## Directions: [uvw]
+
+A crystallographic direction is a vector between two lattice points. To index it: write the vector's components along the `a`, `b`, and `c` axes in units of the lattice parameters, reduce them to the smallest set of integers, and enclose them in square brackets — `[100]`, `[110]`, `[111]`. A negative component gets a bar over the digit (read "bar one, one, zero" for `[1̄10]`). Directions related by the crystal's symmetry form a family written in angle brackets, `⟨uvw⟩`: in a cubic crystal `⟨100⟩` covers all six cube-edge directions.
+
+## Planes: (hkl)
+
+Indexing a plane takes four steps:
+
+1. Find where the plane intercepts the `a`, `b`, and `c` axes, in units of the lattice parameters.
+2. Take the reciprocals of those intercepts.
+3. Reduce to the smallest set of integers.
+4. Enclose in parentheses: `(hkl)`.
+
+A plane parallel to an axis intercepts it at infinity, and the reciprocal of infinity is **zero**. Negative intercepts get a bar: a plane meeting the `b`-axis on its negative side contributes `k̄`. Remember that `(hkl)` describes the whole *family of parallel planes* with that orientation, not a single plane; symmetry-related families are written `{hkl}`.
+
+Some familiar examples: `(100)` are the cube face planes, `(110)` the face-diagonal planes, `(111)` the body-diagonal ("octahedral") planes. In a cubic crystal the plane `(hkl)` is perpendicular to the direction `[hkl]`.
+
+The most densely packed planes are the ones atoms actually slide on. In FCC those are the `{111}` close-packed planes; in BCC, the `{110}` planes.
+
+## Interplanar spacing
+
+The distance between adjacent parallel planes `(hkl)` in a cubic crystal is
+
+```
+d(hkl) = a / √(h² + k² + l²)
+```
+
+Low-index planes are widely spaced; as the indices grow, the planes crowd closer together.
+
+## Why indexing matters
+
+Miller indices are not just notation — they are how scientists and engineers describe a crystal to one another. When X-rays scatter off a crystal, each family of planes (hkl) produces a diffraction peak at a characteristic angle, so a powder diffraction pattern is essentially a list of (hkl) spacings. When a metal deforms, slip occurs on specific dense planes and directions — FCC metals slip on {111}⟨110⟩ — so the available planes predict how a material will behave. And semiconductor wafers are cut along named planes: most silicon wafers are (100)-oriented, which sets the electrical properties of the surface. The three integers in parentheses are a crystal's coordinate system in miniature.
+
+## Worked example: indexing a plane
+
+A plane intercepts the `x`-axis at `x = 2a`, the `y`-axis at `y = 3a`, and runs parallel to the `z`-axis. Find its Miller indices.
+
+<details>
+  <summary>Solution</summary>
+
+  Intercepts: 2, 3, ∞. Reciprocals: 1/2, 1/3, 0. Reduce to integers by multiplying through by 6: **3, 2, 0**. The plane is **(320)**.
+</details>
+
+## Worked example: interplanar spacing
+
+Aluminum (FCC) has a lattice parameter a = 0.4049 nm. How far apart are its `(111)` planes?
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  d = a / √(1² + 1² + 1²)
+    = 0.4049 nm / √3
+    = 0.2338 nm ≈ 0.234 nm
+  ```
+
+  The `(111)` planes in aluminum are spaced about 0.234 nm apart — roughly 0.8 times the diameter of an aluminum atom (R = 0.143 nm).
+</details>
+
+<CrystalViewer structure="fcc" plane="(111)" />
+
+<Quiz
+  questions={[
+    {
+      question:
+        "A plane parallel to the z-axis that intercepts x at 1a and y at 1a has Miller indices:",
+      options: ["(110)", "(001)", "(1̄10)", "(111)"],
+      answer: 0,
+    },
+    {
+      question:
+        "In a cubic crystal with a = 0.2 nm, the spacing between (100) planes is:",
+      options: ["0.2 nm", "0.283 nm", "0.1 nm", "0.4 nm"],
+      answer: 0,
+    },
+  ]}
+/>

@@ -290,7 +290,7 @@ export default function HomePage() {
               Start with the fundamentals
             </h2>
             <p className="mx-auto mt-3 max-w-xl leading-relaxed text-primary-foreground/85">
-              {featured.description} — no prior crystallography required.
+              {featured.description}
             </p>
             <Button
               asChild
