@@ -1,0 +1,60 @@
+
+> latticelab@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 1952ms
+ ○ Compiling / ...
+ ✓ Compiled / in 2.8s (612 modules)
+ GET / 200 in 2969ms
+ GET / 200 in 29ms
+ GET / 200 in 56ms
+ GET / 200 in 46ms
+ GET / 200 in 98ms
+ ○ Compiling /courses/[slug] ...
+ ✓ Compiled /courses/[slug] in 600ms (631 modules)
+ ✓ Compiled /lessons/[slug] in 190ms (619 modules)
+ ✓ Compiled /playground in 177ms (623 modules)
+ GET /playground 200 in 291ms
+ ✓ Compiled /courses in 292ms (625 modules)
+ ✓ Compiled /about in 172ms (629 modules)
+ GET / 200 in 76ms
+ ✓ Compiled /favicon.ico in 330ms (401 modules)
+ GET /favicon.ico 200 in 408ms
+ ✓ Compiled in 679ms (646 modules)
+ GET /about 200 in 450ms
+ GET / 200 in 529ms
+ ✓ Compiled /favicon.ico in 94ms (399 modules)
+ GET /favicon.ico 200 in 204ms
+ ✓ Compiled in 555ms (691 modules)
+ GET /about 200 in 274ms
+ GET / 200 in 331ms
+ GET /favicon.ico 200 in 21ms
+ ✓ Compiled in 436ms (673 modules)
+ ✓ Compiled in 341ms (274 modules)
+ ✓ Compiled in 161ms (274 modules)
+ ✓ Compiled in 145ms (274 modules)
+ ✓ Compiled in 353ms (641 modules)
+ ✓ Compiled in 111ms (274 modules)
+ ✓ Compiled in 140ms (274 modules)
+ ✓ Compiled in 2s (841 modules)
+ GET / 200 in 86ms
+ ✓ Compiled in 911ms (855 modules)
+ GET / 200 in 494ms
+ ✓ Compiled in 317ms (870 modules)
+ ✓ Compiled in 143ms (293 modules)
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1610ms (1096 modules)
+ GET / 200 in 100ms
+ ✓ Compiled in 1707ms (1101 modules)
+ GET / 200 in 113ms
+ ✓ Compiled in 468ms (479 modules)
+ GET / 200 in 55ms
+ GET / 200 in 44ms
+ GET / 200 in 48ms
+ GET / 200 in 75ms
+ GET /lessons/unit-cells 500 in 1042ms
+[?25h

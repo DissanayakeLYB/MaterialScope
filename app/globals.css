@@ -8,83 +8,125 @@
   }
 }
 
+/*
+ * MaterialScope design tokens
+ * ---------------------------
+ * Palette: "Cobalt & Copper" — a deep mineral blue for the brand, a warm
+ * copper for interactive accents, and a cool slate neutral scale. All values
+ * are HSL channel triplets consumed by tailwind.config.ts via hsl(var(--x)).
+ * Hex equivalents are listed in comments for easy tweaking.
+ */
 @layer base {
   :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
+    color-scheme: light;
+
+    /* Neutrals — cool slate */
+    --background: 0 0% 100%; /* #FFFFFF */
+    --foreground: 222 47% 11%; /* #0F172A */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --secondary: 210 40% 96%; /* #F1F5F9 */
+    --secondary-foreground: 217 33% 17%; /* #1E293B */
+    --muted: 210 40% 96%; /* #F1F5F9 */
+    --muted-foreground: 215 16% 47%; /* #64748B */
+    --border: 214 32% 91%; /* #E2E8F0 */
+    --input: 214 32% 91%; /* #E2E8F0 */
+
+    /* Primary — deep cobalt blue (brand + main CTAs) */
+    --primary: 224 64% 33%; /* #1E3A8A */
+    --primary-foreground: 210 40% 98%; /* #F8FAFC */
+
+    /* Accent — copper (interactive highlights, active nav, focus) */
+    --accent: 24 60% 95%; /* light copper tint, #FAF2EC */
+    --accent-foreground: 24 74% 31%; /* deep copper, #8C3814 */
+    --ring: 24 78% 48%; /* copper focus ring */
+
+    /* Semantic status */
+    --destructive: 0 72% 51%; /* #DC2626 — quiz incorrect, errors */
+    --destructive-foreground: 0 0% 100%;
+    --success: 160 84% 39%; /* #059669 — quiz correct */
+    --success-foreground: 0 0% 100%;
+
+    /* Charts */
+    --chart-1: 224 64% 33%; /* cobalt */
+    --chart-2: 24 71% 44%; /* copper */
+    --chart-3: 160 84% 39%; /* emerald */
+    --chart-4: 32 95% 44%; /* amber */
+    --chart-5: 215 16% 47%; /* slate */
+
     --radius: 0.5rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
-    /* LatticeLab custom theme — placeholder brand colors. */
-    /* Replace with the final palette when it's specified. */
-    --brand: oklch(0.511 0.262 276.966);
-    --brand-foreground: oklch(0.985 0 0);
-    --brand-muted: oklch(0.95 0.025 276.966);
+
+    /* Sidebar surfaces */
+    --sidebar: 210 40% 98%; /* #F8FAFC */
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 224 64% 33%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 24 60% 95%;
+    --sidebar-accent-foreground: 24 74% 31%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 24 78% 48%;
+
+    /* Brand — alias of the primary cobalt blue */
+    --brand: 224 64% 33%; /* #1E3A8A */
+    --brand-foreground: 210 40% 98%;
+    --brand-muted: 226 100% 97%; /* #EEF2FF */
   }
+
   .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
-    /* LatticeLab custom theme — placeholder brand colors. */
-    /* Replace with the final palette when it's specified. */
-    --brand: oklch(0.623 0.214 259.815);
-    --brand-foreground: oklch(0.145 0 0);
-    --brand-muted: oklch(0.282 0.091 267.935);
+    color-scheme: dark;
+
+    /* Neutrals — cool slate */
+    --background: 222 47% 5%; /* #020617 */
+    --foreground: 210 40% 98%; /* #F8FAFC */
+    --card: 222 47% 11%; /* #0F172A */
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+    --secondary: 217 33% 15%; /* #151E30 */
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 65%; /* #94A3B8 */
+    --border: 217 33% 15%;
+    --input: 217 33% 20%;
+
+    /* Primary — lighter cobalt for contrast on dark */
+    --primary: 217 91% 65%; /* #6FA8FA */
+    --primary-foreground: 222 47% 11%;
+
+    /* Accent — warm copper */
+    --accent: 24 65% 14%; /* dark copper tint */
+    --accent-foreground: 28 80% 72%; /* light copper, #F2B88D */
+    --ring: 28 80% 65%;
+
+    /* Semantic status */
+    --destructive: 0 62% 55%; /* #E5484D */
+    --destructive-foreground: 0 0% 100%;
+    --success: 160 84% 56%; /* #2FD39B */
+    --success-foreground: 222 47% 11%;
+
+    /* Charts */
+    --chart-1: 217 91% 65%;
+    --chart-2: 24 71% 50%;
+    --chart-3: 160 84% 56%;
+    --chart-4: 32 95% 55%;
+    --chart-5: 215 20% 65%;
+
+    /* Sidebar surfaces */
+    --sidebar: 222 47% 9%; /* #0B1120 */
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 65%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 24 65% 14%;
+    --sidebar-accent-foreground: 28 80% 72%;
+    --sidebar-border: 217 33% 15%;
+    --sidebar-ring: 28 80% 65%;
+
+    /* Brand — lighter cobalt on dark */
+    --brand: 217 91% 65%;
+    --brand-foreground: 222 47% 11%;
+    --brand-muted: 224 50% 18%;
   }
 }
 
@@ -94,5 +136,10 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* Long-form reading: consistent, generous leading on default text size. */
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 }

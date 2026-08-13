@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import { SiteHeader } from "@/components/site-header";
+import { Footer } from "@/components/ui/footer";
+import { Navbar } from "@/components/ui/navbar";
 
 import "./globals.css";
 
@@ -18,10 +19,11 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "LatticeLab",
-    template: "%s · LatticeLab",
+    default: "MaterialScope",
+    template: "%s · MaterialScope",
   },
-  description: "Interactive materials science lessons and visualization tools.",
+  description:
+    "Interactive materials science lessons and visualization tools.",
 };
 
 export default function RootLayout({
@@ -32,10 +34,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
-        <SiteHeader />
-        {children}
+        <Navbar />
+        <div className="flex-1">{children}</div>
+        <Footer />
       </body>
     </html>
   );

@@ -2,14 +2,20 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
+import rehypeSlug from "rehype-slug";
 
+import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
+
+import { CourseSidebar } from "@/components/lesson/course-sidebar";
 import { mdxComponents } from "@/components/lesson/mdx-components";
+import { TableOfContents } from "@/components/lesson/toc";
 import {
   getAllLessons,
   getCourse,
   getLesson,
   getLessonsForCourse,
 } from "@/lib/content";
+import { extractHeadings } from "@/lib/toc";
 
 interface LessonPageProps {
   params: { slug: string };
@@ -39,7 +45,13 @@ export default async function LessonPage({ params }: LessonPageProps) {
     source: lesson.body,
     // Content is author-written, so we enable JSX attribute expressions
     // (e.g. <Quiz questions={[...]} />). Dangerous calls stay blocked.
-    options: { blockJS: false },
+    options: {
+      blockJS: false,
+      mdxOptions: {
+        // Add stable heading ids so the "On this page" TOC anchors work.
+        rehypePlugins: [rehypeSlug],
+      },
+    },
     components: mdxComponents,
   });
 
@@ -51,47 +63,113 @@ export default async function LessonPage({ params }: LessonPageProps) {
       ? courseLessons[index + 1]
       : undefined;
 
+  const toc = extractHeadings(lesson.body);
+
   return (
-    <main className="mx-auto max-w-3xl px-4 py-12">
-      <p className="text-sm text-muted-foreground">
-        <Link
-          href={`/courses/${course?.slug ?? lesson.course}`}
-          className="underline-offset-4 hover:underline"
-        >
-          {course?.title ?? lesson.course}
-        </Link>
-      </p>
-      <h1 className="mt-2 text-3xl font-bold tracking-tight">{lesson.title}</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Lesson {lesson.order}
-      </p>
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      {/* Course contents on small screens (collapsible). */}
+      <details className="group mb-6 rounded-lg border bg-card lg:hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-sm font-medium [&::-webkit-details-marker]:hidden">
+          Course contents
+          <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" />
+        </summary>
+        <div className="border-t p-4">
+          {course && (
+            <CourseSidebar
+              course={course}
+              lessons={courseLessons}
+              currentSlug={lesson.slug}
+            />
+          )}
+        </div>
+      </details>
 
-      <article className="prose prose-neutral dark:prose-invert mt-8 max-w-none">
-        {content}
-      </article>
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,1fr)_13rem]">
+        {/* Left: course lesson list. */}
+        <aside className="hidden lg:block">
+          <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pb-8 pr-2">
+            {course && (
+              <CourseSidebar
+                course={course}
+                lessons={courseLessons}
+                currentSlug={lesson.slug}
+              />
+            )}
+          </div>
+        </aside>
 
-      <nav className="mt-12 flex justify-between gap-4 border-t pt-6 text-sm">
-        {previous ? (
-          <Link
-            href={`/lessons/${previous.slug}`}
-            className="text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+        {/* Center: article. */}
+        <div className="mx-auto w-full min-w-0 max-w-2xl">
+          <article>
+            <p className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Link
+                href={`/courses/${course?.slug ?? lesson.course}`}
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                {course?.title ?? lesson.course}
+              </Link>
+              <span aria-hidden="true" className="text-muted-foreground/50">
+                /
+              </span>
+              <span>Lesson {lesson.order}</span>
+            </p>
+
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              {lesson.title}
+            </h1>
+
+            <div className="prose prose-neutral dark:prose-invert mt-8 max-w-none">
+              {content}
+            </div>
+          </article>
+
+          {/* Prev / next lesson navigation. */}
+          <nav
+            className="mt-12 grid gap-3 border-t pt-6 sm:grid-cols-2"
+            aria-label="Lesson navigation"
           >
-            ← {previous.title}
-          </Link>
-        ) : (
-          <span />
-        )}
-        {next ? (
-          <Link
-            href={`/lessons/${next.slug}`}
-            className="text-right text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-          >
-            {next.title} →
-          </Link>
-        ) : (
-          <span />
-        )}
-      </nav>
+            {previous ? (
+              <Link
+                href={`/lessons/${previous.slug}`}
+                className="group rounded-lg border p-4 transition-colors hover:border-primary/40 hover:bg-accent/40"
+              >
+                <span className="flex items-center gap-1.5 text-2xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+                  Previous
+                </span>
+                <span className="mt-1.5 block text-sm font-medium leading-snug transition-colors group-hover:text-primary">
+                  {previous.title}
+                </span>
+              </Link>
+            ) : (
+              <span />
+            )}
+            {next ? (
+              <Link
+                href={`/lessons/${next.slug}`}
+                className="group rounded-lg border p-4 text-right transition-colors hover:border-primary/40 hover:bg-accent/40"
+              >
+                <span className="flex items-center justify-end gap-1.5 text-2xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Next
+                  <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </span>
+                <span className="mt-1.5 block text-sm font-medium leading-snug transition-colors group-hover:text-primary">
+                  {next.title}
+                </span>
+              </Link>
+            ) : (
+              <span />
+            )}
+          </nav>
+        </div>
+
+        {/* Right: on-this-page table of contents. */}
+        <aside className="hidden xl:block">
+          <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pb-8">
+            <TableOfContents items={toc} />
+          </div>
+        </aside>
+      </div>
     </main>
   );
 }

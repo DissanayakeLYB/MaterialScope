@@ -1,4 +1,4 @@
-# LatticeLab
+# MaterialScope
 
 An interactive materials science teaching platform built with **Next.js 14**
 (App Router, TypeScript). Lessons are written as MDX files in `/content` and
@@ -8,7 +8,8 @@ visualization tools in the playground.
 ## Stack
 
 - **Next.js 14** — App Router, React Server Components, TypeScript
-- **Tailwind CSS 3** — with a custom `brand` theme (colors to be specified)
+- **Tailwind CSS 3** — design system tokens in `app/globals.css` and
+  `tailwind.config.ts` (cobalt/copper palette, semantic type scale, prose theme)
 - **shadcn/ui** — accessible UI primitives in `/components/ui`
 - **ESLint + Prettier** — `eslint-config-next` with `eslint-config-prettier`
 - **next-mdx-remote** — MDX rendering with custom components
@@ -73,9 +74,10 @@ Open [http://localhost:3000](http://localhost:3000).
 │   ├── layout.tsx            # Root layout (fonts, site header, metadata)
 │   └── globals.css           # Tailwind + design tokens (CSS variables)
 ├── components/
-│   ├── ui/                   # shadcn/ui components (button, card, badge, …)
+│   ├── ui/                   # shadcn/ui primitives + design system
+│   │   └── (navbar, footer, card, badge, progress, callout, …)
 │   ├── visualizations/       # 3D + chart components (crystal-viewer, …)
-│   └── lesson/               # Lesson building blocks (callout, quiz, …)
+│   └── lesson/               # Lesson building blocks (toc, quiz, mdx-components)
 │       └── mdx-components.tsx# Component map made available inside MDX
 ├── content/
 │   ├── courses/              # One .mdx file per course
@@ -157,7 +159,7 @@ bodies:
 
 | Component       | Purpose                                        |
 | --------------- | ---------------------------------------------- |
-| `<Callout type="info\|tip\|warning" title="…">` | Highlighted note box |
+| `<Callout type="note\|warning\|example" title="…">` | Highlighted note box (`info`→`note`, `tip`→`example` aliases kept) |
 | `<Quiz questions={[{ question, options, answer }]} />` | Interactive multiple-choice quiz |
 | `<CrystalViewer />` | Placeholder interactive 3D crystal viewer (client component) |
 

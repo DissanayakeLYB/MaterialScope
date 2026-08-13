@@ -1,4 +1,4 @@
-import { Callout } from "@/components/lesson/callout";
+import { Callout } from "@/components/ui/callout";
 import { Quiz } from "@/components/lesson/quiz";
 import { CrystalViewer } from "@/components/visualizations/crystal-viewer";
 
