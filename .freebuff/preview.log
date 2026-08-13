@@ -6,18 +6,15 @@
   - Local:        http://localhost:3000
 
  ✓ Starting...
- ✓ Ready in 2.6s
+ ✓ Ready in 2.1s
  ○ Compiling / ...
- ✓ Compiled / in 3.2s (676 modules)
- GET / 200 in 3258ms
- GET / 200 in 68ms
- GET / 200 in 47ms
- GET / 200 in 64ms
- ✓ Compiled /courses/[slug] in 464ms (701 modules)
- GET /courses/crystal-structures-and-bonding 200 in 1350ms
+ ✓ Compiled / in 2.7s (676 modules)
+ GET / 200 in 2761ms
+ GET / 200 in 84ms
+ GET / 200 in 65ms
+ GET / 200 in 70ms
  ○ Compiling /lessons/[slug] ...
- ✓ Compiled /lessons/[slug] in 1073ms (850 modules)
- GET /lessons/what-makes-a-material 200 in 1849ms
- GET /lessons/point-defects 200 in 104ms
- ✓ Compiled in 141ms (290 modules)
- GET /lessons/miller-indices-planes 200 in 109ms
+ ✓ Compiled /lessons/[slug] in 3.7s (2020 modules)
+ GET /lessons/crystal-lattices-unit-cells 200 in 4757ms
+ ○ Compiling /playground ...
+ ✓ Compiled /playground in 562ms (2010 modules)

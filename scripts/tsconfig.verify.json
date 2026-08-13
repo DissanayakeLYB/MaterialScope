@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2020",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "outDir": "../.freebuff/verify",
+    "rootDir": "..",
+    "noEmit": false
+  },
+  "include": ["./verify-crystals.ts", "../lib/crystal-structures.ts"]
+}

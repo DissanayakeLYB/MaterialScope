@@ -161,7 +161,7 @@ bodies:
 | --------------- | ---------------------------------------------- |
 | `<Callout type="note\|warning\|example" title="…">` | Highlighted note box (`info`→`note`, `tip`→`example` aliases kept) |
 | `<Quiz questions={[{ question, options, answer }]} />` | Interactive multiple-choice quiz |
-| `<CrystalViewer />` | Placeholder interactive 3D crystal viewer (client component) |
+| `<CrystalViewer structure="fcc" />` | Interactive 3D unit-cell viewer (react-three-fiber; supports `sc`, `bcc`, `fcc`, `hcp`) |
 
 Standard markdown (headings, tables, code, links) also works out of the box.
 
