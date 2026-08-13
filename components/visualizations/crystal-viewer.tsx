@@ -147,7 +147,7 @@ export function CrystalViewer({
       <div className={FALLBACK_CLASSES} role="img" aria-label="Crystal viewer">
         <p>
           The <code className="font-mono">{structure}</code> structure isn&apos;t
-          available in the 3D viewer yet — it renders as a placeholder here.
+          supported by the 3D viewer yet.
         </p>
       </div>
     );

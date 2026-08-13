@@ -17,12 +17,12 @@ export default function PlaygroundPage() {
       <section className="mt-8 rounded-xl border p-6">
         <h2 className="text-lg font-semibold tracking-tight">Crystal Viewer</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          A placeholder for the interactive unit-cell viewer. Future tools
-          (phase-diagram explorer, defect simulators, etc.) will be added as
-          separate cards here.
+          Interactive 3D unit cells — drag to rotate, scroll to zoom. Future
+          tools (a phase-diagram explorer, defect simulators, and more) will
+          be added as separate cards here.
         </p>
         <div className="mt-6">
-          <CrystalViewer />
+          <CrystalViewer structure="fcc" />
         </div>
       </section>
     </main>

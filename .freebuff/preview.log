@@ -18,3 +18,11 @@
  GET /lessons/crystal-lattices-unit-cells 200 in 4757ms
  ○ Compiling /playground ...
  ✓ Compiled /playground in 562ms (2010 modules)
+ ✓ Compiled /about in 494ms (2014 modules)
+ ✓ Compiled in 770ms (2027 modules)
+ ○ Compiling /courses ...
+ ✓ Compiled /courses in 710ms (2017 modules)
+ ○ Compiling /courses/[slug] ...
+ ✓ Compiled /courses/[slug] in 930ms (2021 modules)
+ GET /about 200 in 116ms
+ GET /playground 200 in 87ms
