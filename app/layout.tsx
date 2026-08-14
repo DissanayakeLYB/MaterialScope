@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
+import { ThemeProvider } from "@/components/theme-provider";
 import { Footer } from "@/components/ui/footer";
 import { Navbar } from "@/components/ui/navbar";
+import { themeInitScript } from "@/lib/theme";
 
 import "./globals.css";
 
@@ -22,8 +24,7 @@ export const metadata: Metadata = {
     default: "MaterialScope",
     template: "%s · MaterialScope",
   },
-  description:
-    "Interactive materials science lessons and visualization tools.",
+  description: "Interactive materials science lessons and visualization tools.",
 };
 
 export default function RootLayout({
@@ -32,13 +33,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    /*
+     * suppressHydrationWarning: the theme init script below toggles the
+     * `dark` class on <html> before hydration, so React must not diff it.
+     */
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
-        <Navbar />
-        <div className="flex-1">{children}</div>
-        <Footer />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <ThemeProvider>
+          <Navbar />
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
