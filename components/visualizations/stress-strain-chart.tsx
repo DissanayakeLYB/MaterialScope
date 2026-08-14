@@ -4,8 +4,6 @@ import {
   CartesianGrid,
   Line,
   LineChart,
-  ReferenceDot,
-  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -22,11 +20,14 @@ import { useChartPalette } from "@/components/visualizations/chart-ui";
 /**
  * StressStrainCurve — engineering stress–strain curve.
  *
- * The curve renders in the brand cobalt; the optional yield / UTS / fracture
- * annotations draw colored markers with dashed guide lines to the axes, and
- * an exact-value readout strip below the plot (labels near the curve would
- * collide with it — the yield point in particular sits within ~0.4% of the
- * left edge on a 0–40% strain axis).
+ * The curve renders in the brand cobalt. The optional yield / UTS / fracture
+ * annotations are drawn as an HTML overlay (dashed guide line + colored
+ * marker, positioned with the same plot-area offsets recharts derives from
+ * margins + axis sizes) plus an exact-value readout strip below the plot.
+ * Recharts' own ReferenceDot/ReferenceLine are deliberately NOT used: they
+ * crash ("Cannot read properties of undefined (reading 'scale')") when the
+ * chart renders a pass where the axis map isn't populated yet — a recharts
+ * 2.x bug that takes down the whole page in React 18 dev mode.
  *
  * Rendered as a default export and imported via React.lazy by the
  * `stress-strain-curve.tsx` wrapper.
@@ -36,9 +37,16 @@ const MARGINS = { top: 20, right: 24, bottom: 8, left: 8 };
 const Y_AXIS_WIDTH = 52;
 const X_AXIS_HEIGHT = 36;
 
+/** Plot-area offsets, mirroring recharts' internal `calculateOffset`. */
+const PLOT = {
+  left: MARGINS.left + Y_AXIS_WIDTH,
+  right: MARGINS.right,
+  top: MARGINS.top,
+  bottom: MARGINS.bottom + X_AXIS_HEIGHT,
+};
+
 interface AnnotationSpec {
   key: "yieldPoint" | "ultimateTensileStrength" | "fracture";
-  /** Marker color; the guide line stays muted so it never reads as a curve. */
   marker: string;
 }
 
@@ -55,9 +63,7 @@ function StressStrainTooltip({
     <div className="rounded-md border bg-background px-3 py-2 text-xs shadow-md">
       <p className="font-medium text-foreground">Engineering stress–strain</p>
       <p className="mt-1 flex gap-3 font-mono tabular-nums text-muted-foreground">
-        <span>
-          ε = {formatNumber(Number(entry.payload?.strain), 2)}%
-        </span>
+        <span>ε = {formatNumber(Number(entry.payload?.strain), 2)}%</span>
         <span>σ = {formatNumber(Number(entry.value), 1)} MPa</span>
       </p>
     </div>
@@ -79,10 +85,12 @@ function AnnotationStrip({
     { key: "ultimateTensileStrength", marker: series[2] },
     { key: "fracture", marker: destructive },
   ];
-  const items = specs.flatMap((spec): Array<{ spec: AnnotationSpec; a: StressStrainAnnotation }> => {
-    const a = annotations[spec.key];
-    return a ? [{ spec, a }] : [];
-  });
+  const items = specs.flatMap(
+    (spec): Array<{ spec: AnnotationSpec; a: StressStrainAnnotation }> => {
+      const a = annotations[spec.key];
+      return a ? [{ spec, a }] : [];
+    }
+  );
   if (items.length === 0) return null;
   return (
     <div className="flex flex-wrap justify-center gap-x-5 gap-y-1 border-t bg-muted/40 px-4 py-2 text-xs text-muted-foreground">
@@ -95,7 +103,7 @@ function AnnotationStrip({
           />
           <span className="font-medium text-foreground">{a.label}</span>
           <span className="font-mono tabular-nums">
-            {formatNumber(a.stress, 1)} MPa @ ε = {formatNumber(a.strain, 1)}%
+            {formatNumber(a.stress, 1)} MPa @ ε = {formatNumber(a.strain, 2)}%
           </span>
         </span>
       ))}
@@ -108,6 +116,9 @@ export default function StressStrainChart({ data }: { data: StressStrainData }) 
 
   const maxStrain = Math.max(...data.data.map((p) => p.strain), 0.001);
   const maxStress = Math.max(...data.data.map((p) => p.stress), 1);
+  // Round to kill float noise (36 × 1.06 = 38.16000000000004 on the axis).
+  const xDomain: [number, number] = [0, Number((maxStrain * 1.06).toFixed(4))];
+  const yDomain: [number, number] = [0, Number((maxStress * 1.12).toFixed(4))];
 
   const annotations = data.annotations;
   const annotationSpecs: AnnotationSpec[] = [
@@ -115,6 +126,14 @@ export default function StressStrainChart({ data }: { data: StressStrainData }) 
     { key: "ultimateTensileStrength", marker: palette.series[2] },
     { key: "fracture", marker: palette.destructive },
   ];
+  const annotationItems = annotations
+    ? annotationSpecs.flatMap(
+        (spec): Array<{ spec: AnnotationSpec; a: StressStrainAnnotation }> => {
+          const a = annotations[spec.key];
+          return a ? [{ spec, a }] : [];
+        }
+      )
+    : [];
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -130,7 +149,7 @@ export default function StressStrainChart({ data }: { data: StressStrainData }) 
             <XAxis
               type="number"
               dataKey="strain"
-              domain={[0, maxStrain * 1.06]}
+              domain={xDomain}
               height={X_AXIS_HEIGHT}
               tick={{ fontSize: 11, fill: palette.muted }}
               tickLine={false}
@@ -145,7 +164,7 @@ export default function StressStrainChart({ data }: { data: StressStrainData }) 
             />
             <YAxis
               type="number"
-              domain={[0, maxStress * 1.12]}
+              domain={yDomain}
               width={Y_AXIS_WIDTH}
               tick={{ fontSize: 11, fill: palette.muted }}
               tickLine={false}
@@ -175,31 +194,56 @@ export default function StressStrainChart({ data }: { data: StressStrainData }) 
               activeDot={{ r: 5, fill: palette.series[0], strokeWidth: 0 }}
               isAnimationActive={false}
             />
-
-            {annotations &&
-              annotationSpecs.map((spec) => {
-                const a = annotations[spec.key];
-                if (!a) return null;
-                return (
-                  <g key={spec.key}>
-                    <ReferenceLine
-                      x={a.strain}
-                      stroke={palette.muted}
-                      strokeDasharray="3 4"
-                      strokeOpacity={0.6}
-                    />
-                    <ReferenceDot
-                      x={a.strain}
-                      y={a.stress}
-                      r={4.5}
-                      fill={spec.marker}
-                      stroke="none"
-                    />
-                  </g>
-                );
-              })}
           </LineChart>
         </ResponsiveContainer>
+
+        {/* Annotation markers + guide lines. Percentage offsets resolve
+            against the inner box (the plot area), exactly like the phase
+            diagram's region labels. */}
+        {annotationItems.length > 0 && (
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              paddingLeft: PLOT.left,
+              paddingRight: PLOT.right,
+              paddingTop: PLOT.top,
+              paddingBottom: PLOT.bottom,
+            }}
+          >
+            <div className="relative h-full w-full">
+              {annotationItems.map(({ spec, a }) => {
+                const left = ((a.strain - xDomain[0]) / (xDomain[1] - xDomain[0])) * 100;
+                const top =
+                  (1 - (a.stress - yDomain[0]) / (yDomain[1] - yDomain[0])) * 100;
+                return (
+                  <div key={spec.key}>
+                    {/* Dashed guide line from the marker to the axes. */}
+                    <div
+                      className="absolute top-0 h-full border-l border-dashed"
+                      style={{
+                        left: `${left}%`,
+                        borderColor: palette.muted,
+                        opacity: 0.6,
+                      }}
+                    />
+                    {/* Marker with a background ring so it reads over the curve. */}
+                    <span
+                      className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
+                      style={{
+                        left: `${left}%`,
+                        top: `${top}%`,
+                        width: 9,
+                        height: 9,
+                        backgroundColor: spec.marker,
+                        border: "2px solid hsl(var(--background))",
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
       {annotations && (
         <AnnotationStrip

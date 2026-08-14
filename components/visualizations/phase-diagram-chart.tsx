@@ -40,6 +40,29 @@ const PLOT = {
   bottom: MARGINS.bottom + X_AXIS_HEIGHT,
 };
 
+/**
+ * Linear interpolation of a boundary's points at a given composition.
+ * Returns null outside the boundary's span.
+ */
+function interpolateBoundary(
+  points: PhaseBoundary["points"],
+  x: number
+): number | null {
+  if (x < points[0].composition || x > points[points.length - 1].composition) {
+    return null;
+  }
+  for (let i = 0; i < points.length - 1; i++) {
+    const a = points[i];
+    const b = points[i + 1];
+    if (x >= a.composition && x <= b.composition) {
+      if (a.composition === b.composition) return a.temperature;
+      const t = (x - a.composition) / (b.composition - a.composition);
+      return a.temperature + t * (b.temperature - a.temperature);
+    }
+  }
+  return null;
+}
+
 /** Default axis domains derived from the boundary points, with padding. */
 function defaultDomain(points: { composition: number; temperature: number }[]): {
   xDomain: [number, number];
@@ -136,19 +159,25 @@ function RegionLabels({
         paddingBottom: PLOT.bottom,
       }}
     >
-      {regions.map((region) => {
-        const left = ((region.x - x0) / (x1 - x0)) * 100;
-        const top = (1 - (region.y - y0) / (y1 - y0)) * 100;
-        return (
-          <span
-            key={`${region.label}@${region.x},${region.y}`}
-            className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-sm bg-background/70 px-1.5 py-px text-[10px] font-semibold uppercase tracking-[0.08em] text-muted-foreground"
-            style={{ left: `${left}%`, top: `${top}%` }}
-          >
-            {region.label}
-          </span>
-        );
-      })}
+      {/* Inner relative box sized to the *content* area: percentage offsets
+          on the labels resolve against this, so they land exactly on the
+          data coordinates (percentages against the padded outer box would
+          be measured from the padding box and drift). */}
+      <div className="relative h-full w-full">
+        {regions.map((region) => {
+          const left = ((region.x - x0) / (x1 - x0)) * 100;
+          const top = (1 - (region.y - y0) / (y1 - y0)) * 100;
+          return (
+            <span
+              key={`${region.label}@${region.x},${region.y}`}
+              className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-sm bg-background/70 px-1.5 py-px text-[10px] font-semibold uppercase tracking-[0.08em] text-muted-foreground"
+              style={{ left: `${left}%`, top: `${top}%` }}
+            >
+              {region.label}
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -165,19 +194,23 @@ export default function PhaseDiagramChart({ data }: { data: PhaseDiagramData }) 
       ? { xDomain: data.xDomain, yDomain: data.yDomain }
       : defaultDomain(data.boundaries.flatMap((b) => b.points));
 
-  // Rows keyed by composition; each boundary's temperature lands in its own
-  // column so recharts can draw one Line per boundary over shared x values.
-  const rows = new Map<number, Record<string, number | string>>();
-  data.boundaries.forEach((boundary, index) => {
-    for (const point of boundary.points) {
-      const row = rows.get(point.composition) ?? { composition: point.composition };
-      row[`b${index}`] = point.temperature;
-      rows.set(point.composition, row);
-    }
+  // Densify every boundary onto a shared x-grid so the tooltip can read
+  // ALL boundaries at any hovered composition (values are the same linear
+  // interpolation the lines draw). Without this, a tooltip only shows the
+  // boundaries that happen to have an anchor point at that exact x.
+  const GRID_POINTS = 240;
+  const grid = Array.from({ length: GRID_POINTS }, (_, i) => {
+    const t = i / (GRID_POINTS - 1);
+    return xDomain[0] + t * (xDomain[1] - xDomain[0]);
   });
-  const chartData = Array.from(rows.values()).sort(
-    (a, b) => Number(a.composition) - Number(b.composition)
-  );
+  const chartData = grid.map((x) => {
+    const row: Record<string, number | string> = { composition: x };
+    data.boundaries.forEach((boundary, index) => {
+      const value = interpolateBoundary(boundary.points, x);
+      if (value !== null) row[`b${index}`] = value;
+    });
+    return row;
+  });
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -241,8 +274,8 @@ export default function PhaseDiagramChart({ data }: { data: PhaseDiagramData }) 
                 stroke={color}
                 strokeWidth={1.75}
                 strokeDasharray={boundary.dashed ? "5 4" : undefined}
-                dot={{ r: 2.5, fill: color, strokeWidth: 0 }}
-                activeDot={{ r: 4, fill: color, strokeWidth: 0 }}
+                dot={false}
+                activeDot={false}
                 isAnimationActive={false}
                 connectNulls={false}
               />
