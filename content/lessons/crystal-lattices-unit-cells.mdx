@@ -39,18 +39,112 @@ The hexagonal unit cell holds atoms at its 12 corners, on its two hexagonal face
 
 Some elements change crystal structure with temperature — a phenomenon called allotropy (or polymorphism). Iron is the classic example: **α-Fe (BCC)** below 912 °C, **γ-Fe (FCC)** from 912 to 1394 °C, and **δ-Fe (BCC)** from 1394 °C up to its melting point of 1538 °C. This is far from an academic curiosity: FCC iron (austenite) dissolves much more carbon than BCC iron, which is the entire foundation of steel heat treatment.
 
+The iron–carbon diagram below puts those transitions on one canvas: follow the left axis (pure iron) upward through α, γ, δ, and liquid, and notice how adding carbon widens the γ field dramatically — austenite dissolves up to 2.11 wt% carbon at 1147 °C, while ferrite (α) takes almost none. That asymmetry is where steel heat treatment comes from.
+
+{/*
+  Fe–Fe₃C (iron–carbon) phase diagram, simplified for an intro course.
+  Boundaries are straight segments between standard anchor values from
+  W.D. Callister & D.G. Rethwisch, "Materials Science and Engineering:
+  An Introduction" (Fe–Fe₃C diagram, Fig. 9.24/9.33): pure Fe melts
+  1538 °C; peritectic 0.16 wt% C @ 1493 °C; eutectic 4.30 wt% C @ 1147 °C;
+  eutectoid 0.76 wt% C @ 727 °C; maximum C solubility 2.11 wt% in γ,
+  0.022 wt% in α, 0.09 wt% in δ; cementite (Fe₃C) is 6.70 wt% C and melts
+  at 1227 °C. The tiny L+δ and δ+γ slivers near the peritectic are
+  omitted for clarity.
+*/}
 <PhaseDiagram
   data={{
-    system: "Pure iron — allotropic phases vs. temperature",
-    xLabel: "Temperature (°C)",
-    yLabel: "Stable phase",
-    phases: [
-      { label: "α-Fe (BCC) below 912 °C" },
-      { label: "γ-Fe (FCC) 912–1394 °C" },
-      { label: "δ-Fe (BCC) 1394–1538 °C" },
-      { label: "Liquid above 1538 °C" },
+    system: "Fe–Fe₃C (iron–carbon)",
+    xName: "Composition",
+    xUnit: "wt% C",
+    yName: "Temperature",
+    yUnit: "°C",
+    xDomain: [0, 6.7],
+    yDomain: [400, 1600],
+    xTicks: [0, 1, 2, 3, 4, 5, 6],
+    yTicks: [400, 600, 800, 1000, 1200, 1400, 1600],
+    boundaries: [
+      {
+        label: "Liquidus",
+        points: [
+          { composition: 0, temperature: 1538 },
+          { composition: 0.16, temperature: 1493 },
+          { composition: 4.3, temperature: 1147 },
+          { composition: 6.7, temperature: 1227 },
+        ],
+      },
+      {
+        label: "Solidus",
+        points: [
+          { composition: 0, temperature: 1538 },
+          { composition: 0.16, temperature: 1493 },
+          { composition: 2.11, temperature: 1147 },
+          { composition: 4.3, temperature: 1147 },
+          { composition: 6.7, temperature: 1227 },
+        ],
+      },
+      {
+        label: "A₃ (γ → α + γ)",
+        dashed: true,
+        points: [
+          { composition: 0, temperature: 912 },
+          { composition: 0.76, temperature: 727 },
+        ],
+      },
+      {
+        label: "Acm (γ → γ + Fe₃C)",
+        dashed: true,
+        points: [
+          { composition: 0.76, temperature: 727 },
+          { composition: 2.11, temperature: 1147 },
+        ],
+      },
+      {
+        label: "A₄ (δ → γ)",
+        dashed: true,
+        points: [
+          { composition: 0, temperature: 1394 },
+          { composition: 0.09, temperature: 1493 },
+        ],
+      },
+      {
+        label: "α solvus",
+        dashed: true,
+        points: [
+          { composition: 0, temperature: 912 },
+          { composition: 0.022, temperature: 727 },
+        ],
+      },
+      {
+        label: "Eutectoid (727 °C)",
+        dashed: true,
+        points: [
+          { composition: 0.022, temperature: 727 },
+          { composition: 6.7, temperature: 727 },
+        ],
+      },
+      {
+        label: "Eutectic (1147 °C)",
+        dashed: true,
+        points: [
+          { composition: 2.11, temperature: 1147 },
+          { composition: 4.3, temperature: 1147 },
+        ],
+      },
+    ],
+    regions: [
+      { label: "L", x: 2.6, y: 1420 },
+      { label: "L + γ", x: 1.0, y: 1385 },
+      { label: "γ (austenite)", x: 1.0, y: 1070 },
+      { label: "δ", x: 0.04, y: 1478 },
+      { label: "α (ferrite)", x: 0.01, y: 770 },
+      { label: "α + γ", x: 0.4, y: 775 },
+      { label: "α + Fe₃C", x: 3.2, y: 520 },
+      { label: "γ + Fe₃C", x: 3.0, y: 960 },
+      { label: "L + Fe₃C", x: 5.5, y: 1168 },
     ],
   }}
+  caption="The Fe–Fe₃C diagram: straight segments between standard anchor points (values from Callister & Rethwisch — see the source comment in the lesson). The tiny two-phase slivers near the peritectic (L + δ, δ + γ) are omitted for clarity."
 />
 
 ## Worked example: theoretical density of copper

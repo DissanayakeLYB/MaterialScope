@@ -50,6 +50,39 @@ A zero difference means a purely covalent bond; large differences push toward io
 | Covalent        | Shared, directional electron pairs | Strong, stiff, brittle, poor conductors   | Diamond, Si, polymers|
 | van der Waals   | Weak dipole attractions            | Low melting point, soft, compressible     | Solid argon, graphite layers |
 
+## Bonding sets the stiffness
+
+The stiffness of a solid — how strongly it resists stretching — follows directly from the strength and directionality of its bonds. Diamond's dense covalent network resists stretching far more than the weak van der Waals bonds between polymer chains, and the difference is enormous: Young's modulus spans roughly three orders of magnitude across materials. Metals sit in a band around 70–400 GPa, ceramics (including diamond) at the top, and polymers at the bottom. Notice that bond *type* matters more than specific chemistry: soda-lime glass and aluminum are both near 70 GPa despite being completely different materials.
+
+{/*
+  Young's modulus (elastic modulus E), typical room-temperature values from
+  W.D. Callister & D.G. Rethwisch, "Materials Science and Engineering: An
+  Introduction" (Table 7.1) and M.F. Ashby, "Materials Selection in
+  Mechanical Design" (Fig. 3.3). Approximate values — polymers in particular
+  vary with grade and processing. Logarithmic axis because the values span
+  ~3 orders of magnitude.
+*/}
+<PropertyComparisonChart
+  data={{
+    property: "Young's modulus",
+    unit: "GPa",
+    logScale: true,
+    xDomain: [0.5, 1200],
+    xTicks: [1, 10, 100, 1000],
+    data: [
+      { material: "Diamond", value: 1000 },
+      { material: "Tungsten", value: 407 },
+      { material: "Steel", value: 207 },
+      { material: "Aluminum", value: 69 },
+      { material: "Glass", value: 69 },
+      { material: "Oak", value: 11 },
+      { material: "Nylon 66", value: 3 },
+      { material: "Polyethylene", value: 1 },
+    ],
+  }}
+  caption="Young's modulus of representative materials on a logarithmic axis: covalent diamond is about 1,000× stiffer than polyethylene. Values are typical room-temperature figures (Callister Table 7.1; Ashby) — polymers vary with grade."
+/>
+
 ## Worked example: How ionic is MgO?
 
 Magnesium has electronegativity χ = 1.2 and oxygen χ = 3.5. Compute the percent ionic character of the Mg–O bond and interpret the result.

@@ -52,6 +52,50 @@ A single crystal is pulled with a tensile stress of 12 MPa. The tensile axis mak
   Since 4.24 MPa exceeds the critical resolved shear stress of 3.5 MPa, **slip occurs**. If the crystal were reoriented so that φ = 70° and λ = 20°, then τ_R = 12 × 0.342 × 0.940 = 3.86 MPa — still above 3.5 MPa, but only just. Orientation, not just load, decides when a crystal yields.
 </details>
 
+## The stress–strain curve
+
+The single-crystal picture from Schmid's law is hard to reproduce on the bench: engineering components are polycrystalline, so the measured response averages millions of grains in every possible orientation. The result is the **engineering stress–strain curve** below. Stress first rises linearly — the elastic region, where stress and strain are proportional with slope E (Hooke's law). When the resolved shear stress on the most favorably oriented slip systems reaches the critical value, the material **yields**: dislocations start to move, and strain grows rapidly for little added stress. After yielding, **strain hardening** makes further slip progressively harder, so the curve climbs again up to the **ultimate tensile strength (UTS)**. Beyond it the specimen necks — its cross-section shrinks locally — and the stress falls until **fracture**.
+
+{/*
+  Representative engineering stress–strain for annealed 1018 low-carbon
+  steel: E ≈ 207 GPa, yield ≈ 310 MPa, UTS ≈ 440 MPa, elongation at
+  fracture ≈ 36%. Typical values from Callister & Rethwisch, "Materials
+  Science and Engineering" (Table 6.1 / Fig. 6.11) and MatWeb typical
+  values for AISI 1018 annealed; the curve is constructed through those
+  anchors with a monotone hardening region.
+*/}
+<StressStrainCurve
+  data={{
+    material: "Annealed 1018 steel",
+    data: [
+      { strain: 0, stress: 0 },
+      { strain: 0.05, stress: 103.5 },
+      { strain: 0.1, stress: 207 },
+      { strain: 0.15, stress: 310 },
+      { strain: 0.2, stress: 315 },
+      { strain: 0.3, stress: 322 },
+      { strain: 0.5, stress: 330 },
+      { strain: 1, stress: 340 },
+      { strain: 2, stress: 355 },
+      { strain: 5, stress: 375 },
+      { strain: 10, stress: 395 },
+      { strain: 15, stress: 410 },
+      { strain: 20, stress: 422 },
+      { strain: 25, stress: 432 },
+      { strain: 30, stress: 440 },
+      { strain: 32, stress: 435 },
+      { strain: 34, stress: 415 },
+      { strain: 36, stress: 390 },
+    ],
+    annotations: {
+      yieldPoint: { strain: 0.15, stress: 310, label: "Yield" },
+      ultimateTensileStrength: { strain: 30, stress: 440, label: "UTS" },
+      fracture: { strain: 36, stress: 390, label: "Fracture" },
+    },
+  }}
+  caption="Engineering stress–strain for annealed 1018 steel (representative data — see the source comment). The elastic region follows Hooke's law with slope E ≈ 207 GPa; yield, UTS, and fracture are marked on the curve."
+/>
+
 ## Planar defects: grain boundaries
 
 Most engineering metals are **polycrystalline**: many small crystals, each with a slightly different orientation, joined at **grain boundaries**. Low-angle boundaries (misorientation of a few degrees) are actually orderly arrays of edge dislocations; high-angle boundaries are disordered regions a few atoms thick.

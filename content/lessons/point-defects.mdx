@@ -42,18 +42,57 @@ A substitutional impurity dissolves completely in a host only under the right co
 
 Brass (copper–zinc), bronze (copper–tin), and the nickel in stainless steel all satisfy these conditions. When they are violated, the alloy instead forms a separate phase or an intermetallic compound — and predicting which happens is exactly what phase diagrams are for.
 
+The model system for complete solubility is **copper–nickel**: both metals are FCC, their atomic radii differ by only ~2.7%, and their electronegativities and valences match — all four Hume–Rothery conditions hold, so the two form a single solid solution at every composition. The Cu–Ni phase diagram is the simplest there is, with just three fields:
+
+{/*
+  Cu–Ni isomorphous phase diagram, simplified. Boundary anchors from the
+  standard diagram in W.D. Callister & D.G. Rethwisch, "Materials Science
+  and Engineering: An Introduction" (Fig. 9.3a): pure Cu melts at 1085 °C,
+  pure Ni at 1455 °C, and the classic 1300 °C tie line crosses the liquidus
+  at ~45 wt% Ni and the solidus at ~58 wt% Ni. Curves are straight segments
+  between anchor points.
+*/}
 <PhaseDiagram
   data={{
-    system: "Cu–Zn (brass)",
-    xLabel: "Composition (wt% Zn)",
-    yLabel: "Temperature (°C)",
-    phases: [
-      { label: "α (FCC solid solution)" },
-      { label: "β (BCC solid solution)" },
-      { label: "Liquid" },
-      { label: "α + β two-phase region" },
+    system: "Cu–Ni (isomorphous)",
+    xName: "Composition",
+    xUnit: "wt% Ni",
+    yName: "Temperature",
+    yUnit: "°C",
+    xDomain: [0, 100],
+    yDomain: [1050, 1500],
+    xTicks: [0, 20, 40, 60, 80, 100],
+    yTicks: [1050, 1100, 1150, 1200, 1250, 1300, 1350, 1400, 1450, 1500],
+    boundaries: [
+      {
+        label: "Liquidus",
+        points: [
+          { composition: 0, temperature: 1085 },
+          { composition: 20, temperature: 1170 },
+          { composition: 45, temperature: 1300 },
+          { composition: 70, temperature: 1380 },
+          { composition: 100, temperature: 1455 },
+        ],
+      },
+      {
+        label: "Solidus",
+        points: [
+          { composition: 0, temperature: 1085 },
+          { composition: 20, temperature: 1130 },
+          { composition: 40, temperature: 1210 },
+          { composition: 58, temperature: 1300 },
+          { composition: 75, temperature: 1380 },
+          { composition: 100, temperature: 1455 },
+        ],
+      },
+    ],
+    regions: [
+      { label: "Liquid", x: 50, y: 1395 },
+      { label: "L + α", x: 50, y: 1270 },
+      { label: "α (solid solution)", x: 50, y: 1140 },
     ],
   }}
+  caption="Isomorphous Cu–Ni: liquid and α (the FCC solid solution) coexist only inside the lens between liquidus and solidus; below the solidus the alloy is a single phase at every composition. Boundaries are simplified straight segments (Callister Fig. 9.3a — see the source comment)."
 />
 
 In ionic crystals, point defects come in charge-neutral pairs: a **Schottky defect** is a missing cation plus a missing anion; a **Frenkel defect** is an ion displaced into an interstitial site, leaving a vacancy behind.
