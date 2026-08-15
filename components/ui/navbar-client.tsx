@@ -4,13 +4,19 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 
-import { ChevronDown, LogOut, Menu, User, X } from "lucide-react";
+import { ChevronDown, LogOut, Menu, Search, User, X } from "lucide-react";
 
+import { SearchDialog } from "@/components/search/search-dialog";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import { signOut } from "@/lib/auth/actions";
 import { cn } from "@/lib/utils";
+
+// True on macOS/iOS — used to render the ⌘K hint in the search trigger.
+const IS_MAC =
+  typeof navigator !== "undefined" &&
+  /Mac|iPhone|iPad/.test(navigator.platform);
 
 const navItems = [
   { href: "/courses", label: "Courses" },
@@ -49,19 +55,22 @@ export function NavbarClient({ user }: { user: NavbarUser | null }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [pending, startTransition] = useTransition();
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close the user menu on outside click or Escape.
+  // Close the user menu on outside click, and both popovers on Escape.
   useEffect(() => {
-    if (!menuOpen) return;
     function onPointerDown(event: PointerEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setMenuOpen(false);
       }
     }
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        setOpen(false);
+      }
     }
     document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
@@ -69,7 +78,12 @@ export function NavbarClient({ user }: { user: NavbarUser | null }) {
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [menuOpen]);
+  }, []);
+
+  // Close the mobile menu when the route changes (e.g. tapping a nav link).
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   function handleSignOut() {
     startTransition(async () => {
@@ -112,6 +126,18 @@ export function NavbarClient({ user }: { user: NavbarUser | null }) {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            className="hidden h-9 w-40 items-center gap-2 rounded-md border bg-muted/40 px-3 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:flex lg:w-52"
+            aria-label="Search courses and lessons"
+          >
+            <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span className="hidden lg:inline">Search…</span>
+            <kbd className="ml-auto hidden rounded border bg-background px-1.5 py-0.5 font-mono text-2xs font-medium text-muted-foreground lg:inline-block">
+              {IS_MAC ? "⌘K" : "Ctrl K"}
+            </kbd>
+          </button>
           <ThemeToggle />
           {user ? (
             <div ref={menuRef} className="relative">
@@ -174,6 +200,14 @@ export function NavbarClient({ user }: { user: NavbarUser | null }) {
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            aria-label="Search courses and lessons"
+          >
+            <Search className="h-5 w-5" aria-hidden="true" />
+          </button>
           <ThemeToggle />
           <button
             type="button"
@@ -186,6 +220,8 @@ export function NavbarClient({ user }: { user: NavbarUser | null }) {
           </button>
         </div>
       </div>
+
+      <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
 
       {open && (
         <div className="border-t bg-background px-4 pb-4 pt-2 md:hidden">

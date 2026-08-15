@@ -13,6 +13,8 @@ import { mdxComponents } from "@/components/lesson/mdx-components";
 import { TableOfContents } from "@/components/lesson/toc";
 import { getCourse, getLesson, getLessonsForCourse } from "@/lib/content";
 import { getUserProgress } from "@/lib/progress/queries";
+import { siteUrl } from "@/lib/site";
+import { excerpt } from "@/lib/text";
 import { extractHeadings } from "@/lib/toc";
 
 interface LessonPageProps {
@@ -27,9 +29,19 @@ export async function generateMetadata({
 }: LessonPageProps): Promise<Metadata> {
   const lesson = getLesson(params.slug);
   if (!lesson) return {};
+  // Describe the lesson from its own content so search engines (and link
+  // previews) get a real summary rather than a generic template string.
+  const description = excerpt(lesson.body, 160);
   return {
     title: lesson.title,
-    description: `Lesson ${lesson.order} in the course "${lesson.course}".`,
+    description,
+    openGraph: {
+      type: "article",
+      siteName: "MaterialScope",
+      url: `${siteUrl}/lessons/${lesson.slug}`,
+      title: lesson.title,
+      description,
+    },
   };
 }
 

@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Footer } from "@/components/ui/footer";
 import { Navbar } from "@/components/ui/navbar";
+import { siteUrl } from "@/lib/site";
 import { themeInitScript } from "@/lib/theme";
 
 import "./globals.css";
@@ -19,12 +20,35 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+const siteDescription =
+  "Interactive materials science lessons and visualization tools — from crystal structures to phase diagrams.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "MaterialScope",
     template: "%s · MaterialScope",
   },
-  description: "Interactive materials science lessons and visualization tools.",
+  description: siteDescription,
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: "MaterialScope",
+    title: {
+      default: "MaterialScope",
+      template: "%s · MaterialScope",
+    },
+    description: siteDescription,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: "MaterialScope",
+      template: "%s · MaterialScope",
+    },
+    description: siteDescription,
+  },
 };
 
 export default function RootLayout({

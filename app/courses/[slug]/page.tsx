@@ -11,6 +11,7 @@ import { mdxComponents } from "@/components/lesson/mdx-components";
 import { Progress } from "@/components/ui/progress";
 import { getCourse, getLessonsForCourse } from "@/lib/content";
 import { getUserProgress } from "@/lib/progress/queries";
+import { siteUrl } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 interface CoursePageProps {
@@ -28,6 +29,13 @@ export async function generateMetadata({
   return {
     title: course.title,
     description: course.description,
+    openGraph: {
+      type: "website",
+      siteName: "MaterialScope",
+      url: `${siteUrl}/courses/${course.slug}`,
+      title: course.title,
+      description: course.description,
+    },
   };
 }
 
