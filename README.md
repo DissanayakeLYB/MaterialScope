@@ -77,6 +77,67 @@ Restart the dev server after adding env vars. Sign up / sign in at
 `/auth`, see your stats at `/profile`, and complete lessons (or their quizzes)
 to write `lesson_progress` rows.
 
+## Deploying to Vercel (production)
+
+The app runs comfortably on Vercel's free **Hobby** tier: every server-side
+surface is lightweight (a handful of small MDX files parsed at request time,
+one Supabase round-trip for auth/progress, and a search index that is built
+once at build time), well under the 1M invocations/month, 4 CPU-hours/month,
+and 120s request-timeout limits. No configuration or `vercel.json` is needed.
+
+### 1. Push the repo to GitHub
+
+Create a repository on GitHub and push this project to it. Vercel deploys
+directly from the repo, so keep `content/` and `lib/` committed — the courses
+and lessons are the site.
+
+### 2. Import the project on Vercel
+
+1. Go to [vercel.com](https://vercel.com) → **Add New → Project** and choose
+   **Import** next to your GitHub repository (connect GitHub first if asked).
+2. The framework preset is auto-detected as **Next.js** — leave the defaults:
+   build command `npm run build`, output directory `.next`.
+3. Click **Deploy**. The first deploy works without env vars (the site
+   renders fully signed-out), but auth and progress need them — continue to
+   step 3.
+
+### 3. Set environment variables in the Vercel dashboard
+
+With the project open, go to **Settings → Environment Variables** and add the
+same variables from [`.env.example`](.env.example):
+
+| Variable | Value | Where to get it |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://<project-ref>.supabase.co` | Supabase → Project Settings → API → **Project URL** |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `sb_publishable_…` / `eyJhbGci…` | Supabase → Project Settings → API → **anon public** key (never `service_role`) |
+| `NEXT_PUBLIC_SITE_URL` | `https://<your-project>.vercel.app` (or your custom domain) | Your deployment URL |
+
+Add them for the **Production** environment (and **Preview**/**Development**
+if you want auth to work in preview deployments too). After saving, Vercel
+will offer to redeploy — do it so the variables take effect.
+
+### 4. Point Supabase at the deployed site
+
+Your Supabase project needs to accept auth callbacks from the Vercel domain
+(the production URL from step 3):
+
+1. Open your Supabase project → **Authentication → URL Configuration →
+   Redirect URLs**.
+2. Add `https://<your-project>.vercel.app/auth/callback` (plus your custom
+   domain if you have one). Keep `http://localhost:3000/auth/callback` so
+   local development still works.
+3. If you use Google sign-in, also add the same Vercel redirect URL to the
+   **Authorized redirect URIs** in the Google Cloud Console for your OAuth
+   client.
+4. Make sure the schema has been applied: run
+   [`supabase/schema.sql`](supabase/schema.sql) in the SQL Editor (safe to
+   re-run).
+
+That's it — every push to the main branch (or a merged PR) triggers a new
+deployment automatically. Content is read from the repo at request time, so a
+new MDX lesson ships with the next deploy; the search index (`/api/search`)
+is generated during the build, so it updates on every deploy too.
+
 ## Scripts
 
 | Script              | What it does                          |
