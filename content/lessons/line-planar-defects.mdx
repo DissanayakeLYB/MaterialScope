@@ -118,24 +118,53 @@ with d the average grain diameter: halve the grain size and the yield strength r
 <Quiz
   questions={[
     {
-      question: "An edge dislocation is best described as:",
+      type: "multiple-choice",
+      prompt: "An edge dislocation is best described as:",
       options: [
         "An extra half-plane of atoms",
         "A missing atom at a lattice site",
         "A line of vacancies",
         "A cluster of impurity atoms",
       ],
-      answer: 0,
+      correctAnswer: 0,
+      explanation:
+        "An edge dislocation is an extra half-plane of atoms inserted into the lattice, with a Burgers vector perpendicular to the dislocation line. It moves through the crystal breaking bonds a few atoms at a time — which is why real crystals shear at far less than the theoretical G/10.",
     },
     {
-      question: "Why do smaller grains make metals stronger?",
+      type: "numerical",
+      prompt:
+        "A single crystal is pulled with a tensile stress σ = 12 MPa. The tensile axis makes an angle φ = 45° with the slip-plane normal and λ = 60° with the slip direction. What is the resolved shear stress τ_R = σ cos φ cos λ? Give your answer in MPa.",
+      correctAnswer: 4.24,
+      tolerance: 2,
+      unit: "MPa",
+      explanation:
+        "τ_R = 12 × cos 45° × cos 60° = 12 × 0.707 × 0.5 = 4.24 MPa. Since this exceeds the critical resolved shear stress of 3.5 MPa, the crystal slips.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Why do smaller grains make metals stronger?",
       options: [
         "They contain fewer atoms per grain",
         "Grain boundaries block dislocation motion",
         "They have more slip systems",
         "They eliminate vacancies",
       ],
-      answer: 1,
+      correctAnswer: 1,
+      explanation:
+        "Slip in one grain cannot easily continue into the next because grain boundaries block dislocation motion — the Hall–Petch relation σ_y = σ_0 + k_y d^(−1/2) captures this: halve the grain size and the yield strength rises.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Which class of metals has the fewest slip systems and is therefore the least ductile?",
+      options: [
+        "FCC metals (Cu, Al, Au)",
+        "HCP metals (Mg, Zn, Ti)",
+        "BCC metals (α-Fe, W, Cr)",
+        "All classes have the same number of slip systems",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "HCP metals have only 3 basal slip systems, so they are the least ductile. FCC metals have 12 on {111} and are highly ductile; BCC metals have up to 48 across {110}, {112}, and {123}.",
     },
   ]}
 />

@@ -113,15 +113,56 @@ Magnesium has electronegativity χ = 1.2 and oxygen χ = 3.5. Compute the percen
 <Quiz
   questions={[
     {
-      question:
+      type: "multiple-choice",
+      prompt:
         "Which property follows directly from the 'sea' of delocalized electrons in a metal?",
-      options: ["Electrical conductivity", "Brittleness", "Transparency", "Very low melting point"],
-      answer: 0,
+      options: [
+        "Electrical conductivity",
+        "Brittleness",
+        "Transparency",
+        "Very low melting point",
+      ],
+      correctAnswer: 0,
+      explanation:
+        "The delocalized electron sea is free to move through the whole solid, so metals conduct electricity (and heat) well. The other options describe ionic and covalent behavior: brittleness, opacity (metals are opaque, not transparent), and high melting points.",
     },
     {
-      question: "In a purely covalent bond (Δχ = 0), the percent ionic character is:",
-      options: ["100%", "50%", "0%", "25%"],
-      answer: 2,
+      type: "numerical",
+      prompt:
+        "Magnesium has electronegativity χ = 1.2 and oxygen χ = 3.5. Using Pauling's formula %IC = (1 − exp(−(Δχ/2)²)) × 100, compute the percent ionic character of the Mg–O bond.",
+      correctAnswer: 73.4,
+      tolerance: 2,
+      unit: "%",
+      explanation:
+        "Δχ = 3.5 − 1.2 = 2.3, so %IC = (1 − exp(−(2.3/2)²)) × 100 = (1 − exp(−1.3225)) × 100 ≈ 73%. MgO is mostly ionic, which explains its very high melting point and ceramic hardness.",
+    },
+    {
+      type: "multiple-choice",
+      prompt:
+        "Diamond is a pure carbon covalent network. Which property is a direct consequence of its directional bonds?",
+      options: [
+        "It is ductile and easily shaped",
+        "It is stiff and strong but brittle",
+        "It conducts electricity well",
+        "It melts at a low temperature",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Covalent bonds are local and directional, which makes diamond extremely stiff and strong — but break one set of bonds and the structure cleaves along that plane. Covalent solids have no free electrons, so they are poor conductors and melt at high temperatures.",
+    },
+    {
+      type: "multiple-choice",
+      prompt:
+        "Graphite's layers slide past one another easily. The layers are held together by:",
+      options: [
+        "Metallic bonds",
+        "Strong covalent bonds between the layers",
+        "van der Waals bonds",
+        "Ionic bonds",
+      ],
+      correctAnswer: 2,
+      explanation:
+        "Within each sheet, carbon atoms form strong covalent bonds, but the sheets themselves are held together only by weak van der Waals forces — so the sheets slide easily past one another, making graphite soft and slippery.",
     },
   ]}
 />

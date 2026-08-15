@@ -175,14 +175,39 @@ Copper is FCC with an atomic radius R = 0.128 nm and atomic weight A = 63.55 g/m
 <Quiz
   questions={[
     {
-      question: "How many atoms does an FCC unit cell contain?",
+      type: "multiple-choice",
+      prompt: "How many atoms does an FCC unit cell contain?",
       options: ["2", "4", "6", "8"],
-      answer: 1,
+      correctAnswer: 1,
+      explanation:
+        "FCC has atoms at the 8 corners and at the center of each of the 6 faces: 8 × 1/8 + 6 × 1/2 = 4 atoms per unit cell.",
     },
     {
-      question: "Which pair of structures both achieve the maximum APF of 0.74?",
+      type: "multiple-choice",
+      prompt: "Which pair of structures both achieve the maximum APF of 0.74?",
       options: ["BCC and FCC", "FCC and HCP", "BCC and HCP", "BCC and SC"],
-      answer: 1,
+      correctAnswer: 1,
+      explanation:
+        "FCC and HCP are both close-packed with coordination number 12 and APF 0.74; they differ only in layer stacking (ABCABC vs ABAB). BCC packs less efficiently at 0.68.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "Copper is FCC with atomic radius R = 0.128 nm and atomic weight A = 63.55 g/mol. Compute its theoretical density using ρ = nA / (V_C × N_A), where n = 4 and N_A = 6.022 × 10²³ /mol. Give your answer in g/cm³.",
+      correctAnswer: 8.9,
+      tolerance: 2,
+      unit: "g/cm³",
+      explanation:
+        "a = 2√2R = 0.362 nm, so V_C = (0.362 nm)³ = 4.74 × 10⁻²³ cm³. Then ρ = (4 × 63.55) / (4.74 × 10⁻²³ × 6.022 × 10²³) ≈ 8.90 g/cm³ — matching the measured 8.94 g/cm³.",
+    },
+    {
+      type: "multiple-choice",
+      prompt:
+        "Above 912 °C, iron exists as γ-Fe (austenite). Which crystal structure does it have?",
+      options: ["BCC", "FCC", "HCP", "Simple cubic"],
+      correctAnswer: 1,
+      explanation:
+        "Iron is allotropic: α-Fe (BCC) below 912 °C, γ-Fe (FCC) from 912 to 1394 °C, then δ-Fe (BCC) up to melting. FCC austenite dissolves far more carbon than BCC ferrite, which underpins steel heat treatment.",
     },
   ]}
 />

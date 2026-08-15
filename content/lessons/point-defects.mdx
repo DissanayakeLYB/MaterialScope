@@ -140,12 +140,21 @@ The vacancy formation energy for copper is Q_v = 0.9 eV/atom. How many vacancies
 <Quiz
   questions={[
     {
-      question: "Which point defect is a missing atom at a regular lattice site?",
-      options: ["Self-interstitial", "Vacancy", "Substitutional impurity", "Grain boundary"],
-      answer: 1,
+      type: "multiple-choice",
+      prompt: "Which point defect is a missing atom at a regular lattice site?",
+      options: [
+        "Self-interstitial",
+        "Vacancy",
+        "Substitutional impurity",
+        "Grain boundary",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "A vacancy is simply an empty lattice site. Self-interstitials squeeze host atoms between sites, and grain boundaries are 2-D planar defects — not point defects at all.",
     },
     {
-      question:
+      type: "multiple-choice",
+      prompt:
         "Carbon dissolved in iron sits in the gaps between iron atoms. This makes it:",
       options: [
         "A substitutional impurity",
@@ -153,7 +162,33 @@ The vacancy formation energy for copper is Q_v = 0.9 eV/atom. How many vacancies
         "An interstitial impurity",
         "A Frenkel defect",
       ],
-      answer: 2,
+      correctAnswer: 2,
+      explanation:
+        "Carbon atoms (r = 0.077 nm) are small enough to occupy the octahedral interstices of the iron lattice, forming an interstitial solid solution — the basis of steel. A substitutional impurity would replace an iron atom on a regular site.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "For copper at 1000 °C: N = 8.47 × 10²² sites/cm³ and vacancy formation energy Q_v = 0.9 eV/atom. How many vacancies per cm³ exist? Use N_v = N exp(−Q_v / kT) with k = 8.62 × 10⁻⁵ eV/(atom·K). Give your answer in vacancies/cm³ (scientific notation, e.g. 2.3e19).",
+      correctAnswer: 2.3e19,
+      tolerance: 3,
+      unit: "vacancies/cm³",
+      explanation:
+        "T = 1273 K, so N_v = (8.47 × 10²²) exp(−0.9 / (8.62 × 10⁻⁵ × 1273)) = (8.47 × 10²²) exp(−8.20) ≈ 2.3 × 10¹⁹ vacancies/cm³ — about one site in 3,700, yet enough to drive measurable diffusion.",
+    },
+    {
+      type: "multiple-choice",
+      prompt:
+        "Which of the following is NOT one of the Hume–Rothery rules for forming a substitutional solid solution?",
+      options: [
+        "The atomic radii differ by less than about 15%",
+        "The atoms have similar electronegativities",
+        "The atoms share the same crystal structure",
+        "The atoms have nearly identical melting points",
+      ],
+      correctAnswer: 3,
+      explanation:
+        "The four Hume–Rothery rules cover radius (within ~15%), electronegativity, crystal structure, and valence. Melting point is not one of them — copper and nickel satisfy all four rules and form a solid solution at every composition.",
     },
   ]}
 />

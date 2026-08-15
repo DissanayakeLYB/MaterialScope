@@ -160,7 +160,7 @@ bodies:
 | Component       | Purpose                                        |
 | --------------- | ---------------------------------------------- |
 | `<Callout type="note\|warning\|example" title="…">` | Highlighted note box (`info`→`note`, `tip`→`example` aliases kept) |
-| `<Quiz questions={[{ question, options, answer }]} />` | Interactive multiple-choice quiz |
+| `<Quiz questions={[{ type, prompt, options?, correctAnswer, tolerance?, explanation }]} />` | Interactive quiz — multiple-choice and numerical (with ±% tolerance) questions, per-question feedback, and a summary with retry-incorrect |
 | `<CrystalViewer structure="fcc" />` | Interactive 3D unit-cell viewer (react-three-fiber; supports `sc`, `bcc`, `fcc`, `hcp`) |
 
 Standard markdown (headings, tables, code, links) also works out of the box.

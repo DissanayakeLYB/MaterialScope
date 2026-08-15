@@ -71,16 +71,41 @@ Aluminum (FCC) has a lattice parameter a = 0.4049 nm. How far apart are its `(11
 <Quiz
   questions={[
     {
-      question:
-        "A plane parallel to the z-axis that intercepts x at 1a and y at 1a has Miller indices:",
-      options: ["(110)", "(001)", "(1̄10)", "(111)"],
-      answer: 0,
+      type: "multiple-choice",
+      prompt:
+        "A plane intercepts the x-axis at 2a, the y-axis at 3a, and runs parallel to the z-axis. Its Miller indices are:",
+      options: ["(320)", "(231)", "(630)", "(123)"],
+      correctAnswer: 0,
+      explanation:
+        "Intercepts 2, 3, ∞ give reciprocals 1/2, 1/3, 0; multiplying through by 6 reduces them to the integers 3, 2, 0 — the plane (320).",
     },
     {
-      question:
-        "In a cubic crystal with a = 0.2 nm, the spacing between (100) planes is:",
-      options: ["0.2 nm", "0.283 nm", "0.1 nm", "0.4 nm"],
-      answer: 0,
+      type: "numerical",
+      prompt:
+        "Aluminum (FCC) has a lattice parameter a = 0.4049 nm. How far apart are its (111) planes? Use d = a / √(h² + k² + l²). Give your answer in nm.",
+      correctAnswer: 0.2338,
+      tolerance: 2,
+      unit: "nm",
+      explanation:
+        "d = a / √(1² + 1² + 1²) = 0.4049 / √3 ≈ 0.234 nm — roughly 0.8 times the diameter of an aluminum atom.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "In an FCC metal, slip occurs on the close-packed planes, which are the:",
+      options: ["{100} planes", "{110} planes", "{111} planes", "{123} planes"],
+      correctAnswer: 2,
+      explanation:
+        "The {111} planes are the most densely packed in FCC, so atoms slide on them most easily — FCC slip systems are {111}⟨110⟩. In BCC, slip prefers the {110} planes instead.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "In a cubic crystal with a = 0.2 nm, what is the spacing between (110) planes? Give your answer in nm.",
+      correctAnswer: 0.1414,
+      tolerance: 2,
+      unit: "nm",
+      explanation:
+        "d = a / √(1² + 1² + 0²) = 0.2 / √2 ≈ 0.1414 nm. Note this is smaller than the (100) spacing (0.2 nm): higher indices mean more closely spaced planes.",
     },
   ]}
 />
