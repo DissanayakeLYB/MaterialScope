@@ -7,23 +7,20 @@ import rehypeSlug from "rehype-slug";
 import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 
 import { CourseSidebar } from "@/components/lesson/course-sidebar";
+import { LessonProgressProvider } from "@/components/lesson/lesson-progress-provider";
+import { MarkComplete } from "@/components/lesson/mark-complete";
 import { mdxComponents } from "@/components/lesson/mdx-components";
 import { TableOfContents } from "@/components/lesson/toc";
-import {
-  getAllLessons,
-  getCourse,
-  getLesson,
-  getLessonsForCourse,
-} from "@/lib/content";
+import { getCourse, getLesson, getLessonsForCourse } from "@/lib/content";
+import { getUserProgress } from "@/lib/progress/queries";
 import { extractHeadings } from "@/lib/toc";
 
 interface LessonPageProps {
   params: { slug: string };
 }
 
-export function generateStaticParams() {
-  return getAllLessons().map((lesson) => ({ slug: lesson.slug }));
-}
+// Reads the auth session + progress, so it must render per request.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -41,6 +38,9 @@ export default async function LessonPage({ params }: LessonPageProps) {
   if (!lesson) notFound();
 
   const course = getCourse(lesson.course);
+  const { signedIn, progress } = await getUserProgress();
+  const currentProgress = progress[lesson.slug];
+  const sidebarProgress = signedIn ? progress : null;
   const { content } = await compileMDX({
     source: lesson.body,
     // Content is author-written, so we enable JSX attribute expressions
@@ -79,6 +79,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
               course={course}
               lessons={courseLessons}
               currentSlug={lesson.slug}
+              progress={sidebarProgress}
             />
           )}
         </div>
@@ -93,6 +94,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
                 course={course}
                 lessons={courseLessons}
                 currentSlug={lesson.slug}
+                progress={sidebarProgress}
               />
             )}
           </div>
@@ -136,9 +138,19 @@ export default async function LessonPage({ params }: LessonPageProps) {
             </h1>
 
             <div className="prose prose-neutral dark:prose-invert mt-8 max-w-none">
-              {content}
+              {/* Provides the lesson slug to embedded <Quiz> components so
+                  quiz completion auto-records lesson progress. */}
+              <LessonProgressProvider slug={lesson.slug}>
+                {content}
+              </LessonProgressProvider>
             </div>
           </article>
+
+          <MarkComplete
+            lessonSlug={lesson.slug}
+            initialCompleted={Boolean(currentProgress)}
+            initialQuizScore={currentProgress?.quizScore ?? null}
+          />
 
           {/* Prev / next lesson navigation. */}
           <nav

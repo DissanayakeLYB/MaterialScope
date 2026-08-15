@@ -4,20 +4,21 @@ import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
 import rehypeSlug from "rehype-slug";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { mdxComponents } from "@/components/lesson/mdx-components";
 import { Progress } from "@/components/ui/progress";
-import { getAllCourses, getCourse, getLessonsForCourse } from "@/lib/content";
+import { getCourse, getLessonsForCourse } from "@/lib/content";
+import { getUserProgress } from "@/lib/progress/queries";
+import { cn } from "@/lib/utils";
 
 interface CoursePageProps {
   params: { slug: string };
 }
 
-export function generateStaticParams() {
-  return getAllCourses().map((course) => ({ slug: course.slug }));
-}
+// Reads the auth session + progress, so it must render per request.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -35,6 +36,14 @@ export default async function CoursePage({ params }: CoursePageProps) {
   if (!course) notFound();
 
   const lessons = getLessonsForCourse(course.slug);
+  const { signedIn, progress } = await getUserProgress();
+  const completedCount = lessons.filter(
+    (lesson) => progress[lesson.slug]
+  ).length;
+  const percent =
+    lessons.length > 0
+      ? Math.round((completedCount / lessons.length) * 100)
+      : 0;
   const { content: intro } = await compileMDX({
     source: course.body,
     // Content is author-written, so we enable JSX attribute expressions.
@@ -54,13 +63,34 @@ export default async function CoursePage({ params }: CoursePageProps) {
       <h1 className="mt-3 text-3xl font-bold tracking-tight">{course.title}</h1>
       <p className="mt-2 text-lg text-muted-foreground">{course.description}</p>
 
-      {/* Visual-only progress; no tracking backend yet. */}
+      {/* Progress: real percentages for signed-in users, sign-in prompt otherwise. */}
       <div className="mt-6 max-w-md rounded-lg border bg-card p-4">
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm font-medium">Course progress</p>
-          <span className="text-2xs text-muted-foreground">Coming soon</span>
+          {signedIn ? (
+            <span className="text-2xs tabular-nums text-muted-foreground">
+              {completedCount} of {lessons.length} lessons
+            </span>
+          ) : (
+            <span className="text-2xs text-muted-foreground">
+              Sign in to track
+            </span>
+          )}
         </div>
-        <Progress value={0} size="sm" className="mt-2" />
+        <Progress
+          value={signedIn ? percent : 0}
+          size="sm"
+          showLabel={signedIn}
+          className="mt-2"
+        />
+        {!signedIn && (
+          <Link
+            href="/auth"
+            className="mt-2 block text-xs font-medium text-primary hover:underline"
+          >
+            Sign in to track your progress →
+          </Link>
+        )}
       </div>
 
       {course.body && (
@@ -74,30 +104,48 @@ export default async function CoursePage({ params }: CoursePageProps) {
           Lessons ({lessons.length})
         </h2>
         <ol className="mt-4 space-y-3">
-          {lessons.map((lesson, index) => (
-            <li key={lesson.slug}>
-              <Link
-                href={`/lessons/${lesson.slug}`}
-                className="group flex items-center gap-4 rounded-lg border p-4 transition-colors hover:border-primary/40 hover:bg-accent/40"
-              >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-medium text-primary-foreground">
-                  {index + 1}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="font-medium transition-colors group-hover:text-primary">
-                    {lesson.title}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Lesson {lesson.order}
-                  </p>
-                </div>
-                <ArrowRight
-                  className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary"
-                  aria-hidden="true"
-                />
-              </Link>
-            </li>
-          ))}
+          {lessons.map((lesson, index) => {
+            const complete = Boolean(signedIn && progress[lesson.slug]);
+            return (
+              <li key={lesson.slug}>
+                <Link
+                  href={`/lessons/${lesson.slug}`}
+                  className="group flex items-center gap-4 rounded-lg border p-4 transition-colors hover:border-primary/40 hover:bg-accent/40"
+                >
+                  <span
+                    className={cn(
+                      "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-medium",
+                      complete
+                        ? "bg-success/15 text-success dark:bg-success/20"
+                        : "bg-primary text-primary-foreground"
+                    )}
+                    aria-label={
+                      complete ? `Lesson ${index + 1}, completed` : undefined
+                    }
+                  >
+                    {complete ? (
+                      <Check className="h-4 w-4" aria-hidden="true" />
+                    ) : (
+                      index + 1
+                    )}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium transition-colors group-hover:text-primary">
+                      {lesson.title}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Lesson {lesson.order}
+                      {complete && " · Completed"}
+                    </p>
+                  </div>
+                  <ArrowRight
+                    className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </li>
+            );
+          })}
         </ol>
       </section>
     </main>

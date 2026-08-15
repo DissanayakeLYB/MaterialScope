@@ -13,6 +13,8 @@ visualization tools in the playground.
 - **shadcn/ui** — accessible UI primitives in `/components/ui`
 - **ESLint + Prettier** — `eslint-config-next` with `eslint-config-prettier`
 - **next-mdx-remote** — MDX rendering with custom components
+- **Supabase** — auth (email/password + Google OAuth) and progress tracking via
+  `@supabase/ssr` + `@supabase/supabase-js`
 
 ### Why next-mdx-remote instead of Contentlayer?
 
@@ -42,6 +44,39 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Supabase setup (auth + progress)
+
+The app needs a Supabase project for sign-in and lesson progress tracking.
+Everything degrades gracefully without it (signed-out UI, no crash), but to
+use the full flow:
+
+1. **Create a project** — go to [supabase.com](https://supabase.com) →
+   **New project** (free tier is fine).
+2. **Run the schema** — open **SQL Editor → New query**, paste the contents of
+   [`supabase/schema.sql`](supabase/schema.sql) (tables, RLS policies,
+   triggers), and click **Run**. Safe to re-run.
+3. **Copy env vars** — in the Supabase dashboard go to **Project Settings →
+   API**. Copy `.env.example` to `.env.local` and fill in:
+
+   ```bash
+   NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon public key>
+   ```
+
+   Use the **anon public** key, never the `service_role` key — the app relies
+   on Row Level Security, which the service key would bypass.
+4. **(Optional) Enable Google sign-in** — **Authentication → Providers →
+   Google**, turn it on, and add `http://localhost:3000/auth/callback` to the
+   **Redirect URLs** (plus your production URL). You'll need a Google OAuth
+   client ID/secret from [Google Cloud Console](https://console.cloud.google.com).
+5. **(Optional) Disable email confirmation** — by default new sign-ups must
+   click an emailed confirmation link. For instant local testing, go to
+   **Authentication → Providers → Email** and turn off **Confirm email**.
+
+Restart the dev server after adding env vars. Sign up / sign in at
+`/auth`, see your stats at `/profile`, and complete lessons (or their quizzes)
+to write `lesson_progress` rows.
+
 ## Scripts
 
 | Script              | What it does                          |
@@ -63,10 +98,14 @@ Open [http://localhost:3000](http://localhost:3000).
 │   │   ├── page.tsx          # Home page — lists available courses
 │   │   └── about/page.tsx
 │   ├── courses/
-│   │   ├── page.tsx          # Course listing
-│   │   └── [slug]/page.tsx   # Individual course page
+│   │   ├── page.tsx          # Course listing (progress % when signed in)
+│   │   └── [slug]/page.tsx   # Individual course page (checkmarks, %)
 │   ├── lessons/
-│   │   └── [slug]/page.tsx   # Individual lesson page (MDX body + quiz etc.)
+│   │   └── [slug]/page.tsx   # Individual lesson page (MDX + Mark complete)
+│   ├── auth/
+│   │   ├── page.tsx          # Sign in / sign up (email/password + Google)
+│   │   └── callback/route.ts # OAuth callback → exchanges code for session
+│   ├── profile/page.tsx      # Overall stats: courses started, lessons done, avg quiz
 │   ├── playground/           # Standalone interactive tools (crystal viewer, …)
 │   ├── api/
 │   │   ├── courses/route.ts  # GET /api/courses → JSON
@@ -76,8 +115,9 @@ Open [http://localhost:3000](http://localhost:3000).
 ├── components/
 │   ├── ui/                   # shadcn/ui primitives + design system
 │   │   └── (navbar, footer, card, badge, progress, callout, …)
+│   ├── auth/                 # Auth form (sign in / sign up / Google)
 │   ├── visualizations/       # 3D + chart components (crystal-viewer, …)
-│   └── lesson/               # Lesson building blocks (toc, quiz, mdx-components)
+│   └── lesson/               # Lesson building blocks (quiz, progress, toc)
 │       └── mdx-components.tsx# Component map made available inside MDX
 ├── content/
 │   ├── courses/              # One .mdx file per course
@@ -85,7 +125,12 @@ Open [http://localhost:3000](http://localhost:3000).
 ├── lib/
 │   ├── types.ts              # Course / Lesson / Difficulty types
 │   ├── content.ts            # Typed content loader (parses /content)
+│   ├── auth/                 # getCurrentUser + auth server actions
+│   ├── progress/             # progress queries + record actions
+│   ├── supabase/             # SSR client setup (server, client, middleware)
 │   └── utils.ts              # cn() helper (shadcn)
+├── supabase/schema.sql       # SQL to run in the Supabase SQL editor
+├── middleware.ts             # Session refresh (Supabase SSR)
 ├── tailwind.config.ts        # Theme: shadcn tokens + custom `brand` colors
 └── next.config.mjs
 ```
@@ -160,7 +205,7 @@ bodies:
 | Component       | Purpose                                        |
 | --------------- | ---------------------------------------------- |
 | `<Callout type="note\|warning\|example" title="…">` | Highlighted note box (`info`→`note`, `tip`→`example` aliases kept) |
-| `<Quiz questions={[{ type, prompt, options?, correctAnswer, tolerance?, explanation }]} />` | Interactive quiz — multiple-choice and numerical (with ±% tolerance) questions, per-question feedback, and a summary with retry-incorrect |
+| `<Quiz questions={[{ type, prompt, options?, correctAnswer, tolerance?, explanation }]} />` | Interactive quiz — multiple-choice and numerical (with ±% tolerance) questions, per-question feedback, and a summary with retry-incorrect. When a signed-in user completes a quiz inside a lesson, it auto-writes a `lesson_progress` row (completion + quiz score) |
 | `<CrystalViewer structure="fcc" />` | Interactive 3D unit-cell viewer (react-three-fiber; supports `sc`, `bcc`, `fcc`, `hcp`) |
 
 Standard markdown (headings, tables, code, links) also works out of the box.

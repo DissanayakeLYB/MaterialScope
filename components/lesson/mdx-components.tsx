@@ -1,4 +1,4 @@
-import { Quiz } from "@/components/lesson/quiz";
+import { QuizWithProgress } from "@/components/lesson/quiz-with-progress";
 import { Callout } from "@/components/ui/callout";
 import { CrystalViewer } from "@/components/visualizations/crystal-viewer";
 import { PhaseDiagram } from "@/components/visualizations/phase-diagram";
@@ -11,7 +11,8 @@ import { StressStrainCurve } from "@/components/visualizations/stress-strain-cur
  */
 export const mdxComponents = {
   Callout,
-  Quiz,
+  // Auto-records lesson progress when a quiz is completed inside a lesson.
+  Quiz: QuizWithProgress,
   CrystalViewer,
   PhaseDiagram,
   StressStrainCurve,

@@ -91,10 +91,26 @@ export interface QuizAttempt {
   submittedAt: string;
 }
 
-/** Persist-ready result — hand this to a backend via onComplete. */
+/**
+ * Persist-ready result — hand this to a backend via onComplete.
+ *
+ * `total`/`score` describe the current session (a retry session only contains
+ * the previously-wrong questions), while the `overall*` fields describe the
+ * whole quiz across sessions: once a retried question is answered correctly,
+ * it counts toward the overall score. `overallScore` (0-100) is the number to
+ * store as a lesson's quiz score.
+ */
 export interface QuizResult {
+  /** Questions in the current session. */
   total: number;
+  /** Correct in the current session. */
   score: number;
+  /** Questions in the full quiz. */
+  overallTotal: number;
+  /** Questions currently answered correctly across all sessions. */
+  overallCorrect: number;
+  /** Percent of the full quiz currently correct (0-100). */
+  overallScore: number;
   attempts: QuizAttempt[];
   startedAt: string;
   completedAt: string;
@@ -115,7 +131,7 @@ function isAnswerCorrect(question: QuizQuestion, rawAnswer: string): boolean {
   );
 }
 
-interface QuizProps {
+export interface QuizProps {
   questions: RawQuestion[];
   /** Called when a session completes (initial run or retry). */
   onComplete?: (result: QuizResult) => void;
@@ -190,9 +206,19 @@ export function Quiz({ questions, onComplete }: QuizProps) {
   }
 
   function finishSession() {
+    // Across sessions, `answers` holds the latest state of every question that
+    // has been answered correctly at least once (retry re-answers wrong ones),
+    // so counting correct answers here gives the full-quiz score.
+    const overallCorrect = normalized.filter(
+      (q, index) =>
+        answers[index] !== undefined && isAnswerCorrect(q, answers[index])
+    ).length;
     onComplete?.({
       total: session.length,
       score: sessionScore,
+      overallTotal: normalized.length,
+      overallCorrect,
+      overallScore: Math.round((overallCorrect / normalized.length) * 100),
       attempts,
       startedAt: sessionStartedAt,
       completedAt: new Date().toISOString(),

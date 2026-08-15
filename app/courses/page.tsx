@@ -3,14 +3,20 @@ import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getAllCourses } from "@/lib/content";
+import { Progress } from "@/components/ui/progress";
+import { getAllCourses, getLessonsForCourse } from "@/lib/content";
+import { getUserProgress } from "@/lib/progress/queries";
 
 export const metadata: Metadata = {
   title: "Courses",
 };
 
-export default function CoursesPage() {
+// Reads the auth session + progress, so it must render per request.
+export const dynamic = "force-dynamic";
+
+export default async function CoursesPage() {
   const courses = getAllCourses();
+  const { signedIn, progress } = await getUserProgress();
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-12">
@@ -29,23 +35,50 @@ export default function CoursesPage() {
         </p>
       ) : (
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
-          {courses.map((course) => (
-            <Link key={course.slug} href={`/courses/${course.slug}`}>
-              <Card className="h-full transition-colors hover:border-primary/50">
-                <CardHeader>
-                  <div className="flex items-center justify-between gap-2">
-                    <CardTitle>{course.title}</CardTitle>
-                    <Badge variant="secondary" className="capitalize">
-                      {course.difficulty}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">
-                  {course.description}
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+          {courses.map((course) => {
+            const lessons = getLessonsForCourse(course.slug);
+            const completedCount = lessons.filter(
+              (lesson) => progress[lesson.slug]
+            ).length;
+            const percent =
+              lessons.length > 0
+                ? Math.round((completedCount / lessons.length) * 100)
+                : 0;
+            return (
+              <Link key={course.slug} href={`/courses/${course.slug}`}>
+                <Card className="h-full transition-colors hover:border-primary/50">
+                  <CardHeader>
+                    <div className="flex items-center justify-between gap-2">
+                      <CardTitle>{course.title}</CardTitle>
+                      <Badge variant="secondary" className="capitalize">
+                        {course.difficulty}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground">
+                    {course.description}
+                    {signedIn && (
+                      <div className="mt-4">
+                        <div className="flex items-center justify-between gap-2 text-xs">
+                          <span className="font-medium text-foreground">
+                            Progress
+                          </span>
+                          <span className="tabular-nums">
+                            {completedCount}/{lessons.length} · {percent}%
+                          </span>
+                        </div>
+                        <Progress
+                          value={percent}
+                          size="sm"
+                          className="mt-1.5"
+                        />
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
         </div>
       )}
     </main>
