@@ -1,0 +1,162 @@
+---
+slug: plastic-deformation
+title: Plastic Deformation and Yield
+course: mechanical-properties
+order: 3
+---
+
+Beyond the elastic limit, deformation becomes **plastic**: atoms do not just stretch and spring back — they permanently slide past one another. This is the deformation that lets you bend a paperclip, stamp a car body, and draw copper into wire. It is also the deformation you must *prevent* in a load-bearing structure, because it changes shape permanently. The boundary between the two regimes is the **yield point**.
+
+## Why crystals yield: a recap
+
+The stress–strain curve in the stress-and-strain lesson showed a metal yielding around 276 MPa. A perfect crystal ought to be vastly stronger — theory predicts shear strengths around G/10, tens of GPa for a typical metal. The resolution, as you saw in "Line and Planar Defects", is that real crystals are never perfect: they contain **dislocations**, line defects that glide through the lattice and break bonds only a few atoms at a time. Plastic deformation in metals *is* dislocation motion. Remove the dislocations and you get whiskers that approach the theoretical strength; add obstacles and the metal gets stronger — which is the whole game of metallurgy.
+
+## The yield point
+
+The **yield strength** σ_y is the stress at which plastic deformation begins. In practice:
+
+- Steels often show a sharp **upper and lower yield point** — the load actually drops when the first dislocations break free (Lüders bands propagate across the specimen).
+- Aluminum and most nonferrous metals yield gradually, so there is no sharp kink. Engineers then use the **0.2% offset method**: draw a line parallel to the elastic slope, offset by 0.2% strain, and read where it crosses the curve. That crossing is σ_y.
+
+```
+σ_y = the stress at which 0.2% permanent strain remains after unloading
+```
+
+<Callout type="note" title="Why 0.2%?">
+  It is a convention — a permanent strain small enough to be harmless in
+  service but large enough to measure reliably. The American Society for
+  Testing and Materials standardized it so that "yield strength" means the
+  same thing in every lab and every spec sheet.
+</Callout>
+
+## Strain hardening
+
+After yielding, the metal does not simply flow at constant stress. As dislocations move, they multiply and tangle — new dislocations are created at Frank–Read sources, and they pile up at obstacles. The result is that *more* stress is needed to keep deformation going: the curve rises. This is **strain hardening** (work hardening). It is why:
+
+- cold-rolled aluminum is harder and stronger than annealed aluminum,
+- a paperclip is hard to bend back once it has been bent once (the bend has hardened it),
+- wire-drawing and rolling make metals stronger — at the cost of ductility.
+
+Work hardening is a *dislocation* effect, so it changes strength but not Young's modulus: E is a bonding property and stays put.
+
+## Necking and the UTS
+
+At the **ultimate tensile strength**, the specimen starts to **neck** — the cross-section shrinks locally. From that point the engineering stress (computed with the original A₀) *falls*, even though the material is still hardening: the true stress, using the actual shrinking area, keeps rising until fracture. Necking is why the curve has a maximum and why a tensile specimen always breaks at the neck, not somewhere uniform.
+
+```
+engineering stress σ = F / A₀     (A₀ fixed)
+true stress       σ_t = F / A_i   (A_i = current area, smaller after necking)
+```
+
+## Ductility: how much can it stretch?
+
+**Ductility** is the ability to deform plastically before fracture, and it is measured two standard ways from the broken specimen:
+
+- **Percent elongation**: (l_f − l₀)/l₀ × 100, using the gauge length marked before the test.
+- **Percent reduction of area**: (A₀ − A_f)/A₀ × 100, at the fracture neck.
+
+Ductility matters twice: it is a *forming* property (can you stamp it, bend it, draw it?) and a *safety* property (a ductile part warns by deforming before it breaks; a brittle one gives no warning at all).
+
+| Quantity            | Symbol | Meaning                                   | Typical value          |
+| ------------------- | ------ | ----------------------------------------- | ---------------------- |
+| Yield strength      | σ_y    | Onset of permanent deformation            | 250 MPa (mild steel)   |
+| Ultimate tensile    | σ_UTS  | Maximum engineering stress                | 400 MPa (mild steel)   |
+| Ductility (%EL)     | —      | Elongation before fracture                | 25–40% (mild steel)    |
+| Young's modulus     | E      | Stiffness in the elastic region           | 207 GPa (steel)        |
+
+## Worked example: percent elongation
+
+A tensile specimen has a 50 mm gauge mark. After fracture the two halves fit back together and the gauge length measures 63 mm. Compute the percent elongation.
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  %EL = (l_f − l₀) / l₀ × 100
+      = (63 − 50) / 50 × 100
+      = 26%
+  ```
+
+  A **26% elongation** marks this as a ductile steel (mild steels typically
+  give 20–40%). A cast iron or a ceramic would fracture at well under 1%.
+
+  **Practice:** the same specimen necked from 10 mm to 6.5 mm diameter.
+  Compute the percent reduction of area.
+</details>
+
+<details>
+  <summary>Answer</summary>
+
+  ```
+  A₀ = π(10)²/4 = 78.54 mm²     A_f = π(6.5)²/4 = 33.18 mm²
+  %RA = (78.54 − 33.18)/78.54 × 100 ≈ 57.7%
+  ```
+
+  Reduction of area is usually larger than elongation because it measures the
+  local neck, not the whole gauge length.
+</details>
+
+## The three ways to make a metal stronger
+
+Because yield strength is set by how hard it is for dislocations to move, every strengthening mechanism is a way of *obstructing dislocations*:
+
+- **Grain-size strengthening** — smaller grains mean more grain boundaries, which block slip (the Hall–Petch relation from the defects lesson: σ_y = σ₀ + k_y d^(−1/2)).
+- **Solid-solution strengthening** — solute atoms (like zinc in brass) strain the lattice and pin dislocations.
+- **Precipitation hardening** — fine particles (like the η' precipitates in Al 6061-T6) force dislocations to bow around or cut through them.
+- **Work hardening** — the dislocations already present tangle with each other.
+
+Each raises strength and typically lowers ductility — the classic strength–ductility trade-off that all materials selection navigates.
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "The 0.2% offset method for finding yield strength is used when:",
+      options: [
+        "The material is brittle and shows no plastic deformation",
+        "The material yields gradually with no sharp yield point, such as aluminum",
+        "The specimen has no gauge marks",
+        "The material is tested in compression instead of tension",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Steels often show a sharp upper/lower yield point, but aluminum and other nonferrous metals yield gradually. The 0.2% offset line, drawn parallel to the elastic slope, gives a reproducible yield strength.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Why does the engineering stress fall after the UTS while the material is still hardening?",
+      options: [
+        "The material has completely lost its strength at the UTS",
+        "The specimen necks, so the stress computed with the ORIGINAL area understates the true load-bearing capacity",
+        "The testing machine automatically reduces the load",
+        "Work hardening reverses above the UTS",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "After necking, the true stress (F/current area) keeps rising, but the engineering stress (F/original area) falls because the load-bearing area has shrunk. The specimen always breaks at the neck.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "A tensile specimen with a 50 mm gauge mark measures 63 mm after fracture. Compute the percent elongation, %EL = (l_f − l₀)/l₀ × 100.",
+      correctAnswer: 26,
+      tolerance: 2,
+      unit: "%",
+      explanation:
+        "%EL = (63 − 50)/50 × 100 = 26%. Values of 20–40% are typical of ductile mild steels; brittle materials fracture at under 1% elongation.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Which statement about work hardening is correct?",
+      options: [
+        "It increases both strength and Young's modulus",
+        "It increases strength by tangling dislocations, but leaves Young's modulus unchanged",
+        "It is a bonding effect and therefore changes E as well",
+        "It only occurs in ceramics, never in metals",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Work hardening multiplies and tangles dislocations, making further slip harder — so strength rises. E is a bonding property and does not change. That is why cold-worked and annealed steel have the same stiffness but different strengths.",
+    },
+  ]}
+/>

@@ -1,0 +1,219 @@
+---
+slug: steels-and-iron-carbon
+title: Steels and the Iron–Carbon Diagram
+course: phase-diagrams
+order: 4
+---
+
+More than 90% of all metal produced is steel, and every steel — from a paperclip to a bridge — is an iron–carbon alloy with a fraction of a percent to a few percent carbon. The map of that system, the **iron–carbon (Fe–Fe₃C) phase diagram**, is the most used phase diagram in engineering. This lesson puts together everything from the previous three: a partial solubility system (like Pb–Sn), an invariant reaction (like the eutectic), and the phases that give steels their names.
+
+## The phases of iron–carbon
+
+- **α ferrite** — BCC iron. It dissolves almost no carbon (max ~0.022 wt% at 727 °C) because the interstitial sites are too small. Soft and ductile.
+- **γ austenite** — FCC iron. The larger interstitial sites dissolve up to 2.14 wt% carbon at 1147 °C. Strong and ductile; the phase you can heat-treat.
+- **Fe₃C cementite** — iron carbide, a compound with exactly 6.7 wt% carbon. Hard, brittle, and nearly pure in properties — the stiffening phase in steel.
+- **Pearlite** — not a phase but a microstructure: alternating lamellae of ferrite and cementite formed together by the eutectoid reaction, like the lamellar α + β of the Pb–Sn eutectic.
+
+<Callout type="note" title="Carbon is interstitial">
+  Carbon does not substitute for iron — it is small enough (0.077 nm radius)
+  to squeeze into the interstices of the iron lattice, as you saw in the
+  point-defects lesson. That is why the phase diagram has carbon out to
+  6.7 wt% (Fe₃C) rather than a wide solid-solution field.
+</Callout>
+
+## The iron–carbon diagram (steel portion)
+
+The full diagram runs from pure iron to Fe₃C at 6.7 wt% C. The steel region — 0 to 2.11 wt% C — is shown below; the diagram continues past 2.11 wt% C into the cast irons, with the Fe–Fe₃C **eutectic** at 4.3 wt% C and 1147 °C.
+
+<PhaseDiagram
+  data={{
+    system: "Fe–Fe₃C (simplified, steel region)",
+    xName: "Composition",
+    xUnit: "wt% C",
+    yName: "Temperature",
+    yUnit: "°C",
+    xDomain: [0, 2.5],
+    yDomain: [400, 1600],
+    xTicks: [0, 0.4, 0.76, 1.2, 1.6, 2.0, 2.5],
+    yTicks: [400, 600, 727, 800, 912, 1000, 1147, 1400, 1538],
+    boundaries: [
+      {
+        label: "Liquidus",
+        points: [
+          { composition: 0, temperature: 1538 },
+          { composition: 0.5, temperature: 1495 },
+          { composition: 1.5, temperature: 1370 },
+          { composition: 2.11, temperature: 1147 },
+          { composition: 2.5, temperature: 1147 },
+        ],
+      },
+      {
+        label: "Solidus (γ)",
+        points: [
+          { composition: 0, temperature: 1538 },
+          { composition: 0.5, temperature: 1475 },
+          { composition: 1.5, temperature: 1315 },
+          { composition: 2.11, temperature: 1147 },
+        ],
+      },
+      {
+        label: "Eutectic (L → γ + Fe₃C)",
+        points: [
+          { composition: 2.11, temperature: 1147 },
+          { composition: 2.5, temperature: 1147 },
+        ],
+        dashed: true,
+      },
+      {
+        label: "A3 (γ ↔ α + γ)",
+        points: [
+          { composition: 0, temperature: 912 },
+          { composition: 0.76, temperature: 727 },
+        ],
+      },
+      {
+        label: "Acm (γ ↔ γ + Fe₃C)",
+        points: [
+          { composition: 0.76, temperature: 727 },
+          { composition: 2.11, temperature: 1147 },
+        ],
+      },
+      {
+        label: "Eutectoid (γ → α + Fe₃C)",
+        points: [
+          { composition: 0.022, temperature: 727 },
+          { composition: 2.5, temperature: 727 },
+        ],
+        dashed: true,
+      },
+      {
+        label: "α / (α + Fe₃C) boundary",
+        points: [
+          { composition: 0.022, temperature: 727 },
+          { composition: 0.1, temperature: 400 },
+        ],
+        dashed: true,
+      },
+    ],
+    regions: [
+      { label: "L", x: 1.5, y: 1490 },
+      { label: "L + γ", x: 1.5, y: 1335 },
+      { label: "γ (austenite)", x: 1.9, y: 1050 },
+      { label: "α + γ", x: 0.22, y: 800 },
+      { label: "γ + Fe₃C", x: 2.2, y: 800 },
+      { label: "α + Fe₃C (pearlite)", x: 1.2, y: 550 },
+      { label: "α (ferrite)", x: 0.05, y: 560 },
+    ],
+  }}
+  caption="Simplified steel portion of the Fe–Fe₃C diagram (0–2.5 wt% C; the full diagram runs to 6.7 wt% C at Fe₃C, with the eutectic at 4.3 wt% C). The δ/peritectic region near 0.5 wt% C is omitted, and the ferrite (α) field is drawn wider than true scale for legibility — it never exceeds ~0.022 wt% C. The flat line at 727 °C is the eutectoid, γ(0.76) → α + Fe₃C."
+/>
+
+## The eutectoid reaction
+
+The most important feature for steel is the **eutectoid** — the solid-state cousin of the eutectic. On cooling through 727 °C, solid austenite decomposes into two solids:
+
+```
+γ(0.76 wt% C) → α(0.022 wt% C) + Fe₃C(6.7 wt% C)     at 727 °C
+```
+
+Like the eutectic, three phases at fixed pressure means F = 0: it happens at a single temperature. The product is **pearlite** — fine alternating lamellae of ferrite and cementite — which is why the region below 727 °C is labeled "α + Fe₃C (pearlite)".
+
+Steels are named by their carbon content relative to the eutectoid:
+
+- **Hypoeutectoid steel** (< 0.76 wt% C): proeutectoid ferrite forms first, then pearlite. A 0.2% C steel is mostly soft ferrite with some pearlite — ductile, easy to form (structural steel).
+- **Eutectoid steel** (0.76 wt% C): 100% pearlite.
+- **Hypereutectoid steel** (> 0.76 wt% C): proeutectoid cementite plus pearlite — harder and more brittle (tool steels, rails).
+
+## Carbon content sets the properties
+
+Every property change in steel traces back to how much hard cementite is present. More carbon means more Fe₃C, so:
+
+| Steel (wt% C)  | Microstructure              | Yield strength (approx.) | Use                        |
+| -------------- | --------------------------- | ------------------------ | -------------------------- |
+| 0.05–0.15      | Mostly ferrite + pearlite   | 200–300 MPa              | Sheet, wire, structures    |
+| 0.2–0.4        | Ferrite + pearlite          | 250–400 MPa              | Shafts, gears, beams       |
+| 0.76 (eutectoid) | 100% pearlite             | ~500–700 MPa             | Rails, springs             |
+| 0.8–1.2        | Pearlite + cementite        | 600–900 MPa              | Tools, cutters             |
+
+The trade-off is the theme of this whole course: carbon raises strength and hardness but lowers ductility and toughness — and, as the fracture lesson warned, raises the ductile-to-brittle transition temperature.
+
+## Worked example: is it ferrite, austenite, or pearlite?
+
+A 0.4 wt% C steel is held at 900 °C, then cooled slowly to 600 °C. Identify the phases at each temperature.
+
+<details>
+  <summary>Solution</summary>
+
+  - **At 900 °C**: the A3 line at 900 °C sits at ~0.72 wt% C, and 0.4 < 0.72,
+    so the steel is in the **α + γ** two-phase region (or fully austenitic
+    just above; either way, no liquid — 900 °C is far below the solidus).
+    Actually, 0.4 wt% C at 900 °C: the alloy is **austenite** (the α + γ
+    field for 0.4 wt% C spans roughly 740–800 °C; by 900 °C it is all γ).
+  - **Cooling through 727 °C**: austenite reaches the eutectoid line and the
+    remaining γ transforms to pearlite. Because 0.4 < 0.76 (hypoeutectoid),
+    proeutectoid ferrite formed first during cooling, and the final room-
+    temperature structure is **proeutectoid ferrite + pearlite**.
+  - **At 600 °C**: the steel is **α + Fe₃C** — ferrite grains with pearlite
+    colonies — the classic structure of a medium-carbon steel.
+</details>
+
+## From diagram to heat treatment
+
+The phase diagram explains the simplest heat treatment: **annealing** (slow cool → coarse, soft pearlite + ferrite), **normalizing** (air cool → finer pearlite), and the hint of what comes next — **quenching** (fast cool). Quench a 0.8 wt% C steel and the austenite cannot transform by diffusion; it becomes **martensite**, a hard, supersaturated BCC-tetragonal phase the equilibrium diagram never shows. The diagram tells you the destination; kinetics tells you whether you get there. That is the difference between equilibrium (this course) and processing (a future one).
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "The eutectoid reaction in steels is:",
+      options: [
+        "Liquid → α + β, a solidification reaction",
+        "γ (austenite) → α (ferrite) + Fe₃C (cementite), all solid",
+        "α → γ, a simple allotropic change",
+        "Fe₃C → Fe + C, decomposition of cementite",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "At 727 °C, austenite of 0.76 wt% C decomposes into ferrite (0.022 wt% C) and cementite (6.7 wt% C): γ → α + Fe₃C. Three solid phases at fixed pressure means an invariant, single-temperature reaction — the product is pearlite.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "A 0.2 wt% C steel cooled slowly to room temperature consists mainly of:",
+      options: [
+        "100% pearlite",
+        "Proeutectoid ferrite plus pearlite",
+        "Austenite retained at room temperature",
+        "Proeutectoid cementite plus pearlite",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "0.2 wt% C is below the eutectoid (0.76), so this is a hypoeutectoid steel: proeutectoid ferrite forms during cooling, then the remaining austenite transforms to pearlite at 727 °C. Result: ferrite + pearlite, soft and ductile.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Why does cementite make steel harder?",
+      options: [
+        "It is a soft, lubricating phase that allows slip",
+        "It is a hard, brittle phase (Fe₃C) that obstructs dislocation motion",
+        "It dissolves large amounts of carbon, strengthening the matrix",
+        "It lowers the ductile-to-brittle transition temperature",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Cementite, Fe₃C at 6.7 wt% C, is hard and brittle. More carbon → more cementite → stronger obstruction of slip → harder, stronger, but less ductile and tougher trade-offs.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "The ferrite (α) single-phase field in the Fe–C diagram is:",
+      options: [
+        "A wide region up to 6.7 wt% C",
+        "A narrow sliver at the left edge, since BCC iron dissolves at most ~0.022 wt% C",
+        "A region that only exists above 1147 °C",
+        "The same size as the austenite field",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "BCC ferrite's interstitial sites are too small for carbon, so it dissolves almost none (max ~0.022 wt% C at 727 °C). The field is a hairline along the left edge — figures draw it wide only for legibility.",
+    },
+  ]}
+/>

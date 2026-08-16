@@ -1,0 +1,179 @@
+---
+slug: fracture-and-toughness
+title: Fracture and Toughness
+course: mechanical-properties
+order: 4
+---
+
+Every load-bearing component eventually fails — the design question is *how*. A ductile part stretches, warns you, and breaks with a drawn-out neck. A brittle part shatters with no warning at all, often at stresses far below its nominal strength, because of a small crack. This lesson explains that paradox and introduces the quantity that governs it: **fracture toughness**.
+
+## Ductile vs. brittle fracture
+
+In a tensile test, **ductile fracture** follows necking: the specimen thins to a point or forms a cup-and-cone shape, with a fibrous, dimpled surface. The material has absorbed a large amount of energy (the area under the stress–strain curve) before failing.
+
+**Brittle fracture** is different: the crack runs rapidly across a plane with little plastic deformation, leaving a flat, shiny **cleavage** surface. Cast iron, glass, ceramics, and hardened steels at low temperature fracture this way. The energy absorbed is tiny, and the failure is sudden.
+
+| Feature          | Ductile fracture                 | Brittle fracture              |
+| ---------------- | -------------------------------- | ----------------------------- |
+| Plastic flow     | Extensive, preceded by necking   | Negligible                    |
+| Fracture surface | Fibrous, dimpled, cup-and-cone   | Flat, shiny cleavage planes   |
+| Warning          | Yes — visible deformation        | None — sudden                 |
+| Energy absorbed  | Large                           | Small                         |
+
+## Stress concentration: why cracks matter
+
+The nominal stress in a part can be modest while the stress at the tip of a crack is enormous. For a crack of length a with a tip radius ρ, the stress at the tip is roughly:
+
+```
+σ_max = σ₀ (1 + 2√(a/ρ))
+```
+
+A sharp crack (tiny ρ) and a long crack (large a) both multiply the local stress. Even a small surface scratch in glass — ρ of a micrometer or less — concentrates stress enough to fracture the whole pane, which is why glass is scored before breaking and why engineers polish sharp corners out of metal parts.
+
+## Fracture toughness: K_IC
+
+Fracture mechanics packages this into one material property, the **fracture toughness** K_IC. A crack of half-length a in a plate under remote stress σ becomes unstable when:
+
+```
+K_I = Y σ √(π a)  reaches  K_IC
+```
+
+Y is a geometric factor (≈1 for a long center crack in a wide plate). K_IC has units of MPa·m^(1/2) and is a *material property* — measured on standardized notched specimens — just like yield strength. The design equation is then:
+
+```
+σ_critical = K_IC / (Y √(π a))
+```
+
+Doubling the toughness doubles the allowable stress for the same crack; doubling the crack size reduces the allowable stress by √2. This is why fracture toughness, not strength, often sets the size limit on parts.
+
+<PropertyComparisonChart
+  data={{
+    property: "Fracture toughness",
+    unit: "MPa·m^1/2",
+    logScale: true,
+    xDomain: [0.4, 300],
+    xTicks: [0.5, 1, 10, 100],
+    data: [
+      { material: "Glass", value: 0.7 },
+      { material: "PMMA (acrylic)", value: 1.1 },
+      { material: "Cast iron", value: 15 },
+      { material: "Aluminum 6061", value: 29 },
+      { material: "High-strength steel", value: 55 },
+      { material: "Pressure-vessel steel", value: 200 },
+    ],
+  }}
+  caption="Fracture toughness spans more than two orders of magnitude. Glass has almost none — a microscopic scratch is enough to fail it — while tough steels resist large cracks even at high stress. Values are typical room-temperature K_IC figures."
+/>
+
+## Charpy impact and the ductile-to-brittle transition
+
+Fracture toughness varies with temperature and loading rate. The **Charpy impact test** measures it practically: a notched specimen is struck by a swinging pendulum, and the energy absorbed to break it is read off the machine. Plot that energy against temperature and many steels show a dramatic **ductile-to-brittle transition** — high impact energy at room temperature, a cliff, then low energy (brittle cleavage) below the transition temperature.
+
+- **BCC metals** (steel, iron, tungsten) have a sharp transition; the same steel that bends at 20 °C shatters at −40 °C.
+- **FCC metals** (aluminum, copper, austenitic stainless steel) stay ductile down to cryogenic temperatures — no transition.
+
+The transition explains famous failures: Liberty ships in the WWII North Atlantic, welded with steel that became brittle in cold water, cracked and broke in half at dock; the Titanic's hull steel behaved similarly. Design rule: never use a BCC structural steel below its transition temperature without checking the Charpy data.
+
+<Callout type="warning" title="Strength vs. toughness">
+  Making a steel stronger (more carbon, more hardening) usually *raises* its
+  transition temperature and *lowers* its K_IC. The strongest steel in the
+  world is useless if a 3 mm crack brings it down. Selection is a balance:
+  yield strength for load, fracture toughness for safety.
+</Callout>
+
+## Worked example: what crack size is dangerous?
+
+A pressure-vessel steel has K_IC = 200 MPa·m^(1/2) and is designed to carry σ = 300 MPa. With Y = 1, what is the critical half-crack length?
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  K_IC = Y σ √(π a)
+  √(π a) = K_IC / (Y σ) = 200 / (1 × 300) = 0.667
+  π a = 0.444
+  a = 0.444 / π = 0.141 m ≈ 141 mm
+  ```
+
+  A half-crack of about **141 mm** would be needed to fail this vessel at
+  design stress — far larger than any inspection would allow through, which
+  is exactly why pressure vessels are made of tough steel. Compare with glass:
+  K_IC ≈ 0.7 MPa·m^(1/2), so the same calculation gives
+  a = (1/π)(0.7/300)² ≈ 1.7 µm — a speck of dust is a fatal flaw.
+
+  **Practice:** the same steel at half the design stress, σ = 150 MPa. How
+  does the critical crack size change?
+</details>
+
+<details>
+  <summary>Answer</summary>
+
+  ```
+  a = (1/π)(K_IC/(Yσ))² = (1/π)(200/150)² = (1/π)(1.778) = 566 mm
+  ```
+
+  Halving the stress *quadruples* the critical crack size (a ∝ σ⁻²). This
+  quadratic sensitivity is why design codes are strict about both stress and
+  flaw size.
+</details>
+
+## Summary: the four lessons so far
+
+- **Stress and strain** give the language — force and deformation normalized by geometry.
+- **Elastic deformation** is reversible, governed by Young's modulus, set by bonding.
+- **Plastic deformation** is permanent, driven by dislocations, shaped by yield and hardening.
+- **Fracture** is governed by flaws and toughness, K_IC — and it is the failure mode that gives no warning.
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "Why can a small scratch fracture a pane of glass that otherwise supports a large load?",
+      options: [
+        "Glass is stronger in compression than in tension, and a scratch removes surface material",
+        "The scratch acts as a stress concentrator, multiplying the local stress at its tip",
+        "Scratches always turn into cracks because glass has no grain boundaries",
+        "The scratch lowers the glass's Young's modulus",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "The stress at a crack tip scales as σ₀(1 + 2√(a/ρ)): a sharp, long flaw multiplies the local stress enormously. Fracture toughness K_IC quantifies a material's resistance to this — glass has almost none (K_IC ≈ 0.7 MPa·m^1/2).",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "A steel with K_IC = 200 MPa·m^1/2 is loaded to σ = 300 MPa. Using a = (1/π)(K_IC/(Yσ))² with Y = 1, compute the critical half-crack length in mm.",
+      correctAnswer: 141.5,
+      tolerance: 2,
+      unit: "mm",
+      explanation:
+        "a = (1/π)(200/300)² = 0.1415 m ≈ 141 mm. A crack must be over 28 cm long end-to-end to fail this vessel at design stress — a tough steel indeed.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "The ductile-to-brittle transition in Charpy impact testing is most pronounced in:",
+      options: [
+        "FCC metals such as aluminum and copper",
+        "BCC metals such as steel, which lose their impact energy below a transition temperature",
+        "Polymers, which never fracture",
+        "All materials equally",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "BCC metals (steel, iron) show a sharp drop in impact energy below the transition temperature and fail by cleavage. FCC metals stay ductile to cryogenic temperatures — a key reason austenitic stainless steel is used in cryogenics.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "A pressure vessel is switched from a tough steel (K_IC = 200) to a stronger but less tough alloy (K_IC = 50, units MPa·m^1/2). The maximum allowable crack size at the same design stress:",
+      options: [
+        "Increases by a factor of 4",
+        "Decreases by a factor of 16",
+        "Decreases by a factor of 4",
+        "Stays the same, since crack size does not depend on toughness",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "a_c ∝ K_IC² (from a = (1/π)(K_IC/σ)²), so dropping K_IC from 200 to 50 — a factor of 4 — reduces the critical crack size by 4² = 16. The stronger alloy fails from a crack 16 times smaller: strength without toughness is a safety trap.",
+    },
+  ]}
+/>

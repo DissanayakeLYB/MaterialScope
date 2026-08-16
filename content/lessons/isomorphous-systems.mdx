@@ -1,0 +1,176 @@
+---
+slug: isomorphous-systems
+title: Binary Isomorphous Systems and the Lever Rule
+course: phase-diagrams
+order: 2
+---
+
+The simplest alloy systems are **isomorphous**: the two components are completely soluble in both the liquid and solid states, so at every composition the solid is a single phase. You met the classic example — copper–nickel — in the point-defects lesson: both metals are FCC, similar in radius and electronegativity, so every Cu–Ni alloy is one FCC solid solution. This lesson teaches you to read that diagram quantitatively, including the **lever rule**, which computes exactly how much liquid and solid coexist.
+
+## The isomorphous phase diagram
+
+Below is the germanium–silicon diagram — isomorphous like Cu–Ni, but with a wider melting range that makes the two-phase lens easier to see. The axes are temperature (vertical) and composition (horizontal, in at% Ge). Two curved lines divide the map:
+
+- the **liquidus** — above it, everything is liquid (L);
+- the **solidus** — below it, everything is solid (α, one FCC/diamond-cubic solid solution);
+- between the two, **liquid and solid coexist**.
+
+<PhaseDiagram
+  data={{
+    system: "Ge–Si (isomorphous)",
+    xName: "Composition",
+    xUnit: "at% Ge",
+    yName: "Temperature",
+    yUnit: "°C",
+    xDomain: [0, 100],
+    yDomain: [900, 1450],
+    xTicks: [0, 20, 40, 60, 80, 100],
+    yTicks: [900, 1000, 1100, 1200, 1300, 1400],
+    boundaries: [
+      {
+        label: "Liquidus",
+        points: [
+          { composition: 0, temperature: 1414 },
+          { composition: 20, temperature: 1290 },
+          { composition: 33, temperature: 1200 },
+          { composition: 50, temperature: 1090 },
+          { composition: 75, temperature: 1010 },
+          { composition: 100, temperature: 938 },
+        ],
+      },
+      {
+        label: "Solidus",
+        points: [
+          { composition: 0, temperature: 1414 },
+          { composition: 30, temperature: 1280 },
+          { composition: 55, temperature: 1200 },
+          { composition: 75, temperature: 1090 },
+          { composition: 100, temperature: 938 },
+        ],
+      },
+    ],
+    regions: [
+      { label: "Liquid", x: 50, y: 1330 },
+      { label: "L + α", x: 50, y: 1170 },
+      { label: "α (solid solution)", x: 50, y: 1020 },
+    ],
+  }}
+  caption="Isomorphous Ge–Si (simplified, straight-line segments): pure Si melts at 1414 °C, pure Ge at 938 °C. Liquid and the α solid solution coexist only inside the lens between liquidus and solidus. At 1200 °C the tie line runs from 33 at% Ge (liquid) to 55 at% Ge (solid)."
+/>
+
+## Cooling a liquid: the birth of the first solid
+
+Imagine cooling a 50 at% Ge alloy from the liquid. At the liquidus (~1090 °C) the first solid appears. Two surprises:
+
+1. **The solid has a different composition than the liquid.** At 1090 °C the tie line at that temperature reads the solidus at ~75 at% Ge — the first solid is much richer in germanium than the 50 at% melt it grew from.
+2. **The high-melting component solidifies first.** Silicon melts at 1414 °C, germanium at 938 °C; the solid always enriches in the higher-melting component. This is the basis of zone refining and of segregation in castings — the last liquid to freeze is enriched in the low-melting component.
+
+As cooling continues, the compositions of liquid and solid follow the liquidus and solidus, and the *amounts* of each change — which brings us to the tool for computing those amounts.
+
+## The lever rule
+
+At any temperature inside the two-phase lens, draw a horizontal **tie line** across the lens. It crosses the liquidus at composition C_L and the solidus at C_S. For an alloy of overall composition C₀, the weight fractions are:
+
+```
+W_L = (C₀ − C_S) / (C_L − C_S)
+W_α = (C_L − C₀) / (C_L − C_S)
+```
+
+Think of the tie line as a lever with the fulcrum at C₀: the fraction of a phase is the length of the *opposite* arm divided by the total length. The closer C₀ is to the solidus, the more solid there is — an alloy nearly at the solidus composition is nearly all solid.
+
+<Callout type="note" title="Why it's called the lever rule">
+  The name is mechanical: the tie line is a lever pivoted at the overall
+  composition C₀. The phase on the side where the lever arm is *longer* (the
+  side C₀ is farther from) is present in the *larger* amount — the fulcrum is
+  near the phase that dominates.
+</Callout>
+
+## Worked example: the lever rule at 1200 °C
+
+A Ge–Si alloy with C₀ = 40 at% Ge is held at 1200 °C. From the diagram, the tie line at 1200 °C crosses the liquidus at C_L = 33 at% Ge and the solidus at C_S = 55 at% Ge. Compute the fraction of solid α.
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  W_L = (C₀ − C_S) / (C_L − C_S) = (40 − 55) / (33 − 55) = (−15)/(−22) = 0.682
+  W_α = 1 − W_L = 0.318
+  ```
+
+  The alloy is **68% liquid and 32% solid α**. Sanity check: C₀ = 40 is much
+  closer to C_L = 33 than to C_S = 55, and the lever rule gives much more
+  liquid — the fulcrum sits near the phase that dominates.
+
+  **Practice:** the same alloy at a temperature where C_L = 20 at% Ge and
+  C_S = 45 at% Ge. Compute W_α.
+</details>
+
+<details>
+  <summary>Answer</summary>
+
+  ```
+  W_α = (C_L − C₀) / (C_L − C_S) = (20 − 40) / (20 − 45) = (−20)/(−25) = 0.8
+  ```
+
+  **80% solid** — cooling moved the tie line down and right, shrinking the
+  liquid and growing the solid, and the solid's composition drifted along the
+  solidus toward the overall composition.
+</details>
+
+## Why complete solubility is rare
+
+The four Hume–Rothery conditions (radius within ~15%, similar electronegativity, same structure, same valence) must all hold for an isomorphous system. Few pairs satisfy them, which is why most binary diagrams look nothing like the simple lens — they show limited solubility, two solid phases, and flat eutectic lines. That is the subject of the next lesson.
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "In an isomorphous system like Ge–Si, the first solid to form when cooling a liquid is:",
+      options: [
+        "The same composition as the liquid",
+        "Richer in the higher-melting component (silicon)",
+        "Richer in the lower-melting component (germanium)",
+        "A mixture of two solid phases",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "The solid that first appears at the liquidus is richer in the component with the higher melting point — silicon. As cooling proceeds the solid and liquid compositions follow the solidus and liquidus, and the last liquid to freeze is enriched in the low-melting component.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "At 1200 °C an alloy with C₀ = 40 at% Ge has liquid at C_L = 33 at% Ge and solid at C_S = 55 at% Ge. Using the lever rule W_α = (C_L − C₀)/(C_L − C_S), compute the fraction of solid α as a percentage.",
+      correctAnswer: 31.8,
+      tolerance: 2,
+      unit: "%",
+      explanation:
+        "W_α = (33 − 40)/(33 − 55) = (−7)/(−22) = 0.318, so 31.8% solid and 68.2% liquid. The overall composition sits closer to the liquidus, so liquid dominates.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Between the liquidus and solidus of a binary alloy, how many phases coexist?",
+      options: [
+        "One — the liquid",
+        "Two — liquid and solid, with compositions given by the tie line",
+        "Three — liquid and two solids",
+        "Zero — the region is a single phase boundary",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Inside the lens, liquid and solid coexist. A horizontal tie line crosses the liquidus at C_L and the solidus at C_S, giving the compositions of the two phases; the lever rule gives their amounts.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "The lever rule is used to find:",
+      options: [
+        "The temperature at which a phase appears",
+        "The weight fractions of the phases present at a tie-line temperature",
+        "The crystal structure of each phase",
+        "The critical resolved shear stress",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "The lever rule computes phase amounts: W_L = (C₀ − C_S)/(C_L − C_S) and W_α = (C_L − C₀)/(C_L − C_S). Compositions come from the tie line; amounts come from the lever rule.",
+    },
+  ]}
+/>

@@ -1,0 +1,163 @@
+---
+slug: stress-and-strain
+title: Stress and Strain
+course: mechanical-properties
+order: 1
+---
+
+If you hang a 100 kg weight from a steel cable and from a rubber band, both stretch — but the cable barely moves and the rubber band stretches enormously. Is the rubber band "weaker"? Not necessarily: a thick rubber band can easily hold more force than a thin steel wire. To talk about mechanical behavior we need quantities that do not depend on how *much* material is there. Those quantities are **stress** and **strain**.
+
+<Callout type="note" title="Key idea">
+  Stress normalizes force by cross-sectional area; strain normalizes
+  deformation by original length. Two specimens of different size but the
+  same material, shape, and state of stress deform identically.
+</Callout>
+
+## Stress: force per unit area
+
+The **engineering stress** σ is the applied force F divided by the *original* cross-sectional area A₀:
+
+```
+σ = F / A₀
+```
+
+The SI unit is the pascal (Pa = N/m²); in practice materials scientists use megapascals (1 MPa = 10⁶ Pa) and gigapascals (1 GPa = 10⁹ Pa). A paperclip held in tension by a few newtons of force already experiences tens of MPa; the steel in a bridge deck is designed to carry hundreds of MPa.
+
+Why the *original* area? Because we want to track the force history without re-measuring the specimen — this "engineering" definition is simple and consistent, even though the true area changes as the specimen stretches (we return to this in the plastic-deformation lesson).
+
+A stress that pulls is called **tensile**; one that pushes is **compressive**; one that acts parallel to a face is **shear** (symbol τ). Tension and compression are the easiest to produce and most of this course uses them.
+
+## Strain: deformation per unit length
+
+The **engineering strain** ε is the change in length Δl divided by the original length l₀:
+
+```
+ε = Δl / l₀
+```
+
+Strain is dimensionless — a fraction — but it is nearly always reported as a percentage. Doubling the length of a specimen means ε = 1.0, or 100% strain. Most engineering metals fail long before 50% strain; elastomers regularly reach several hundred percent.
+
+## The stress–strain curve
+
+Plot stress against strain for a specimen pulled steadily and you get the **stress–strain curve**, the fingerprint of a material's mechanical behavior. Three landmarks matter most:
+
+- **Elastic region** — stress and strain are proportional at first (Hooke's law, σ = Eε); release the load and the specimen springs back exactly.
+- **Yield point** — where the curve stops being linear; beyond it the deformation is permanent (plastic).
+- **Ultimate tensile strength (UTS)** — the maximum engineering stress the material ever carries; past it the specimen **necks** and soon fractures.
+
+<StressStrainCurve
+  data={{
+    material: "Al 6061-T6 (aged)",
+    data: [
+      { strain: 0, stress: 0 },
+      { strain: 0.1, stress: 69 },
+      { strain: 0.2, stress: 138 },
+      { strain: 0.3, stress: 207 },
+      { strain: 0.4, stress: 276 },
+      { strain: 0.6, stress: 285 },
+      { strain: 1, stress: 295 },
+      { strain: 2, stress: 305 },
+      { strain: 4, stress: 310 },
+      { strain: 6, stress: 302 },
+      { strain: 9, stress: 288 },
+      { strain: 12, stress: 268 },
+    ],
+    annotations: {
+      yieldPoint: { strain: 0.4, stress: 276, label: "Yield" },
+      ultimateTensileStrength: { strain: 4, stress: 310, label: "UTS" },
+      fracture: { strain: 12, stress: 268, label: "Fracture" },
+    },
+  }}
+  caption="Engineering stress–strain for Al 6061-T6 (representative values: E ≈ 69 GPa, yield ≈ 276 MPa, UTS ≈ 310 MPa, elongation ≈ 12%). The elastic region is the straight line from the origin; the material yields, strain-hardens up to the UTS, then necks and fractures."
+/>
+
+## Worked example: stress and strain in a tension specimen
+
+A steel rod with a 10 mm × 10 mm square cross-section is pulled with a force of 50 kN. A 3.00 m gauge section stretches by 1.5 mm. Compute the engineering stress and strain.
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  A₀ = 0.010 m × 0.010 m = 1.0 × 10⁻⁴ m²
+  σ = F / A₀ = 50,000 N / 1.0 × 10⁻⁴ m² = 5.0 × 10⁸ Pa = 500 MPa
+
+  ε = Δl / l₀ = 0.0015 m / 3.00 m = 5.0 × 10⁻⁴ = 0.05%
+  ```
+
+  The rod carries **500 MPa** — well below the yield strength of most steels,
+  so it deforms elastically — and stretches **0.05%**. Over a 3 m length that
+  is 1.5 mm, enough to notice, but far from failure.
+
+  **Practice:** the same load on a rod of 20 mm diameter — compute σ.
+</details>
+
+<details>
+  <summary>Answer</summary>
+
+  ```
+  A₀ = π d² / 4 = π (0.020 m)² / 4 = 3.14 × 10⁻⁴ m²
+  σ = 50,000 / 3.14 × 10⁻⁴ = 1.59 × 10⁸ Pa ≈ 159 MPa
+  ```
+
+  Four times the area means one quarter of the stress — the same force, a
+  much happier rod.
+</details>
+
+## Why normalize at all?
+
+Two design questions that stress and strain answer directly:
+
+- **Will it break?** Materials fail at characteristic *stresses*, not forces. A 10 mm bolt and a 50 mm bolt both fail when the stress reaches the material's strength, even though the forces differ by a factor of 25.
+- **Will it deform too much?** Structures are judged by *strains*: a bridge that sags 2 cm over a 40 m span has a strain of 0.05% — the same strain a 10 cm gauge section of the same material would show.
+
+The next lesson puts the elastic region under the microscope: why materials spring back, and how stiff they are.
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "Why do engineers use stress rather than force when describing mechanical behavior?",
+      options: [
+        "Stress is measured in newtons, which are easier to compare",
+        "Stress normalizes the force by the cross-sectional area, so results are independent of specimen size",
+        "Force cannot be measured accurately in a tensile test",
+        "Stress accounts for the material's color and density",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Stress is force divided by the original cross-sectional area. Two specimens of the same material with different sizes experience the same stress under appropriately scaled loads, which is what makes results comparable.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "A cylindrical rod of diameter 12 mm is pulled with a force of 40 kN. Using σ = F/A₀ with A₀ = πd²/4, compute the engineering stress in MPa.",
+      correctAnswer: 353.7,
+      tolerance: 2,
+      unit: "MPa",
+      explanation:
+        "A₀ = π(0.012 m)²/4 = 1.131 × 10⁻⁴ m², so σ = 40,000 / 1.131 × 10⁻⁴ = 3.537 × 10⁸ Pa ≈ 354 MPa.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Engineering strain is defined as:",
+      options: [
+        "The change in length divided by the original length",
+        "The change in length divided by the final length",
+        "The force divided by the original area",
+        "The elongation multiplied by the cross-sectional area",
+      ],
+      correctAnswer: 0,
+      explanation:
+        "Engineering strain is ε = Δl/l₀ — the change in length over the ORIGINAL length. It is dimensionless and usually reported as a percentage.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "A specimen stretched to 1.5 times its original length has an engineering strain of:",
+      options: ["0.15%", "1.5%", "50%", "150%"],
+      correctAnswer: 2,
+      explanation:
+        "ε = Δl/l₀ = 0.5/1.0 = 0.5 = 50%. Doubling the length corresponds to 100% strain.",
+    },
+  ]}
+/>

@@ -1,0 +1,200 @@
+---
+slug: eutectic-systems
+title: Eutectic Systems and the Eutectic Reaction
+course: phase-diagrams
+order: 3
+---
+
+Most binary systems do not mix completely. The lead–tin system — the basis of solder — is the classic example: lead and tin dissolve in each other only partially, so the solid can exist as two distinct phases, and the diagram shows the **eutectic** reaction that makes soldering possible at all.
+
+## The lead–tin diagram
+
+At the far left of the diagram is **α** — lead with some tin dissolved in it (FCC, up to 19 wt% Sn at 183 °C). At the far right is **β** — tin with some lead dissolved in it (up to ~2.5 wt% Pb). Between them, below 183 °C, the two phases coexist. The key feature is the **eutectic point**: at exactly 61.9 wt% Sn and 183 °C, liquid, α, and β all coexist.
+
+<PhaseDiagram
+  data={{
+    system: "Pb–Sn (eutectic)",
+    xName: "Composition",
+    xUnit: "wt% Sn",
+    yName: "Temperature",
+    yUnit: "°C",
+    xDomain: [0, 100],
+    yDomain: [100, 350],
+    xTicks: [0, 20, 40, 60, 80, 100],
+    yTicks: [100, 150, 183, 200, 232, 250, 300, 327],
+    boundaries: [
+      {
+        label: "Liquidus",
+        points: [
+          { composition: 0, temperature: 327 },
+          { composition: 19, temperature: 296 },
+          { composition: 40, temperature: 246 },
+          { composition: 61.9, temperature: 183 },
+          { composition: 80, temperature: 205 },
+          { composition: 100, temperature: 232 },
+        ],
+      },
+      {
+        label: "Solidus (α)",
+        points: [
+          { composition: 0, temperature: 327 },
+          { composition: 19, temperature: 183 },
+        ],
+      },
+      {
+        label: "Solidus (β)",
+        points: [
+          { composition: 61.9, temperature: 183 },
+          { composition: 100, temperature: 232 },
+        ],
+      },
+      {
+        label: "Eutectic",
+        points: [
+          { composition: 19, temperature: 183 },
+          { composition: 97.5, temperature: 183 },
+        ],
+        dashed: true,
+      },
+      {
+        label: "Solvus (α)",
+        points: [
+          { composition: 19, temperature: 183 },
+          { composition: 2, temperature: 100 },
+        ],
+        dashed: true,
+      },
+      {
+        label: "Solvus (β)",
+        points: [
+          { composition: 97.5, temperature: 183 },
+          { composition: 99.5, temperature: 100 },
+        ],
+        dashed: true,
+      },
+    ],
+    regions: [
+      { label: "L", x: 50, y: 285 },
+      { label: "α + L", x: 12, y: 250 },
+      { label: "β + L", x: 88, y: 203 },
+      { label: "α", x: 6, y: 140 },
+      { label: "α + β", x: 50, y: 130 },
+      { label: "β", x: 98.4, y: 150 },
+    ],
+  }}
+  caption="Simplified Pb–Sn: α is the Pb-rich solid solution, β the Sn-rich one. At the eutectic point (61.9 wt% Sn, 183 °C) liquid, α, and β coexist — the flat line and the lowest freezing temperature on the diagram. Solvus lines are dashed; the β single-phase field is a thin sliver near pure Sn."
+/>
+
+## The eutectic reaction
+
+Cool a liquid of exactly 61.9 wt% Sn. It stays liquid all the way down to 183 °C — below the freezing point of *either* pure metal (Pb melts at 327 °C, Sn at 232 °C). At 183 °C the liquid transforms isothermally into two solids at once:
+
+```
+L(61.9) → α(19) + β(97.5)        at 183 °C
+```
+
+This is the **eutectic reaction**: one liquid, on cooling, becomes two solids. Three phases coexisting at fixed pressure means F = 0 — an invariant point, which is why the transformation happens at a single temperature and why the diagram shows a flat line. The product is a fine **lamellar** mixture of α and β plates that form by simultaneous growth — this structure is called the **eutectic microstructure**, and it is why solders freeze at a sharp temperature instead of over a mushy range.
+
+## Hypoeutectic and hypereutectic alloys
+
+Most solders are not exactly 61.9 wt% Sn. An alloy with **less** tin than the eutectic (to the left, e.g. 40 wt% Sn) is **hypoeutectic**: cooling it, proeutectic α forms first as primary dendrites, and the remaining liquid — now at the eutectic composition — freezes at 183 °C into the fine α + β mixture. The final structure is *primary α + eutectic*. An alloy with more tin (to the right) is **hypereutectic**: primary β plus eutectic. The eutectic itself (at 61.9) is **eutectic composition**: 100% fine lamellar structure, no primary phase.
+
+| Composition        | Structure at room temperature                          |
+| ------------------ | ------------------------------------------------------ |
+| 40 wt% Sn (hypo)   | Primary α + eutectic (α + β lamellae)                  |
+| 61.9 wt% Sn (eutectic) | 100% eutectic (fine α + β lamellae)                |
+| 80 wt% Sn (hyper)  | Primary β + eutectic (α + β lamellae)                  |
+
+## Worked example: lever rule on the Pb–Sn diagram
+
+A 40 wt% Sn alloy is held at 200 °C. From the tie line at 200 °C, α contains C_α = 18 wt% Sn and β contains C_β = 98 wt% Sn. Compute the weight fractions of α and β.
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  W_α = (C_β − C₀) / (C_β − C_α) = (98 − 40) / (98 − 18) = 58 / 80 = 0.725
+  W_β = 1 − W_α = 0.275
+  ```
+
+  At 200 °C the alloy is **72.5% α and 27.5% β**. Note the lever rule flips
+  arms compared with the isomorphous lesson: here the phases are α and β, so
+  the rule is written with C_α and C_β, with the fulcrum still at C₀.
+
+  **Practice:** the same alloy at 183 °C (below the eutectic, tie line C_α = 19,
+  C_β = 97.5). Compute W_β.
+</details>
+
+<details>
+  <summary>Answer</summary>
+
+  ```
+  W_β = (C₀ − C_α) / (C_β − C_α) = (40 − 19) / (97.5 − 19) = 21 / 78.5 ≈ 0.268
+  ```
+
+  Essentially unchanged from 200 °C (27.5% → 26.8%): between the solidus and
+  room temperature, the alloy is α + β with a slowly drifting β fraction —
+  the solvus lines, not the eutectic, control the low-temperature behavior.
+</details>
+
+## Why the eutectic matters
+
+Three practical consequences make the eutectic the most important feature in alloy design:
+
+- **Lowest melting point**: the eutectic temperature is the lowest freezing point on the diagram, which is why solders are eutectic or near-eutectic alloys — they melt at a temperature safe for the components being joined.
+- **Sharp freezing**: a eutectic freezes at one temperature, giving clean castings with no mushy zone; off-eutectic alloys freeze over a range and can segregate.
+- **Fine microstructure**: the simultaneous growth of α and β produces a fine, strong two-phase structure — the basis of cast iron's versatility (the Fe–C eutectic, next lesson).
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "The eutectic reaction in Pb–Sn is best described as:",
+      options: [
+        "One solid transforming into two different solids on heating",
+        "A liquid transforming isothermally into two solids, α and β, on cooling",
+        "Two liquids mixing into one solid solution",
+        "A solid solution decomposing into a liquid and a solid",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "The eutectic is L(61.9) → α(19) + β(97.5) at 183 °C: one liquid becomes two solids at a single, invariant temperature (F = 0 at fixed pressure). The product is a fine lamellar α + β mixture.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "A 40 wt% Sn Pb–Sn alloy at 200 °C has α with 18 wt% Sn and β with 98 wt% Sn. Using the lever rule W_β = (C₀ − C_α)/(C_β − C_α), compute the fraction of β as a percentage.",
+      correctAnswer: 27.5,
+      tolerance: 2,
+      unit: "%",
+      explanation:
+        "W_β = (40 − 18)/(98 − 18) = 22/80 = 0.275, so 27.5% β and 72.5% α. The overall composition sits much closer to the α end, so α dominates.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "A hypoeutectic alloy (e.g. 40 wt% Sn) cooled from the liquid to room temperature contains:",
+      options: [
+        "Only the fine eutectic structure",
+        "Primary α dendrites plus the eutectic mixture",
+        "Only pure lead and pure tin",
+        "A single FCC solid solution",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Left of the eutectic point, proeutectic (primary) α forms first as the liquid cools to 183 °C; the remaining liquid — now at eutectic composition — then freezes into fine α + β. Result: primary α + eutectic.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Why are solders formulated at or near the eutectic composition?",
+      options: [
+        "Eutectic alloys are the hardest possible solders",
+        "The eutectic gives the lowest melting point and a sharp, single-temperature freeze",
+        "Eutectic alloys never oxidize",
+        "Only eutectic alloys conduct electricity",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "The eutectic is the lowest freezing point on the diagram — below either pure metal — and freezes at a single temperature, which keeps the joint clean and the process fast. That is why 60/40 and 63/37 tin–lead solders are standard.",
+    },
+  ]}
+/>

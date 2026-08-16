@@ -1,0 +1,128 @@
+---
+slug: phases-and-equilibrium
+title: Phases, Components, and Equilibrium
+course: phase-diagrams
+order: 1
+---
+
+An alloy is not a uniform soup of atoms. At any temperature and composition it is divided into **phases** — distinct regions with their own crystal structure, composition, and properties — and the boundary between them is a sharp interface. Understanding which phases form, and how much of each, is the whole point of phase diagrams. This lesson sets up the vocabulary and the master rule that governs how many phases can coexist: the **Gibbs phase rule**.
+
+## What is a phase?
+
+A **phase** is a portion of a system that is homogeneous in chemistry and structure, separated from other portions by a definite interface. Water and ice in a glass are two phases (liquid and solid) of the same component; oil and vinegar in a salad dressing are two phases too, because they do not mix. In solids:
+
+- Pure copper is a single phase (FCC α).
+- Brass (Cu–Zn) with 30% zinc is a single phase (FCC solid solution) — the zinc atoms sit on FCC sites, so there is only one structure present.
+- An iron–carbon steel below 727 °C contains two phases: **ferrite** (BCC, nearly pure iron) and **cementite** (Fe₃C) — two structures, two compositions, separated by interfaces. You can even see them under a microscope as alternating light and dark lamellae.
+
+The number of phases is written **P**.
+
+## Components and degrees of freedom
+
+A **component** is a chemically distinct constituent — for most alloys, the elements. The number of components is written **C** (Cu–Ni has C = 2; pure water has C = 1). Phases are made of components; a phase's **composition** is its percentage of each component (almost always weight percent, wt%).
+
+A **degree of freedom** is an independently variable intensive quantity — temperature, pressure, or a phase composition — that you can change without changing the number of phases present. The Gibbs phase rule ties all of this together:
+
+```
+F = C − P + 2
+```
+
+For condensed systems (solids and liquids, where pressure effects are tiny), pressure is usually fixed, so the rule becomes:
+
+```
+F = C − P + 1        (at fixed pressure)
+```
+
+<Callout type="note" title="Reading F = C − P + 1">
+  - One phase present: F = C — you can vary temperature *and* composition freely and stay in the same phase.
+  - Two phases present: F = C − 1 — only one of temperature or composition can vary; the other is forced.
+  - Three phases present: F = C − 2 — for a binary alloy (C = 2) that is **zero**: a fixed, invariant point. This is the eutectic, the flat lines you will meet in the next lessons.
+</Callout>
+
+## Equilibrium
+
+A system is in **equilibrium** when its phases are stable and unchanging — the driving forces (temperature differences, concentration gradients, chemical potentials) are all balanced. Real processing is often about *chasing* equilibrium: cooling fast enough to trap a high-temperature phase at room temperature is how steels are hardened. Phase diagrams describe equilibrium states, so they tell you where a system *wants* to go, and processing tells you how close it gets.
+
+## Worked example: the phase rule in action
+
+**(a) Pure water (C = 1) boiling at 1 atm.** Liquid and vapor coexist, so P = 2. At fixed pressure, F = 1 − 2 + 1 = 0 — the boiling temperature is fixed (100 °C). That is why boiling points are constants and why cooking instructions depend on altitude: change the pressure and the single degree of freedom reopens.
+
+**(b) A 50 wt% Ni alloy at a temperature where liquid and α coexist (Cu–Ni, C = 2).** P = 2, so F = 2 − 2 + 1 = 1. You may vary temperature, and the two phase compositions are then forced; or vary composition and temperature is forced. One dial, not two.
+
+**(c) The eutectic of Pb–Sn (C = 2) with L, α, and β all present.** P = 3, so F = 2 − 3 + 1 = 0 — an invariant point: one temperature (183 °C) and one composition (61.9 wt% Sn) for all three phases. All three phases can coexist only at exactly that point.
+
+<details>
+  <summary>Check your understanding</summary>
+
+  For a binary alloy (C = 2) at fixed pressure with two phases present, how
+  many degrees of freedom remain? → F = 2 − 2 + 1 = **1**: choose the
+  temperature and the compositions of both phases are determined (or choose
+  the overall composition and the temperature is determined).
+
+  For a binary alloy with three phases present? → F = 2 − 3 + 1 = **0**: an
+  invariant point like a eutectic — fixed temperature and fixed compositions.
+</details>
+
+## Why phase diagrams exist
+
+Given C components, every possible temperature and composition is a point in the **phase diagram** — a map of temperature (vertical) against composition (horizontal). Each region is labeled with the phase(s) present at equilibrium; the lines between regions are where phases coexist. Once you can read that map, three questions answer themselves for any alloy:
+
+1. **What phases are present** at this temperature and composition?
+2. **What is the composition of each phase?**
+3. **How much of each phase is there?** (the lever rule — next lesson)
+
+The next three lessons are a tour of the map: the simplest case (isomorphous systems, one solid phase), the most common case (eutectic systems, two solids), and the most important one of all (iron–carbon).
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "Which of the following is a single phase?",
+      options: [
+        "Ice and liquid water together",
+        "Brass, a homogeneous FCC solid solution of copper and zinc",
+        "A steel containing ferrite and cementite",
+        "Oil and vinegar in a bottle",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "A phase is homogeneous in chemistry and structure. Brass with the zinc dissolved on FCC sites is one phase; ice + water, ferrite + cementite, and oil + vinegar are all two-phase mixtures.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "For a binary alloy (C = 2) at fixed pressure with two phases present, the Gibbs phase rule F = C − P + 1 gives how many degrees of freedom?",
+      correctAnswer: 1,
+      tolerance: 0,
+      unit: "degrees of freedom",
+      explanation:
+        "F = 2 − 2 + 1 = 1. With two phases coexisting you can vary temperature (or composition) but not both freely — the other is forced by equilibrium.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "At the eutectic of the Pb–Sn system, liquid, α, and β all coexist. The phase rule says this point is:",
+      options: [
+        "A single region where all three phases exist over a range of temperatures",
+        "Invariant — a fixed temperature and composition where F = 0",
+        "A tie line where composition varies freely",
+        "The point where the alloy is strongest",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "With C = 2 and P = 3, F = 2 − 3 + 1 = 0: an invariant point. The three phases coexist only at exactly 183 °C and 61.9 wt% Sn, which is why the eutectic appears as a flat line on the diagram.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Why do phase diagrams describe equilibrium rather than the actual state of a processed alloy?",
+      options: [
+        "Phase diagrams are only valid at absolute zero",
+        "Real processing can be too fast for equilibrium to be reached, trapping metastable phases",
+        "Phase diagrams ignore composition entirely",
+        "Equilibrium states are never observable in real alloys",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "A phase diagram is an equilibrium map — where the system wants to be. Rapid cooling (quenching) can trap high-temperature phases at room temperature; understanding the gap between the diagram and the process is the essence of heat treatment.",
+    },
+  ]}
+/>

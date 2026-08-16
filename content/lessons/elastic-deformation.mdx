@@ -1,0 +1,155 @@
+---
+slug: elastic-deformation
+title: Elastic Deformation and Stiffness
+course: mechanical-properties
+order: 2
+---
+
+Stretch a steel spring within its limits and it snaps back. That reversible behavior is **elastic deformation**: atoms are displaced from their equilibrium spacing, but never leave their positions — the bonds store the energy and return it when the load is removed. Elastic deformation obeys the simplest and most useful law in mechanics: Hooke's law.
+
+## Hooke's law and Young's modulus
+
+In the elastic region the stress–strain curve is a straight line through the origin:
+
+```
+σ = E ε
+```
+
+The constant **E** is **Young's modulus** (also called the elastic modulus), the slope of the curve. It measures *stiffness* — how much stress is needed to produce a given strain — and has units of stress: GPa. It is one of the most structure-insensitive properties of a material: heat treatment, alloying, and cold working barely change E, because stiffness is set by the *strength of the atomic bonds*, not by microstructure.
+
+| Material          | E (GPa) | Note                                |
+| ----------------- | ------- | ----------------------------------- |
+| Diamond           | ~1000   | Covalent network                    |
+| Steel             | 207     | Mostly independent of heat treatment|
+| Aluminum          | 69      | About one-third of steel            |
+| Glass             | 69      | Ceramic, same stiffness as aluminum |
+| Wood (oak, along grain) | 11 | Polymer composite                   |
+| Polyethylene      | ~1      | Soft, flexible                      |
+| Rubber            | ~0.01   | Nearly incompressible, very soft    |
+
+Notice what the table says about *bonding*, not chemistry: diamond and polyethylene differ in modulus by a factor of 1000, and the gap is exactly the gap between covalent-network and van der Waals bonding you saw in "What Makes a Material a Material". Elastic modulus is a bonding property.
+
+## Poisson's ratio: stretching makes things thinner
+
+When you pull a rod, it not only lengthens — it also narrows. The ratio of the lateral (transverse) strain to the axial strain is **Poisson's ratio** ν:
+
+```
+ν = −ε_lateral / ε_axial
+```
+
+The minus sign is there because the strains have opposite signs: a tensile axial strain (positive) produces a compressive lateral strain (negative). For almost all materials ν lies between 0 and 0.5. A value of 0.5 means perfectly incompressible — the volume does not change (rubber is close); near zero means the material narrows hardly at all (cork is famously ~0 — push it and it does not bulge sideways, which is why cork is used to seal bottle necks).
+
+<PropertyComparisonChart
+  data={{
+    property: "Poisson's ratio",
+    unit: "-",
+    data: [
+      { material: "Cork", value: 0.0 },
+      { material: "Concrete", value: 0.2 },
+      { material: "Steel", value: 0.3 },
+      { material: "Aluminum", value: 0.33 },
+      { material: "Brass", value: 0.34 },
+      { material: "Rubber", value: 0.5 },
+    ],
+  }}
+  caption="Poisson's ratio spans nearly the full physical range, from cork (~0, no lateral contraction) to rubber (~0.5, incompressible). Most structural metals sit between 0.27 and 0.36."
+/>
+
+## Shear and bulk: the other elastic constants
+
+Tension is not the only way to load a material. For design work you also need the **shear modulus** G (resistance to shape change under shear stress τ = Gγ) and the **bulk modulus** K (resistance to volume change under hydrostatic pressure). For isotropic materials all three are linked by Poisson's ratio:
+
+```
+G = E / (2(1 + ν))
+K = E / (3(1 − 2ν))
+```
+
+The bulk modulus is why the two equations are useful: for ν near 0.5 the denominator of K goes to zero — a material that cannot change volume is infinitely hard to compress, which is exactly rubber's behavior.
+
+## Worked example: how much does the rod stretch?
+
+A steel rod, 2.5 m long and 10 mm in diameter, is loaded in tension with 30 kN. Steel has E = 207 GPa and ν = 0.30. Find the stress, the axial strain, the elongation, and the new diameter.
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  A₀ = π d² / 4 = π (0.010 m)² / 4 = 7.854 × 10⁻⁵ m²
+  σ = F / A₀ = 30,000 / 7.854 × 10⁻⁵ = 3.82 × 10⁸ Pa = 382 MPa
+
+  ε_axial = σ / E = 382 × 10⁶ / 207 × 10⁹ = 1.85 × 10⁻³
+  Δl = ε l₀ = (1.85 × 10⁻³)(2.5 m) = 4.6 mm
+
+  ε_lateral = −ν ε_axial = −0.30 × 1.85 × 10⁻³ = −5.5 × 10⁻⁴
+  d_new = d (1 + ε_lateral) = 10 mm × (1 − 5.5 × 10⁻⁴) = 9.9945 mm
+  ```
+
+  The rod stretches **4.6 mm** and its diameter shrinks by about **5.5 µm** —
+  a contraction too small to see but exactly what Poisson's ratio predicts.
+  Note the check on Hooke's law: 382 MPa is below the yield strength of
+  ordinary steel (~250–400 MPa depending on grade), so the elastic
+  calculation is legitimate.
+</details>
+
+## Design implications
+
+Two rules of thumb fall straight out of Hooke's law:
+
+- **Stiffness is geometry + modulus.** A beam's deflection is set by E times a shape factor; you can make a part stiffer by using more material or by choosing a higher-E material, but no heat treatment will raise E for you.
+- **Elastic energy is (1/2)Eε².** Springs and shock absorbers store energy by straining elastically; a high-E material stores the same energy with a *smaller* deflection, which is why a steel spring is short and stiff while a rubber band is long and compliant.
+
+The elastic region ends where the bonds give way — the yield point. That is the subject of the next lesson.
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "Young's modulus is best described as:",
+      options: [
+        "The maximum stress a material can withstand before breaking",
+        "The slope of the elastic region of the stress–strain curve",
+        "The strain at which permanent deformation begins",
+        "The ratio of lateral to axial strain",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Young's modulus E is the slope of the linear (elastic) region of the stress–strain curve: σ = Eε. It measures stiffness, and it is set by bond strength, so it barely changes with heat treatment.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "A steel rod (E = 207 GPa) 2.5 m long is loaded so the stress is 382 MPa. Using ε = σ/E and Δl = ε·l₀, compute the elongation in mm.",
+      correctAnswer: 4.61,
+      tolerance: 2,
+      unit: "mm",
+      explanation:
+        "ε = 382×10⁶/207×10⁹ = 1.85×10⁻³, so Δl = 1.85×10⁻³ × 2.5 m = 4.61 mm.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "A material with Poisson's ratio ν = 0.5:",
+      options: [
+        "Does not deform at all under load",
+        "Narrows by exactly half its axial strain, so its volume is conserved",
+        "Has zero lateral strain when stretched",
+        "Cannot be loaded elastically",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "ν = 0.5 means ε_lateral = −0.5·ε_axial, which keeps volume constant (rubber is close to this). Cork, with ν ≈ 0, hardly narrows when compressed along its axis.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Why does heat treatment barely change a steel's Young's modulus?",
+      options: [
+        "Heat treatment only changes the surface, not the bulk",
+        "Stiffness is set by atomic bond strength, which heat treatment does not change",
+        "Steel's modulus is determined by its carbon content alone",
+        "Heat treatment always lowers the modulus to compensate",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "E is a bonding property — it depends on the strength of the atomic bonds, not on microstructure. Quenching, tempering, and cold working change strength and ductility dramatically but leave E almost untouched.",
+    },
+  ]}
+/>
