@@ -1,0 +1,149 @@
+---
+slug: ficks-laws
+title: Fick's Laws and Diffusion Rates
+course: diffusion-in-solids
+order: 2
+---
+
+Knowing the diffusion coefficient D tells you how *mobile* atoms are, but not how *much* moves where. That is the job of **Fick's laws**, the two equations that turn "atoms wander" into quantitative engineering: how fast atoms cross a membrane, and how deep they penetrate into a part over time.
+
+## Fick's first law: steady-state flux
+
+When a concentration gradient exists, atoms diffuse down it — from high concentration to low. The **flux** J (amount of material crossing unit area per second, kg/m²·s or atoms/m²·s) is proportional to the gradient:
+
+```
+J = −D (dC / dx)
+```
+
+The minus sign: flux runs *down* the gradient (from high C to low C). This is Fick's **first law**, valid whenever the concentration profile does not change with time (steady state) — the classic example is a gas diffusing through a thin metal membrane with constant pressures on both sides.
+
+<Callout type="note" title="Reading the units">
+  J has units of (amount)/(m²·s); dC/dx has units of (amount)/m⁴; D therefore
+  has units of m²/s. D is the same D as in the Arrhenius equation — one
+  material property, two uses: first law for how fast, Arrhenius for how
+  mobile.
+</Callout>
+
+## Fick's second law: non-steady state
+
+Most real processes — carburizing a gear, doping a wafer — are **non-steady state**: the concentration profile changes with time. Fick's **second law** describes that evolution:
+
+```
+∂C/∂t = D (∂²C/∂x²)
+```
+
+Solving it requires boundary conditions, but one solution is worth memorizing because it appears everywhere in processing. For a semi-infinite solid with a uniform initial concentration C₀, whose surface is held at constant concentration C_s:
+
+```
+(C_s − C_x) / (C_s − C₀) = erf( x / (2√(Dt)) )
+```
+
+where C_x is the concentration at depth x after time t, and erf is the error function (tabulated; erf(0.906) ≈ 0.80, erf(1.0) ≈ 0.843, erf(1.2) ≈ 0.910). This is the **carburizing equation**.
+
+<Callout type="tip" title="The √(Dt) rule of thumb">
+  Diffusion penetration scales as √(Dt) — the depth reached in time t is
+  proportional to the square root of time. Doubling the time only extends the
+  case depth by √2 ≈ 1.4×. That is why case hardening is done hot and fast
+  rather than cool and long.
+</Callout>
+
+## Worked example: carburizing a steel gear
+
+A 0.20 wt% C steel gear is carburized at 950 °C in a carbon-rich atmosphere that holds the surface at 1.20 wt% C. At 950 °C, D = 1.1 × 10⁻¹¹ m²/s for carbon in γ-Fe. After 8 hours, how deep has the 0.40 wt% C contour reached?
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  t = 8 h = 28,800 s
+  √(Dt) = √(1.1 × 10⁻¹¹ × 28,800) = √(3.17 × 10⁻⁷) = 5.63 × 10⁻⁴ m
+
+  (C_s − C_x) / (C_s − C₀) = (1.20 − 0.40) / (1.20 − 0.20) = 0.80
+  erf(x / (2√(Dt))) = 0.80  →  x / (2√(Dt)) = 0.906
+
+  x = 2 × 0.906 × 5.63 × 10⁻⁴ = 1.02 × 10⁻³ m ≈ 1.0 mm
+  ```
+
+  After **8 hours**, carbon above 0.40 wt% has penetrated about **1.0 mm** —
+  a hard, wear-resistant case over a tough, ductile core. This is exactly
+  how gears get their two personalities.
+
+  **Practice:** how deep would the same 0.40 wt% contour reach after 2 hours
+  instead of 8?
+</details>
+
+<details>
+  <summary>Answer</summary>
+
+  ```
+  √(Dt) = √(1.1 × 10⁻¹¹ × 7200) = 2.81 × 10⁻⁴ m
+  x = 2 × 0.906 × 2.81 × 10⁻⁴ ≈ 0.51 mm
+  ```
+
+  Half the time gives half the depth (since depth ∝ √t, a factor of 4 in
+  time gives a factor of 2 in depth) — about **0.5 mm**.
+</details>
+
+## What controls the rate?
+
+Three knobs, in order of leverage:
+
+1. **Temperature** — through D = D₀ exp(−Q/RT), the exponential makes temperature the dominant knob (the previous lesson's 70× example).
+2. **Time** — depth grows as √t, so doubling case depth requires 4× the time.
+3. **The driving gradient** — a bigger (C_s − C₀) difference raises the flux proportionally in the first law.
+
+There is no "turn the dial faster" without raising temperature, and raising temperature has consequences (grain growth, distortion) — which is why diffusion process design is a balancing act, not just a recipe.
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "Fick's first law, J = −D(dC/dx), applies when:",
+      options: [
+        "The concentration profile is changing rapidly with time",
+        "The concentration profile is steady — constant flux through the system",
+        "Diffusion is driven by electric fields instead of gradients",
+        "Only interstitial atoms are diffusing",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "The first law describes steady-state diffusion, where the concentration profile (and hence flux) does not change with time — e.g. gas through a membrane at constant pressures. Time-dependent problems need the second law.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "A 0.20 wt% C steel is carburized with the surface held at 1.20 wt% C. D = 1.1 × 10⁻¹¹ m²/s. Using x = 2z·√(Dt) with z = 0.906 (for the 0.40 wt% contour) and t = 28,800 s, compute the case depth in mm.",
+      correctAnswer: 1.02,
+      tolerance: 3,
+      unit: "mm",
+      explanation:
+        "√(Dt) = √(1.1×10⁻¹¹ × 28,800) = 5.63×10⁻⁴ m, so x = 2 × 0.906 × 5.63×10⁻⁴ = 1.02×10⁻³ m ≈ 1.0 mm.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "A carburizing cycle is extended from 2 hours to 8 hours. The case depth:",
+      options: [
+        "Quadruples",
+        "Doubles",
+        "Increases by √2 ≈ 1.4×",
+        "Does not change, since D is unchanged",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Depth scales as √(Dt): 4× the time gives 2× the depth. The √t law is why long, cool cycles are a poor substitute for short, hot ones.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Which knob has the most leverage on diffusion rate?",
+      options: [
+        "Time, since depth grows linearly with it",
+        "Temperature, because D depends exponentially on −Q/RT",
+        "The surface concentration, since flux is proportional to it",
+        "The crystal structure, which never changes",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "The exponential in the Arrhenius equation makes D (and hence flux and depth) enormously sensitive to temperature — a few hundred degrees changes D by orders of magnitude, while time only enters as √t.",
+    },
+  ]}
+/>

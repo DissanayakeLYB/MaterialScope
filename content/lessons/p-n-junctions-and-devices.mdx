@@ -1,0 +1,116 @@
+---
+slug: p-n-junctions-and-devices
+title: p–n Junctions and Semiconductor Devices
+course: electrical-properties
+order: 3
+---
+
+Doping is powerful, but a uniformly doped piece of silicon is just a resistor. The revolution comes from putting n-type and p-type regions *next to each other*: the **p–n junction** at their boundary is the fundamental structure of the diode, the transistor, the LED, and the solar cell. This lesson explains what happens at that junction, and how the same physics powers devices from phone screens to power grids.
+
+## The junction: diffusion creates a barrier
+
+Imagine a silicon crystal that is p-type on the left and n-type on the right. At the instant they meet, the concentration of holes (left) and electrons (right) is wildly different, so carriers **diffuse** across — the same Fick's-law diffusion as in the diffusion course. Electrons flood into the p-side, holes into the n-side.
+
+The migrating electrons leave behind the positive donor ions on the n-side, and the migrating holes leave behind negative acceptor ions on the p-side. These fixed, uncompensated ions form a **depletion region** — a zone with no free carriers, full of static charge. That static charge sets up an internal electric field that *opposes* further diffusion. Equilibrium is reached when the field is strong enough to stop the net flow: the junction has a **built-in potential** of about 0.7 V for silicon.
+
+<Callout type="note" title="The depletion region is the device">
+  The p–n junction is not a wall — it is a dynamic balance. Push carriers in
+  one way and they flow; the other way and the barrier blocks them. That
+  asymmetry is the entire physics of the diode.
+</Callout>
+
+## The diode: one-way valve for current
+
+Apply an external voltage across the junction:
+
+- **Forward bias** (+ to p, − to n): the applied field opposes the built-in field, shrinking the depletion region. Once the applied voltage exceeds ~0.7 V, the barrier disappears and **current flows freely** — this is the "on" state, the familiar 0.7 V drop across a diode.
+- **Reverse bias** (+ to n, − to p): the applied field adds to the built-in field, widening the depletion region. Only a tiny leakage current flows (from thermally generated carriers) — the "off" state. The diode conducts in one direction only.
+
+A diode with a large reverse bias and enough power *avalanches* — the leakage carriers accelerate and knock loose more carriers — which, controlled, is the **zener diode** used for voltage regulation, and uncontrolled, is breakdown.
+
+## Transistors: the junction becomes a switch
+
+The **bipolar junction transistor** stacks three regions — n-p-n or p-n-p. The middle (base) is thin; a small base current controls a large collector current. The **MOSFET** — the transistor inside every computer chip — uses a metal gate separated from the silicon by an insulating oxide (the SiO₂ that silicon grows natively). A voltage on the gate creates a conductive channel between source and drain with no steady gate current at all. Billions of these microscopic switches, doped by the diffusion of the previous lesson and joined by p–n junctions, are what compute everything this page does.
+
+## LEDs: recombination that emits light
+
+Forward-bias a junction and carriers flood across it: electrons meet holes and **recombine** — an electron falls into a hole, releasing energy. In silicon that energy becomes heat (phonons), which is why silicon LEDs are poor. In a **direct-gap** semiconductor like GaAs or GaN, the energy is released as a **photon** — light. The photon's energy equals the band gap:
+
+```
+E_photon = hν = E_g      →      color = band gap
+```
+
+That is why the PropertyComparisonChart in the previous lesson mattered: GaAs (1.42 eV) glows infrared/red, while GaN (3.4 eV) glows blue — mix blue LEDs with phosphors and you get white light. The blue LED, enabled by GaN, won the 2014 Nobel Prize and changed lighting forever.
+
+## Solar cells: the LED in reverse
+
+A solar cell is a large-area p–n junction run backwards. A photon with energy above E_g is absorbed and creates an electron–hole pair. The built-in field of the junction sweeps the electron to the n-side and the hole to the p-side before they can recombine — producing a voltage and, with a load, current. The same junction that emits light in an LED absorbs it in a solar cell: one structure, two directions.
+
+| Device       | Junction role                    | Energy conversion          |
+| ------------ | -------------------------------- | -------------------------- |
+| Diode        | One-way valve                    | AC → DC (rectification)    |
+| Transistor   | Current/voltage-controlled switch | Logic, amplification      |
+| LED          | Recombination emits photons      | Electricity → light        |
+| Solar cell   | Photons create separated carriers | Light → electricity        |
+| Zener diode  | Controlled avalanche breakdown   | Voltage regulation         |
+
+## A word on superconductors
+
+One more electrical material deserves a mention: cool some metals (and many ceramics like YBCO) below a **critical temperature** T_c and their resistivity drops to exactly zero — a **superconductor**. Electrons pair up (Cooper pairs) and flow without scattering. Applications range from MRI magnets and particle accelerators to a growing power grid; the long-standing dream of a room-temperature superconductor remains the field's holy grail. It is a reminder that this course's story — conductivity as a controllable material property — still has chapters being written.
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "The depletion region of a p–n junction is:",
+      options: [
+        "A zone of fixed ionized dopants with no free carriers, created when carriers diffuse across and leave their donors/acceptors behind",
+        "A region of very high free-carrier concentration",
+        "A metallic contact between the two regions",
+        "An insulator layer deposited on the surface",
+      ],
+      correctAnswer: 0,
+      explanation:
+        "Carriers diffuse across the junction and recombine, leaving uncompensated donor (+) and acceptor (−) ions. This fixed charge builds the internal field that opposes further diffusion — the barrier that makes the junction a one-way device.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Forward biasing a diode (positive to p, negative to n) causes current to flow because:",
+      options: [
+        "It widens the depletion region and blocks all carriers",
+        "It opposes the built-in field, shrinking the depletion region until carriers can cross freely",
+        "It heats the junction above its melting point",
+        "It converts the semiconductor to a metal",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Forward bias cancels the built-in field, collapsing the barrier (above ~0.7 V for silicon), and carriers flood across. Reverse bias adds to the field, widens the depletion region, and blocks current.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Why does an LED's color depend on its material?",
+      options: [
+        "The packaging paint determines the emitted color",
+        "Recombination releases a photon of energy E_g, so the band gap sets the photon energy and hence the color",
+        "LEDs always emit white light regardless of material",
+        "The color is set by the current, not the material",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "When an electron recombines with a hole in a direct-gap semiconductor, the energy released is the band gap E_g = hν. GaN's 3.4 eV gap emits blue; GaAs's 1.42 eV emits infrared/red — and blue LEDs plus phosphors make white light.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "A solar cell works because:",
+      options: [
+        "Photons heat the junction until it conducts",
+        "Absorbed photons create electron–hole pairs that the junction's built-in field separates before they recombine",
+        "Sunlight melts the silicon into a conducting liquid",
+        "The junction emits light that is captured by the grid",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "A photon above the band gap creates an electron–hole pair; the junction's internal field drives the electron one way and the hole the other, producing a voltage. It is the LED process run in reverse.",
+    },
+  ]}
+/>

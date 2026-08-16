@@ -1,0 +1,144 @@
+---
+slug: semiconductors-and-doping
+title: Semiconductors and Doping
+course: electrical-properties
+order: 2
+---
+
+Pure silicon is an almost useless conductor — its intrinsic conductivity is ten orders of magnitude below copper's. Yet silicon is the heart of the electronics industry, because its conductivity can be *engineered* with extraordinary precision. The trick is **doping**: adding parts-per-million of impurity atoms that change the number of charge carriers. This lesson explains intrinsic semiconductors, then the two flavors of doping that make them the most controllable materials in existence.
+
+## Intrinsic semiconductors: thermally excited carriers
+
+In a semiconductor, the valence band is full and the conduction band empty, but the gap E_g is small enough that thermal energy occasionally promotes an electron across it. Each promotion leaves a **hole** — a missing electron in the valence band that behaves like a positively charged particle and conducts too. Both the electron and the hole are **charge carriers**, and both contribute to conductivity:
+
+```
+n_i = A T^(3/2) exp(−E_g / 2kT)     σ = n_i |e| (μ_e + μ_h)
+```
+
+The exponential makes the carrier concentration brutally temperature-dependent, and the band gap decides everything: a gap of 1.1 eV (silicon) gives a useful but small n_i ≈ 1.5 × 10¹⁶ m⁻³ at room temperature — compared with copper's ~10²⁸ m⁻³.
+
+<PropertyComparisonChart
+  data={{
+    property: "Band gap",
+    unit: "eV",
+    data: [
+      { material: "Germanium (Ge)", value: 0.67 },
+      { material: "Silicon (Si)", value: 1.12 },
+      { material: "GaAs", value: 1.42 },
+      { material: "GaN", value: 3.4 },
+      { material: "Diamond (C)", value: 5.5 },
+      { material: "SiO₂ (glass)", value: 9.0 },
+    ],
+  }}
+  caption="Band gaps span from germanium (a semiconductor that conducts noticeably at room temperature) to SiO₂ (a true insulator). GaAs's direct gap makes it ideal for LEDs; GaN's wider gap pushes LED emission into the blue/UV — the 2014 Nobel Prize physics."
+/>
+
+## The genius of doping
+
+A **dopant** is an impurity atom added in minuscule, *controlled* amounts — parts per million — that sits on a silicon lattice site and changes the carrier balance. Silicon has four valence electrons; two kinds of dopants exist:
+
+- **n-type (donors):** phosphorus, arsenic, or antimony have **five** valence electrons. Four bond with neighbors; the fifth is only weakly bound and pops off at room temperature, becoming a mobile electron. Each donor atom adds one **electron** carrier — negative, hence "n-type". The doped material conducts by electrons.
+- **p-type (acceptors):** boron, aluminum, or gallium have **three** valence electrons. Each leaves one bond unsatisfied — a **hole** — that accepts electrons and moves like a positive charge. Each acceptor adds one **hole** carrier — positive, "p-type".
+
+The dopant atoms themselves do not carry current; they merely *create* the carriers. One phosphorus atom per ~10⁷ silicon atoms multiplies the carrier density — and hence conductivity — by roughly a factor of 10⁵, and the amount is set by how much dopant you add. Nothing else in materials science offers that level of control.
+
+<Callout type="note" title="Why 'extrinsic' beats 'intrinsic'">
+  Intrinsic carriers are set by temperature alone — a chip would stop
+  working as it warmed. Doped (extrinsic) conductivity is set by the dopant
+  concentration, which is fixed at fabrication, so the device's behavior is
+  designed, not accidental. Every transistor, LED, and solar cell is a
+  monument to this idea.
+</Callout>
+
+## Worked example: how much can doping change things?
+
+Silicon is doped with phosphorus so that n = 1.0 × 10²¹ electrons/m³ (about 1 phosphorus atom per 50,000 silicon atoms). With μ_e = 0.135 m²/(V·s), compute the conductivity and compare it with intrinsic silicon (σ_i ≈ 4 × 10⁻⁴ S/m).
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  σ = n |e| μ_e = (1.0 × 10²¹)(1.6 × 10⁻¹⁹)(0.135)
+    = 2.16 × 10¹ S/m ≈ 22 S/m
+
+  σ / σ_i = 22 / (4 × 10⁻⁴) ≈ 5 × 10⁴
+  ```
+
+  Doping raises the conductivity by a factor of about **50,000** — from a
+  poor insulator to a respectable conductor — with just 20 dopant atoms per
+  million. And because the carrier density is set by the dopant count, the
+  conductivity is *predictable*: manufacture the silicon with the right
+  doping and you get exactly the conductivity the circuit design needs.
+
+  **Practice:** the same silicon with n = 1.0 × 10²³ m⁻³ (100× the doping).
+  What is σ?
+</details>
+
+<details>
+  <summary>Answer</summary>
+
+  ```
+  σ = (1.0 × 10²³)(1.6 × 10⁻¹⁹)(0.135) ≈ 2.2 × 10³ S/m
+  ```
+
+  Another 100× — doping concentration is a linear dial on conductivity,
+  spanning ~10 orders of magnitude of controllability in silicon.
+</details>
+
+## Why silicon won (and what beats it)
+
+Silicon won the materials war for three reasons: a near-perfect native insulator (SiO₂) that grows right on top of it; an enormous, mature processing infrastructure; and a band gap (1.12 eV) that is small enough to dope usefully but large enough that devices hold their state at room temperature. Germanium's smaller gap (0.67 eV) lets too many intrinsic carriers leak in. Today, gallium nitride (3.4 eV) and silicon carbide power the wide-band-gap frontier — LEDs, power electronics, and 5G — where silicon's gap is too small and its thermal limits too low.
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "In an intrinsic semiconductor at room temperature, the charge carriers are:",
+      options: [
+        "Only electrons, promoted from the conduction band",
+        "Both electrons and holes, created in pairs as electrons jump the band gap",
+        "Only ions, moving through the lattice",
+        "Dopant atoms carrying fixed charges",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Thermal energy promotes electrons across the gap, leaving holes behind — carriers always come in electron–hole pairs in an intrinsic semiconductor. The concentration n_i follows exp(−E_g/2kT).",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "Silicon is doped with n = 1.0 × 10²¹ electrons/m³ and μ_e = 0.135 m²/(V·s). Using σ = n·|e|·μ_e with e = 1.6 × 10⁻¹⁹ C, compute the conductivity in S/m.",
+      correctAnswer: 21.6,
+      tolerance: 2,
+      unit: "S/m",
+      explanation:
+        "σ = (1.0×10²¹)(1.6×10⁻¹⁹)(0.135) = 21.6 S/m — about 50,000× the intrinsic value of 4×10⁻⁴ S/m.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Phosphorus (5 valence electrons) in silicon creates an n-type semiconductor because:",
+      options: [
+        "It removes electrons from the silicon lattice",
+        "Its fifth electron is weakly bound and becomes a free electron carrier",
+        "It widens the band gap so more electrons flow",
+        "It forms metallic bonds with silicon",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "A donor's extra valence electron is only loosely held and ionizes at room temperature, adding one mobile electron per dopant atom. Boron, with three valence electrons, does the opposite and creates holes — p-type.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Why is doped (extrinsic) conductivity preferred over intrinsic conductivity for devices?",
+      options: [
+        "Doped silicon is cheaper to grow",
+        "Doping fixes the carrier density at fabrication, so device behavior is designed and stable with temperature",
+        "Intrinsic carriers never exist at room temperature",
+        "Extrinsic conductivity cannot be controlled",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Intrinsic carriers are set by temperature and fluctuate wildly. Doping sets the carrier density permanently at fabrication — a linear, reproducible dial that makes predictable devices possible.",
+    },
+  ]}
+/>

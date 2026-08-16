@@ -1,0 +1,151 @@
+---
+slug: conductors-and-band-theory
+title: Conductors and the Band Theory of Solids
+course: electrical-properties
+order: 1
+---
+
+Pass a current through copper and electrons stream freely; try the same through glass and nothing happens. The difference is not a matter of degree — it is a difference of **electron states**. This lesson develops the band model that explains why some solids conduct, why some insulate, and why a third class — semiconductors — sits precisely in between.
+
+## Ohm's law, microscopically
+
+The macroscopic statement σ = J/E (current density J, applied field E) hides a microscopic one. The current is carried by electrons of charge e and number density n, moving with an average drift velocity v_d:
+
+```
+σ = n |e| μ
+```
+
+where **μ** is the electron **mobility** (drift velocity per unit field, m²/(V·s)). Conductivity σ (units S/m = (Ω·m)⁻¹) is the product of three things: how many carriers, how much charge each carries, and how easily they move. Metals conduct because n is enormous; semiconductors conduct poorly because n is tiny — until we change it (next lesson).
+
+| Material | Resistivity ρ (Ω·m) | Conductivity σ (S/m) |
+| -------- | ------------------- | -------------------- |
+| Silver   | 1.6 × 10⁻⁸          | 6.3 × 10⁷            |
+| Copper   | 1.7 × 10⁻⁸          | 5.9 × 10⁷            |
+| Aluminum | 2.7 × 10⁻⁸          | 3.8 × 10⁷            |
+| Iron     | 9.7 × 10⁻⁸          | 1.0 × 10⁷            |
+| Nichrome | 1.1 × 10⁻⁶          | 9 × 10⁵              |
+| Si (intrinsic) | ~2.3 × 10³     | ~4 × 10⁻⁴            |
+| Glass    | ~10¹²               | ~10⁻¹²               |
+
+The table spans **20 orders of magnitude** — the largest property range in all of materials science. No mechanical property comes close.
+
+## From atomic orbitals to energy bands
+
+In an isolated atom, electrons occupy discrete energy levels. Bring billions of atoms together and each level splits into a dense bundle of slightly different energies — a **band**. Two facts follow:
+
+- **Bands are separated by gaps.** Between the occupied bands there are energy ranges no electron state exists in — **band gaps**, E_g.
+- **Conduction needs empty states.** An electron can accelerate under an electric field only if nearby *empty* states are available to move into. A completely full band conducts nothing.
+
+This is the whole theory in one sentence: **conductivity is decided by whether electrons can reach empty states.**
+
+<Callout type="note" title="The three classes">
+  - **Metals:** a partially filled band (e.g. the 4s band of copper) — empty
+    states adjacent, electrons move freely, conductivity ~10⁷ S/m.
+  - **Insulators:** a filled valence band separated from the empty conduction
+    band by a wide gap (E_g > ~3 eV) — thermal energy cannot promote
+    electrons across, so no current.
+  - **Semiconductors:** same filled/empty structure, but with a small gap
+    (E_g ≈ 0.5–2.5 eV) that thermal energy *can* occasionally bridge.
+</Callout>
+
+## Why copper conducts and diamond doesn't
+
+Copper's 4s band is half-filled: electrons have plenty of nearby empty states, so a field nudges them into motion — and the delocalized electron sea from the bonding lesson is exactly this partially filled band. Diamond, by contrast, has a fully filled valence band and a gap of 5.5 eV. At room temperature, essentially no electrons are excited across that gap, so diamond is an insulator — the best thermal conductor known, yet electrically dead. The same covalent network that makes diamond the hardest material also makes it the purest insulator among crystals.
+
+## Temperature: metals get worse, semiconductors get better
+
+In a metal, higher temperature means more vigorous lattice vibrations, and vibrating atoms scatter electrons — **resistivity rises** with temperature (roughly linearly: ρ ≈ ρ₀[1 + α(T − T₀)], with α ≈ 0.004 K⁻¹ for copper). In a semiconductor, higher temperature excites more electrons across the gap — **conductivity rises** steeply. The same knob, two opposite effects, one fingerprint to tell the classes apart on a lab bench.
+
+| Class      | ρ at 20 °C (Ω·m) | Temperature coefficient |
+| ---------- | ---------------- | ----------------------- |
+| Metal      | 10⁻⁸ – 10⁻⁶      | Positive (resistivity ↑ with T) |
+| Semiconductor | 10⁻³ – 10⁵    | Negative (resistivity ↓ with T) |
+| Insulator  | 10⁸ – 10¹⁶       | Negative (weak)         |
+
+## Worked example: how many electrons carry the current?
+
+Copper has a resistivity of 1.7 × 10⁻⁸ Ω·m and an electron mobility of 0.0043 m²/(V·s) (43 cm²/V·s). Estimate the number density of conduction electrons.
+
+<details>
+  <summary>Solution</summary>
+
+  ```
+  σ = 1/ρ = 1 / 1.7 × 10⁻⁸ = 5.9 × 10⁷ S/m
+  n = σ / (|e| μ) = 5.9 × 10⁷ / (1.6 × 10⁻¹⁹ × 0.0043)
+    = 5.9 × 10⁷ / 6.9 × 10⁻²²
+    ≈ 8.6 × 10²⁸ electrons/m³
+  ```
+
+  Copper's atomic density is ~8.5 × 10²⁸ atoms/m³ — so roughly **one
+  conduction electron per atom**. That is the electron sea made quantitative:
+  every copper atom donates one free electron, and there is nothing more to
+  tune. Metals are metals because n is fixed at its maximum.
+
+  **Practice:** the same calculation for silicon — intrinsic n_i ≈ 1.5 × 10¹⁶
+  m⁻³ and μ ≈ 0.135 m²/(V·s). Compute σ.
+</details>
+
+<details>
+  <summary>Answer</summary>
+
+  ```
+  σ = n |e| μ = 1.5 × 10¹⁶ × 1.6 × 10⁻¹⁹ × 0.135 ≈ 3.2 × 10⁻⁴ S/m
+  ```
+
+  About **10 orders of magnitude below copper** — silicon is a poor conductor
+  by itself, which is exactly the problem doping solves next lesson.
+</details>
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "A material conducts electricity only if:",
+      options: [
+        "Its atoms are heavy and densely packed",
+        "Electrons have nearby empty states to move into under an electric field",
+        "It has a large band gap between the valence and conduction bands",
+        "It contains at least two elements",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Conduction requires empty states adjacent to occupied ones. Metals have a partially filled band; insulators and semiconductors have a filled valence band separated by a gap — only the size of that gap distinguishes them.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "Copper has σ = 5.9 × 10⁷ S/m and mobility μ = 0.0043 m²/(V·s). Using n = σ/(|e|μ) with e = 1.6 × 10⁻¹⁹ C, compute the conduction electron density in electrons/m³. Answer in scientific notation, e.g. 8.6e28.",
+      correctAnswer: 8.6e28,
+      tolerance: 5,
+      unit: "electrons/m³",
+      explanation:
+        "n = 5.9×10⁷ / (1.6×10⁻¹⁹ × 0.0043) = 5.9×10⁷ / 6.9×10⁻²² ≈ 8.6×10²⁸ m⁻³ — about one free electron per copper atom.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "As temperature rises, the resistivity of a metal typically:",
+      options: [
+        "Rises, because lattice vibrations scatter electrons more strongly",
+        "Falls, because more electrons are excited across the band gap",
+        "Stays exactly constant",
+        "Drops to zero at all temperatures",
+      ],
+      correctAnswer: 0,
+      explanation:
+        "In metals, electron scattering by vibrating atoms (phonons) increases with temperature, so resistivity rises roughly linearly. The opposite behavior — falling resistivity with temperature — is the signature of a semiconductor.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Diamond (E_g = 5.5 eV) is an insulator at room temperature because:",
+      options: [
+        "Its valence band is empty",
+        "Its valence band is completely full and the gap to the conduction band is far too wide for thermal excitation",
+        "It has no electrons at all",
+        "Its atoms are too small to scatter electrons",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "A fully filled band cannot carry current, and with a 5.5 eV gap essentially no electrons reach the conduction band at 300 K. The same covalent network that makes diamond hard makes it an outstanding insulator.",
+    },
+  ]}
+/>

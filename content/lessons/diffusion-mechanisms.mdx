@@ -1,0 +1,153 @@
+---
+slug: diffusion-mechanisms
+title: Diffusion Mechanisms and the Arrhenius Equation
+course: diffusion-in-solids
+order: 1
+---
+
+A copper atom in a piece of brass does not stay where it was cast. Over years it wanders through the lattice, hopping from site to site, and that wandering — **diffusion** — is how matter moves through solids. This lesson covers the two ways atoms hop, and the equation that predicts how fast: the Arrhenius equation for the **diffusion coefficient** D.
+
+## The two mechanisms
+
+**Vacancy diffusion** moves *substitutional* atoms — atoms of comparable size sitting on regular lattice sites. An atom can only move if a neighboring site is empty, so it jumps into a **vacancy** (the defect you met in the point-defects lesson), leaving a vacancy behind it. Effectively, atom and vacancy trade places. Because it requires both a vacancy to exist and the atom to break free of its bonds, vacancy diffusion needs substantial thermal energy and is relatively slow.
+
+**Interstitial diffusion** moves *small* atoms — carbon, hydrogen, nitrogen, oxygen — that sit in the gaps between host atoms. An interstitial atom jumps from one interstice to a neighboring empty one without needing a vacancy. It is much faster than vacancy diffusion and needs less energy. This is why a tiny amount of carbon can diffuse through steel in hours while the iron atoms themselves barely stir.
+
+<Callout type="note" title="Which is faster?">
+  Interstitial (e.g. C in α-Fe) beats vacancy (e.g. Fe in α-Fe) by many
+  orders of magnitude at the same temperature — smaller atoms, no vacancy
+  needed, lower activation energy. The chart below makes the gap visible.
+</Callout>
+
+## The Arrhenius equation
+
+Both mechanisms obey the same temperature law. The **diffusion coefficient** D (units m²/s) grows exponentially with temperature:
+
+```
+D = D₀ exp(−Q / RT)
+```
+
+- **D₀** — the frequency/pre-exponential factor (m²/s), related to how often atoms attempt a jump;
+- **Q** — the **activation energy** (J/mol), the energy barrier for a jump (for vacancy diffusion it includes the energy to form a vacancy);
+- **R** = 8.314 J/(mol·K) — the gas constant;
+- **T** — absolute temperature in kelvin.
+
+Because Q sits in an exponential, temperature dominates everything: a few hundred degrees can multiply D by a factor of a million.
+
+<PropertyComparisonChart
+  data={{
+    property: "Activation energy",
+    unit: "kJ/mol",
+    data: [
+      { material: "C in α-Fe (interstitial)", value: 80 },
+      { material: "C in γ-Fe (interstitial)", value: 148 },
+      { material: "Zn in Cu (vacancy)", value: 189 },
+      { material: "Cu in Cu (vacancy)", value: 197 },
+      { material: "Fe in α-Fe (vacancy)", value: 251 },
+      { material: "Fe in γ-Fe (vacancy)", value: 284 },
+    ],
+  }}
+  caption="Activation energies for representative systems (Callister Table 5.2). Interstitial diffusion of carbon has the lowest barriers; self-diffusion of iron in the tightly packed FCC γ lattice has the highest — three times the carbon-in-ferrite value."
+/>
+
+## Worked example: how much does temperature matter?
+
+Compute the diffusion coefficient of carbon in α-iron at 500 °C and at 900 °C. For C in α-Fe, D₀ = 6.2 × 10⁻⁷ m²/s and Q = 80 kJ/mol.
+
+<details>
+  <summary>Solution</summary>
+
+  At 500 °C (T = 773 K):
+
+  ```
+  Q/RT = 80,000 / (8.314 × 773) = 12.45
+  D = 6.2 × 10⁻⁷ exp(−12.45) = 6.2 × 10⁻⁷ × 3.92 × 10⁻⁶
+    ≈ 2.4 × 10⁻¹² m²/s
+  ```
+
+  At 900 °C (T = 1173 K):
+
+  ```
+  Q/RT = 80,000 / (8.314 × 1173) = 8.20
+  D = 6.2 × 10⁻⁷ exp(−8.20) = 6.2 × 10⁻⁷ × 2.73 × 10⁻⁴
+    ≈ 1.7 × 10⁻¹⁰ m²/s
+  ```
+
+  Raising the temperature from 500 °C to 900 °C multiplies D by about
+  **70**. This is why heat treatment temperatures are chosen so carefully:
+  a 400 °C difference changes diffusion times from weeks to hours.
+
+  **Practice:** compute D for the same system at 700 °C (T = 973 K) and
+  compare with the 500 °C value.
+</details>
+
+<details>
+  <summary>Answer</summary>
+
+  ```
+  Q/RT = 80,000 / (8.314 × 973) = 9.89
+  D = 6.2 × 10⁻⁷ exp(−9.89) = 6.2 × 10⁻⁷ × 5.06 × 10⁻⁵
+    ≈ 3.1 × 10⁻¹¹ m²/s
+  ```
+
+  That is **~13 times** the 500 °C value — every ~100 °C roughly triples D
+  in this system.
+</details>
+
+## Why the exponential?
+
+An atom attempts a jump ~10¹³ times per second, but each jump requires the atom (and for vacancies, its neighbors) to be momentarily at the top of an energy barrier. The Boltzmann factor exp(−Q/RT) is the fraction of attempts that clear the barrier, and it rises steeply with temperature. Random jumps average out to a net migration only when there is a reason to prefer one direction — a concentration gradient — which is where Fick's laws (next lesson) come in.
+
+<Quiz
+  questions={[
+    {
+      type: "multiple-choice",
+      prompt: "Which mechanism moves carbon through iron, and why is it fast?",
+      options: [
+        "Vacancy diffusion, because carbon substitutes for iron atoms",
+        "Interstitial diffusion, because carbon atoms are small enough to hop between interstices without needing a vacancy",
+        "Grain-boundary sliding, because boundaries are liquid",
+        "Electromigration, because current carries the atoms",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Carbon (r ≈ 0.077 nm) is small enough to sit and hop between interstitial sites, so it needs no vacancy and has a low activation energy — much faster than vacancy diffusion of substitutional atoms.",
+    },
+    {
+      type: "numerical",
+      prompt:
+        "For carbon in α-Fe, D₀ = 6.2 × 10⁻⁷ m²/s and Q = 80 kJ/mol. Using D = D₀·exp(−Q/RT) with R = 8.314 J/(mol·K), compute D at 500 °C (773 K) in m²/s. Answer in scientific notation, e.g. 2.4e-12.",
+      correctAnswer: 2.4e-12,
+      tolerance: 5,
+      unit: "m²/s",
+      explanation:
+        "Q/RT = 80,000/(8.314 × 773) = 12.45, so D = 6.2 × 10⁻⁷ × exp(−12.45) = 6.2 × 10⁻⁷ × 3.92 × 10⁻⁶ ≈ 2.4 × 10⁻¹² m²/s.",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "Why does self-diffusion of iron in γ-Fe have a much higher activation energy than carbon diffusion in α-Fe?",
+      options: [
+        "Iron atoms are heavier than carbon atoms",
+        "Iron moves by vacancy diffusion of tightly bonded substitutional atoms, while carbon hops interstitially",
+        "γ-Fe contains no vacancies at any temperature",
+        "Carbon is magnetic and iron is not",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "Iron self-diffusion requires a vacancy to form AND the substitutional atom to break its bonds (Q ≈ 284 kJ/mol); interstitial carbon just hops between interstices (Q ≈ 80–148 kJ/mol).",
+    },
+    {
+      type: "multiple-choice",
+      prompt: "The diffusion coefficient D at 900 °C for carbon in α-Fe is about 70× its value at 500 °C. What drives this enormous change?",
+      options: [
+        "The pre-exponential factor D₀ changes with temperature",
+        "The exponential term exp(−Q/RT) rises steeply because Q/RT falls as T rises",
+        "The crystal structure changes from BCC to FCC",
+        "Carbon atoms stop vibrating at high temperature",
+      ],
+      correctAnswer: 1,
+      explanation:
+        "D₀ is roughly constant; the temperature dependence lives in the exponential. Because Q/RT drops from 12.45 to 8.20, exp(−Q/RT) rises by ~70×. This exponential sensitivity is the Arrhenius signature.",
+    },
+  ]}
+/>
